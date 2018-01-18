@@ -17,6 +17,7 @@ contract('Akropolis Token', function ([owner, holder]) {
 		token = await AkropolisToken.new()
 	});
 
+
 	it('should have the correct setup', async function () {
 		(await token.name()).should.be.equal("Akropolis Token");
 		(await token.decimals()).should.be.bignumber.equal(18);
@@ -24,4 +25,11 @@ contract('Akropolis Token', function ([owner, holder]) {
 		(await token.version()).should.be.equal("AKR 1.0");
 	});
 
-})
+
+	it('should allow minting', async function () {
+		await token.mint(holder, 100, {from: owner});
+
+		(await token.balanceOf(holder)).should.be.bignumber.equal(100);
+	});
+
+});
