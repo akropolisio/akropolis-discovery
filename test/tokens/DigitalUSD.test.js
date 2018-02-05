@@ -1,6 +1,6 @@
 'use strict';
 
-const DigitalUSD = artifacts.require('./DigitalUSD.sol')
+const DigitalUSD = artifacts.require('./DigitalUSD.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -13,7 +13,7 @@ contract('DigitalUSD Token', function ([owner, holder]) {
 
 	let token;
 
-	beforeEach(async function () {
+	before(async function () {
 		token = await DigitalUSD.new()
 	});
 
@@ -30,6 +30,18 @@ contract('DigitalUSD Token', function ([owner, holder]) {
 		await token.mint(holder, 100, {from: owner});
 
 		(await token.balanceOf(holder)).should.be.bignumber.equal(100);
+	});
+
+
+	it('should allow burning', async function () {
+		await token.burn(holder, 100, {from: owner});
+
+		(await token.balanceOf(holder)).should.be.bignumber.equal(0);
+	});
+
+
+	it('should not allow burning by holder', async function () {
+		await token.burn(holder, 100, {from: holder}).should.be.rejectedWith('revert');
 	});
 
 });
