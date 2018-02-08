@@ -30,18 +30,16 @@ contract PensionFundsRegistry is Ownable {
     }
 
 
-    function register(PensionFund _pensionFund, bytes32 _name) {
+    function register(bytes32 _name) {
         require(address(registry[_name]) == 0x0);
-        //TODO: Require stake
-        //TODO: Only fund can register itself
-        registry[_name] = _pensionFund;
+        require(stakingPool.getStake(msg.sender) >= minStake);
+        registry[_name] = PensionFund(msg.sender);
     }
 
 
     function unregister(bytes32 _name) public {
         require(address(registry[_name]) != 0x0);
-        require(msg.sender == owner);
-        //TODO: Fund can also unregister itself
+        require(msg.sender == owner || msg.sender == address(registry[_name]));
         delete registry[_name];
     }
 
