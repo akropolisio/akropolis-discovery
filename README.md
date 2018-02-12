@@ -37,7 +37,7 @@ The connection to the blockchain node is defined in truffle.js, and as default i
 
 We recommend using popular Ethereum test client [Ganache](https://github.com/trufflesuite/ganache) as a default local testing node:
 
-    npm install -g ganache
+    npm install -g ganache-cli
     
 Note: For Windows users, you may need to change the truffle.js filename in repository to truffle-config.js
 
