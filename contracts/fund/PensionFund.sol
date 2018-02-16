@@ -15,28 +15,33 @@ contract PensionFund is Ownable {
     AkropolisToken public akropolisToken;
 
 
-    function PensionFund(AkropolisToken _akropolisToken) {
+    function PensionFund(AkropolisToken _akropolisToken) public {
         akropolisToken = _akropolisToken;
     }
 
 
-    function stake(StakingPool _stakingPool, uint256 _amount) onlyOwner {
+    function investFromUser(ERC20 _token, uint256 _amount) public {
+        _token.transferFrom(msg.sender, address(this), _amount);
+    }
+
+
+    function stake(StakingPool _stakingPool, uint256 _amount) onlyOwner public {
         akropolisToken.approve(_stakingPool, _amount);
         _stakingPool.stake(_amount);
     }
 
 
-    function withdrawStake(StakingPool _stakingPool) onlyOwner {
+    function withdrawStake(StakingPool _stakingPool) onlyOwner public {
         _stakingPool.withdrawStake();
     }
 
 
-    function register(PensionFundsRegistry _registry, bytes32 _name) onlyOwner {
+    function register(PensionFundsRegistry _registry, bytes32 _name) onlyOwner public {
         _registry.register(_name);
     }
 
 
-    function unregister(PensionFundsRegistry _registry, bytes32 _name) onlyOwner {
+    function unregister(PensionFundsRegistry _registry, bytes32 _name) onlyOwner public {
         _registry.unregister(_name);
     }
 
