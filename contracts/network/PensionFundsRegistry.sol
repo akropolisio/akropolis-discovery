@@ -30,7 +30,7 @@ contract PensionFundsRegistry is Ownable {
     }
 
 
-    function register(bytes32 _name) {
+    function register(bytes32 _name) public {
         require(address(registry[_name]) == 0x0);
         require(stakingPool.getStake(msg.sender) >= minStake);
         registry[_name] = PensionFund(msg.sender);
