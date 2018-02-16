@@ -6,6 +6,7 @@ const StakingPool = artifacts.require('./StakingPool.sol');
 const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
 const PensionFund = artifacts.require('./PensionFund.sol');
 const Wallet = artifacts.require('./Wallet.sol');
+const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -16,14 +17,15 @@ const should = require('chai')
 
 contract('Wallet', function ([owner]) {
 
-	let registry, pool, token, fund, usd, wallet;
+	let registry, pool, token, fund, usd, wallet, paymentGateway;
 
 	before(async function () {
 		token = await AkropolisToken.new();
-		usd = await DigitalUSD.new();
 		pool = await StakingPool.new(token.address);
 		registry = await PensionFundsRegistry.new(pool.address);
 		fund = await PensionFund.new(token.address);
+		paymentGateway = await PaymentGateway.new();
+		usd = DigitalUSD.at(await paymentGateway.usdToken());
 	});
 
 
@@ -38,9 +40,10 @@ contract('Wallet', function ([owner]) {
 
 
 	it('should create a wallet and fund it with fiat tokens', async function () {
-		wallet = await Wallet.new(registry.address);
-		await usd.mint(wallet.address, 100, {from: owner});
-		(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
+		wallet = await Wallet.new(registry.address, paymentGateway.address);
+		await wallet.makeDeposit(100);
+
+		//(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
 	});
 
 
