@@ -20,7 +20,7 @@ contract('Pension Funds Registry', function ([owner]) {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
 		registry = await PensionFundsRegistry.new(pool.address);
-		fund = await PensionFund.new(token.address);
+		fund = await PensionFund.new(token.address, "TEST");
 
 		await token.mint(fund.address, 100, {from: owner});
 		(await token.balanceOf(fund.address)).should.be.bignumber.equal(100);

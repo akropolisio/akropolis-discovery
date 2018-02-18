@@ -4,6 +4,7 @@ import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import '../tokens/AkropolisToken.sol';
 import '../network/PensionFundsRegistry.sol';
 import '../network/StakingPool.sol';
+import '../assets/Shares.sol';
 
 
 /**
@@ -13,10 +14,12 @@ import '../network/StakingPool.sol';
 contract PensionFund is Ownable {
 
     AkropolisToken public akropolisToken;
+    Shares public fundShares;
 
 
-    function PensionFund(AkropolisToken _akropolisToken) public {
+    function PensionFund(AkropolisToken _akropolisToken, bytes32 _symbol) public {
         akropolisToken = _akropolisToken;
+        fundShares = new Shares(_symbol);
     }
 
 
