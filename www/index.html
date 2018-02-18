@@ -6,31 +6,31 @@
   <meta charset="UTF-8">
   <!--[if IE]>
   <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-  <title> Monarch UI - Bootstrap Frontend &amp; Admin Template </title>
+  <title> Akropolis </title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <!-- Favicons -->
 
   <link rel="apple-touch-icon-precomposed" sizes="144x144"
-        href="../../assets/images/icons/apple-touch-icon-144-precomposed.png">
+        href="assets/images/icons/apple-touch-icon-144-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="114x114"
-        href="../../assets/images/icons/apple-touch-icon-114-precomposed.png">
+        href="assets/images/icons/apple-touch-icon-114-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72"
-        href="../../assets/images/icons/apple-touch-icon-72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="../../assets/images/icons/apple-touch-icon-57-precomposed.png">
-  <link rel="shortcut icon" href="../../assets/images/icons/favicon.png">
+        href="assets/images/icons/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/images/icons/apple-touch-icon-57-precomposed.png">
+  <link rel="shortcut icon" href="assets/images/icons/favicon.png">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700%2C800%2C300italic%2C400italic%2C600italic%2C700italic%2C800italic&#038;ver=1515118747">
 
 
 
-  <link rel="stylesheet" type="text/css" href="../../assets-minified/admin-all-demo.css">
-  <link rel="stylesheet" type="text/css" href="../../assets/akropolis.css">
+  <link rel="stylesheet" type="text/css" href="assets-minified/admin-all-demo.css">
+  <link rel="stylesheet" type="text/css" href="assets/akropolis.css">
 
   <!-- JS Core -->
 
-  <script type="text/javascript" src="../../assets-minified/js-core.js"></script>
+  <script type="text/javascript" src="assets-minified/js-core.js"></script>
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
@@ -43,6 +43,8 @@
   <!--commons module -->
   <script type="text/javascript" src="akr-pages/commons/!akr-commons.module.js"></script>
   <script type="text/javascript" src="akr-pages/commons/akr-web3.service.js"></script>
+  <script type="text/javascript" src="akr-pages/commons/akr-user.service.js"></script>
+  <script type="text/javascript" src="akr-pages/commons/stepper/akr-stepper.component.js"></script>
 
   <!-- login feature -->
   <script type="text/javascript" src="akr-pages/login/!akr-login.module.js"></script>
@@ -52,7 +54,11 @@
   <script type="text/javascript" src="akr-pages/signup/!akr-signup.module.js"></script>
   <script type="text/javascript" src="akr-pages/signup/akr-signup.component.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="../../assets/angular/page-animations.css">
+  <!-- pension feature -->
+  <script type="text/javascript" src="akr-pages/pension/!akr-pension.module.js"></script>
+  <script type="text/javascript" src="akr-pages/pension/akr-pension-intro.component.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="assets/angular/page-animations.css">
 
 </head>
 
@@ -71,8 +77,6 @@
          data-retina="https://akropolis.io/wp-content/uploads/2017/11/akropolis-logo-sticky-menu.png"
          style="margin-left: 20px; margin-top: 15px"
          alt="Sticky header logo">
-
-
   </div>
   <div id="page-content-wrapper">
     <div id="page-content" style="background-color: #f7f7f7; margin-left: 0px">
@@ -83,7 +87,7 @@
 
 
 <!-- JS Demo -->
-<script type="text/javascript" src="../../assets-minified/admin-all-demo.js"></script>
+<script type="text/javascript" src="assets-minified/admin-all-demo.js"></script>
 
 
 </div>

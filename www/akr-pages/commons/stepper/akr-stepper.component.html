@@ -1,0 +1,26 @@
+<div class="akr-stepper">
+  <button class="btn btn-round btn-black-opacity minus" ng-click="$ctrl.minus()"
+          type="button">
+    <i class="glyph-icon icon-minus"></i>
+  </button>
+  <div class="value font-size-18">{{$ctrl.model | metafilter: $ctrl.filter}}</div>
+  <button ng-click="$ctrl.plus()"
+      type="button"
+      class="btn btn-round btn-black-opacity plus">
+    <i class="glyph-icon icon-plus"></i>
+  </button>
+</div>
+
+<style>
+  .akr-stepper .minus, .akr-stepper .plus, .akr-stepper .value {
+    display: inline-block;
+    vertical-align: middle
+  }
+
+  .akr-stepper .value {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100px;
+    text-align: center;
+  }
+</style>
