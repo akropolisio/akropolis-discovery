@@ -1,0 +1,171 @@
+<div class="row">
+  <div class="col-md-7 center-div">
+    <div class="panel">
+      <div class="panel-body">
+        <h3 class="title-hero">
+          Create Account
+        </h3>
+        <div class="example-box-wrapper">
+          <div id="form-wizard-3" class="form-wizard">
+            <ul>
+              <li ng-class="{'active': $ctrl.step == 'PASSPORT'}">
+                <a href="#!/wizard/step_1">
+                  <label class="wizard-step">1</label>
+                  <span class="wizard-description">
+                Passport
+                <small>Upload a photo of your passport</small>
+              </span>
+                </a>
+              </li>
+              <li ng-class="{'active': $ctrl.step == 'CONFIRMATION'}">
+                <a href="#!/wizard/step_2">
+                  <label class="wizard-step">2</label>
+                  <span class="wizard-description">
+                Account information
+                <small>Confirm contact details</small>
+              </span>
+                </a>
+              </li>
+              <li ng-class="{'active': $ctrl.step == 'GOALS'}">
+                <a href="#!/wizard/step_3">
+                  <label class="wizard-step">3</label>
+                  <span class="wizard-description">
+                Savings Survey
+                <small>Setup your goals</small>
+              </span>
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane"
+                   ng-class="{'active': $ctrl.step == 'PASSPORT'}"
+                   id="step-1">
+                <div class="content-box">
+                  <h3 class="content-box-header bg-default">
+                    Upload a photo of your passport
+                  </h3>
+                  <div class="content-box-wrapper">
+                    <div>
+                      <button class="btn btn-alt btn-hover btn-blue-alt" ng-click="$ctrl.upload()"
+                              ng-if="!$ctrl.isUploaded && !$ctrl.isUploading">
+                        <span>Upload</span>
+                        <i class="glyph-icon icon-arrow-right"></i>
+                      </button>
+                    </div>
+
+                    <div class="progress" ng-if="$ctrl.isUploading">
+                      <div class="progress-bar progress-bar-info" role="progressbar"
+                           ng-style="{'width': $ctrl.uploadProgress + '%'}">
+                        <span class="sr-only">{{$ctrl.uploadProgress}}% Complete</span>
+                      </div>
+                    </div>
+
+                    <img
+                        ng-if="$ctrl.isUploaded"
+                        src="https://help.secureidentity.co.uk/hc/article_attachments/360000427489/mceclip0.png"/>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="tab-pane"
+                   ng-class="{'active': $ctrl.step == 'CONFIRMATION'}"
+                   id="step-2">
+                <div class="content-box">
+                  <h3 class="content-box-header bg-black">
+                    Confirm contact details
+                  </h3>
+                  <div class="content-box-wrapper">
+                    <form class="form-horizontal bordered-row">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">First Name</label>
+                            <div class="col-sm-6">
+                              <input type="text" ng-model="$ctrl.user.firstName" required class="form-control">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">Last Name</label>
+                            <div class="col-sm-6">
+                              <input type="text" ng-model="$ctrl.user.lastName" required class="form-control">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">Date of birth</label>
+                            <div class="col-sm-6">
+                              <input type="text" ng-model="$ctrl.user.dateOfBirth" required class="form-control">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">Passport number</label>
+                            <div class="col-sm-6">
+                              <input type="text" ng-model="$ctrl.user.passportNumber" required class="form-control">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-3 control-label">Nationality</label>
+                            <div class="col-sm-6">
+                              <input type="text" ng-model="$ctrl.user.nationality" required class="form-control">
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane"
+                   ng-class="{'active': $ctrl.step == 'GOALS'}"
+                   id="step-3">
+                <div class="content-box">
+                  <h3 class="content-box-header bg-green">
+                    Savings Survey
+                  </h3>
+                  <div class="content-box-wrapper">
+
+                    <form class="form-horizontal bordered-row">
+                      <div class="row">
+                        <div class="col-md-9">
+                          <div class="form-group">
+                            <label class="col-sm-4 control-label">I want to retire at</label>
+                            <div class="col-sm-6">
+                              <akr-stepper model="$ctrl.savingsGoal.age" min="50" max="70" step="5"
+                                           filter="age"></akr-stepper>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-4 control-label">with monthly income</label>
+                            <div class="col-sm-6">
+                              <akr-stepper model="$ctrl.savingsGoal.monthlyIncome" min="1000" max="4000" step="500"
+                                           filter="gbp"></akr-stepper>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <ul class="pager wizard">
+            <li class="previous" ng-disabled="$ctrl.prevLink !== undefined">
+              <a ng-href="{{::$ctrl.prevLink}}">Previous</a>
+            </li>
+            <li class="next" ng-if="$ctrl.nextLink !== undefined">
+              <a ng-href="{{::$ctrl.nextLink}}">Next</a>
+            </li>
+            <li class="next" ng-if="$ctrl.nextLink === undefined">
+              <a href="#!/wizard/summary">Finish</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

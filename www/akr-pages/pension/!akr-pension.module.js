@@ -1,5 +1,5 @@
 (function () {
     'use strict';
 
-    angular.module('akr-commons', []);
+    angular.module('akr-pension', []);
 })();

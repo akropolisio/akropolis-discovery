@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('akr-commons')
-    .service('akrWeb3Service', AkrWeb3Service);
+    .service('AkrWeb3Service', AkrWeb3Service);
 
 
   function AkrWeb3Service($q) {
@@ -21,25 +21,14 @@
 
 
     this.hasAccount = function () {
-      return $q.when(true);
+      return $q.when(false);
     };
 
-
-    /*
-    TODO: move to separate service
-    this.userData = function () {
-      return {
-        firstName: 'John',
-        lastName: 'Doe',
-        dateOfBirth: new Date('1990-12-12')
-      };
-    };*/
-
     this.savingsGoal = function () {
-      return {
+      return $q.when({
         age: 65,
         monthlyIncome: 3500
-      };
+      });
     };
 
     this.accountDetails = function (type) {

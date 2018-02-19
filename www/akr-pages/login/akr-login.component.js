@@ -23,20 +23,20 @@
 
     });
 
-  function ComponentController($location, akrWeb3Service) {
+  function ComponentController($location, AkrWeb3Service) {
     var ctrl = this;
 
     ctrl.hasAccount = null;
 
     ctrl.$onInit = function () {
-      akrWeb3Service.hasAccount()
+      AkrWeb3Service.hasAccount()
         .then(function (result) {
           ctrl.hasAccount = result;
         });
     };
 
     ctrl.joinNow = function () {
-      $location.path('/signup')
+      $location.path('/wizard/step_1')
     };
 
 
