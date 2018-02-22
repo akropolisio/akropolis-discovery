@@ -17,9 +17,9 @@ contract FlatFeesCollector {
         AET = _aet;
     }
 
-    function collectInvestmentFee(Wallet wallet, PensionFund fund, ERC20 _token, uint _amount) public {
+    function collectInvestmentFee(address _investor, ERC20 _token, uint _amount) public {
         uint256 fee = calculateInvestmentFee(_token, _amount);
-        AET.transferFrom(address(wallet), address(fund), fee);
+        AET.transferFrom(_investor, msg.sender, fee);
     }
 
 

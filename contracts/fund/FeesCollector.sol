@@ -17,7 +17,7 @@ contract FeesCollector {
         AET = _aet;
     }
 
-    function collectInvestmentFee(Wallet wallet, ERC20 _token, uint _amount) public;
+    function collectInvestmentFee(address _investor, ERC20 _token, uint _amount) public;
 
 
     function calculateInvestmentFee(ERC20 _token, uint _amount) public view returns(uint256);

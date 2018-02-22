@@ -14,15 +14,12 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should();
 
-contract('Fees collector', function ([owner, wallet]) {
+contract('Fees collector', function ([owner, wallet, fund]) {
 
-	let token, pool, fund, feesCollector, usd;
+	let token, feesCollector, usd;
 
 	before(async function () {
 		token = await AkropolisToken.new();
-
-		pool = await StakingPool.new(token.address);
-		fund = await PensionFund.new(token.address);
 		feesCollector = await FlatFeesCollector.new(token.address);
 		usd = await DigitalUSD.new();
 
@@ -39,10 +36,10 @@ contract('Fees collector', function ([owner, wallet]) {
 
 	it('should collect fees for investment', async function () {
 		token.approve(feesCollector.address, 100, {from: wallet});
-		await feesCollector.collectInvestmentFee(wallet, fund.address, usd.address, 100);
+		await feesCollector.collectInvestmentFee(wallet, usd.address, 100, {from: fund});
 
 		(await token.balanceOf(wallet)).should.be.bignumber.equal(99);
-		(await token.balanceOf(fund.address)).should.be.bignumber.equal(1);
+		(await token.balanceOf(fund)).should.be.bignumber.equal(1);
 	});
 
 

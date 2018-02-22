@@ -4,6 +4,7 @@ import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import '../tokens/AkropolisToken.sol';
 import '../network/PensionFundsRegistry.sol';
 import '../network/StakingPool.sol';
+import './FeesCollector.sol';
 
 
 /**
@@ -13,6 +14,7 @@ import '../network/StakingPool.sol';
 contract PensionFund is Ownable {
 
     AkropolisToken public akropolisToken;
+    FeesCollector public feesCollector;
 
 
     function PensionFund(AkropolisToken _akropolisToken) public {
@@ -22,6 +24,7 @@ contract PensionFund is Ownable {
 
     function investFromUser(ERC20 _token, uint256 _amount) public {
         _token.transferFrom(msg.sender, address(this), _amount);
+        feesCollector.collectInvestmentFee(msg.sender, _token, _amount);
     }
 
 
@@ -43,6 +46,11 @@ contract PensionFund is Ownable {
 
     function unregister(PensionFundsRegistry _registry, bytes32 _name) onlyOwner public {
         _registry.unregister(_name);
+    }
+
+
+    function setFeesCollector(FeesCollector _feesCollector) onlyOwner public {
+        feesCollector = _feesCollector;
     }
 
 }
