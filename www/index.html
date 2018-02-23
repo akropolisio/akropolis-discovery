@@ -1,95 +1,64 @@
 <!DOCTYPE html>
-<html ng-app="akr-protocol" lang="en">
+<html lang="en" ng-app="BlurAdmin">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blur Admin</title>
 
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700%2C800%2C300italic%2C400italic%2C600italic%2C700italic%2C800italic&#038;ver=1515118747">
 
-  <meta charset="UTF-8">
-  <!--[if IE]>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-  <title> Akropolis </title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon-96x96.png">
 
-  <!-- Favicons -->
+  <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+  <!-- endbower -->
+  <!-- endbuild -->
 
-  <link rel="apple-touch-icon-precomposed" sizes="144x144"
-        href="assets/images/icons/apple-touch-icon-144-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114"
-        href="assets/images/icons/apple-touch-icon-114-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72"
-        href="assets/images/icons/apple-touch-icon-72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="assets/images/icons/apple-touch-icon-57-precomposed.png">
-  <link rel="shortcut icon" href="assets/images/icons/favicon.png">
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700%2C800%2C300italic%2C400italic%2C600italic%2C700italic%2C800italic&#038;ver=1515118747">
-
-
-
-  <link rel="stylesheet" type="text/css" href="assets-minified/admin-all-demo.css">
-  <link rel="stylesheet" type="text/css" href="assets/akropolis.css">
-
-  <!-- JS Core -->
-
-  <script type="text/javascript" src="assets-minified/js-core.js"></script>
-
-
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-route.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-animate.js"></script>
-
-  <!-- main ng app module -->
-  <script type="text/javascript" src="akr-pages/!akr-protocol.module.js"></script>
-
-  <!--commons module -->
-  <script type="text/javascript" src="akr-pages/commons/!akr-commons.module.js"></script>
-  <script type="text/javascript" src="akr-pages/commons/akr-web3.service.js"></script>
-  <script type="text/javascript" src="akr-pages/commons/akr-user.service.js"></script>
-  <script type="text/javascript" src="akr-pages/commons/stepper/akr-stepper.component.js"></script>
-
-  <!-- login feature -->
-  <script type="text/javascript" src="akr-pages/login/!akr-login.module.js"></script>
-  <script type="text/javascript" src="akr-pages/login/akr-login.component.js"></script>
-
-  <!-- signup feature -->
-  <script type="text/javascript" src="akr-pages/signup/!akr-signup.module.js"></script>
-  <script type="text/javascript" src="akr-pages/signup/akr-signup.component.js"></script>
-
-  <!-- pension feature -->
-  <script type="text/javascript" src="akr-pages/pension/!akr-pension.module.js"></script>
-  <script type="text/javascript" src="akr-pages/pension/akr-pension-intro.component.js"></script>
-
-  <link rel="stylesheet" type="text/css" href="assets/angular/page-animations.css">
-
+  <!-- build:css({.tmp/serve,src}) styles/app.css -->
+  <!-- inject:css -->
+  <!-- css files will be automatically insert here -->
+  <!-- endinject -->
+  <!-- endbuild -->
 </head>
-
-
 <body>
+<div class="body-bg"></div>
+<main ng-if="$pageFinishedLoading" ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
 
+  <page-top></page-top>
 
-<div id="page-wrapper">
-  <div id="page-header" class="bg-gradient-9">
-    <div id="mobile-navigation">
-      <button id="nav-toggle" class="collapsed" data-toggle="collapse" data-target="#page-sidebar">
-      </button>
-    </div>
-    <img src="https://akropolis.io/wp-content/uploads/2017/11/akropolis-logo-sticky-menu.png" width="157"
-         height="45" class="sticky-logo"
-         data-retina="https://akropolis.io/wp-content/uploads/2017/11/akropolis-logo-sticky-menu.png"
-         style="margin-left: 20px; margin-top: 15px"
-         alt="Sticky header logo">
-  </div>
-  <div id="page-content-wrapper">
-    <div id="page-content" style="background-color: #f7f7f7; margin-left: 0px">
-      <div ng-view></div>
+  <div class="al-main">
+    <div class="al-content">
+      <div ui-view autoscroll="true" autoscroll-body-top></div>
     </div>
   </div>
+
+  <back-top></back-top>
+</main>
+
+<div id="preloader" ng-show="!$pageFinishedLoading">
+  <div></div>
 </div>
 
+<!-- build:js(src) scripts/vendor.js -->
+<!-- bower:js -->
+<!-- run `gulp inject` to automatically populate bower script dependencies -->
+<!-- endbower -->
+<!-- endbuild -->
 
-<!-- JS Demo -->
-<script type="text/javascript" src="assets-minified/admin-all-demo.js"></script>
+<!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+<!-- inject:js -->
+<!-- js files will be automatically insert here -->
+<!-- endinject -->
 
+<!-- inject:partials -->
+<!-- angular templates will be automatically converted in js and inserted here -->
+<!-- endinject -->
+<!-- endbuild -->
 
-</div>
 </body>
 </html>

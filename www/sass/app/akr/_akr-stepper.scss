@@ -1,0 +1,19 @@
+.akr-stepper {
+  .minus, .plus, .value {
+    display: inline-block;
+    vertical-align: middle
+  }
+
+  .minus, .plus {
+    color: #000000;
+    font-size: 32px;
+  }
+
+  .value {
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100px;
+    text-align: center;
+    font-size: 18px;
+  }
+}
