@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <div ba-panel ba-panel-title="Sign Up Form" ba-panel-class="with-scroll">
+      <ba-wizard>
+        <ba-wizard-step title="Passport">
+          <form class="form-horizontal" novalidate style="text-align: center">
+
+            <button type="button" class="btn btn-lg btn-primary btn-with-icon"
+                    ng-click="$ctrl.upload()"
+                    ng-if="!$ctrl.isUploaded && !$ctrl.isUploading">
+              <i class="ion-android-upload"></i>Upload passport photo
+            </button>
+
+            <div class="progress" ng-if="$ctrl.isUploading">
+              <div class="progress-bar progress-bar-info" role="progressbar"
+                   ng-style="{'width': $ctrl.uploadProgress + '%'}">
+                <span class="sr-only">{{$ctrl.uploadProgress}}% Complete</span>
+              </div>
+            </div>
+
+            <img
+                ng-if="$ctrl.isUploaded"
+                src="https://help.secureidentity.co.uk/hc/article_attachments/360000427489/mceclip0.png"/>
+          </form>
+        </ba-wizard-step>
+
+        <ba-wizard-step title="Account information">
+          <form class="form-horizontal" novalidate>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">First Name</label>
+                  <div class="col-sm-6">
+                    <input type="text" ng-model="$ctrl.user.firstName" required class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Last Name</label>
+                  <div class="col-sm-6">
+                    <input type="text" ng-model="$ctrl.user.lastName" required class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Date of birth</label>
+                  <div class="col-sm-6">
+                    <input type="text" ng-model="$ctrl.user.dateOfBirth" required class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Passport number</label>
+                  <div class="col-sm-6">
+                    <input type="text" ng-model="$ctrl.user.passportNumber" required class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">Nationality</label>
+                  <div class="col-sm-6">
+                    <input type="text" ng-model="$ctrl.user.nationality" required class="form-control">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </form>
+        </ba-wizard-step>
+
+        <ba-wizard-step title="Savings Survey">
+          <form class="form-horizontal" novalidate>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">I want to retire at</label>
+              <div class="col-sm-6">
+                <akr-stepper model="$ctrl.savingsGoal.age" min="50" max="70" step="5"
+                             filter="age"></akr-stepper>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-4 control-label">with monthly income</label>
+              <div class="col-sm-6">
+                <akr-stepper model="$ctrl.savingsGoal.monthlyIncome" min="1000" max="4000" step="500"
+                             filter="gbp"></akr-stepper>
+              </div>
+            </div>
+          </form>
+        </ba-wizard-step>
+
+        <ba-wizard-step title="Summary">
+          <form class="form-horizontal" novalidate style="text-align: center">
+            <div class="panel-content  bg-facebook">
+              <p>Your account is being verified now. We'll notify you as soon as that's complete.</p>
+              <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>
+            </div>
+            <div class="panel-content bg-white">
+              <div class="center-vertical">
+                <a href="#!/pension/introduction" class="btn btn-lg btn-primary" title="">Setup your Akropolis Pension</a>
+              </div>
+            </div>
+          </form>
+        </ba-wizard-step>
+
+      </ba-wizard>
+    </div>
+  </div>
+</div>
+
+
