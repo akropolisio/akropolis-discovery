@@ -7,6 +7,7 @@
 
       'akr-login',
       'akr-signup',
+      'akr-dashboard',
       'akr-pension'
     ])
     .config(routeConfig)
@@ -28,6 +29,11 @@
         url: '/wizard/summary',
         templateUrl: 'app/pages/akr/signup/summary.html',
         title: 'Create Account'
+      })
+      .state('dashboard', {
+        url: '/dashboard',
+        template: '<akr-dashboard></akr-dashboard>',
+        title: 'Dashboard'
       })
       .state('pension_introduction', {
         url: '/pension/introduction',

@@ -5,7 +5,7 @@
     .controller('baWizardCtrl', baWizardCtrl);
 
   /** @ngInject */
-  function baWizardCtrl($scope) {
+  function baWizardCtrl($scope, $location, $timeout, toastr) {
     var vm = this;
     vm.tabs = [];
 
@@ -41,11 +41,39 @@
     };
 
     vm.nextTab = function () {
-      vm.selectTab(vm.tabNum + 1)
+      if (vm.isLastTab()) {
+        vm.finish()
+      } else {
+        vm.selectTab(vm.tabNum + 1)
+      }
     };
 
     vm.previousTab = function () {
       vm.selectTab(vm.tabNum - 1)
+    };
+
+    vm.finish = function () {
+      $location.path('/dashboard');
+      $timeout(function () {
+        toastr.info('<p>Your account is being verified now. We\'ll notify you as soon as that\'s complete.</p>\n' +
+          '          <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>',
+          'Welcome!', {
+          "autoDismiss": false,
+          "positionClass": "toast-top-center",
+          "type": "info",
+          "timeOut": "10000",
+          "extendedTimeOut": "2000",
+          "allowHtml": true,
+          "closeButton": true,
+          "tapToDismiss": true,
+          "progressBar": false,
+          "newestOnTop": true,
+          "maxOpened": 0,
+          "preventDuplicates": false,
+          "preventOpenDuplicates": false
+        })
+      }, 500);
+
     };
 
     function calcProgress() {

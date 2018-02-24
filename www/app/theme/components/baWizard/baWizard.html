@@ -23,8 +23,8 @@
         </button>
       </li>
       <li class="next">
-        <button ng-disabled="$baWizardController.isLastTab()" ng-click="$baWizardController.nextTab()" type="button"
-                class="btn btn-primary">next <span aria-hidden="true">&rarr;</span></button>
+        <button ng-click="$baWizardController.nextTab()" type="button"
+                class="btn btn-primary">{{$baWizardController.isLastTab() ? 'finish' : 'next'}} <span aria-hidden="true">&rarr;</span></button>
       </li>
     </ul>
   </nav>

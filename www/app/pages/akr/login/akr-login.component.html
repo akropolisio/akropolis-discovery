@@ -1,54 +1,52 @@
 <div class="row akr-login">
-  <div class="col-md-6 col-md-offset-3" style="text-align: center; color: white">
-    <div ba-panel ba-panel-title="Sign in to Akropolis">
+  <div ba-panel ba-panel-title="Sign in to Akropolis" class="akr-panel">
 
 
-      <div class="login-carousel owl-carousel owl-theme">
-        <div class="carousel-card">
-          <img src="/assets/pictures/akr-technology.png" style="width: 132px;"
-               alt="Example alternate text">
-          <div class="sub-title"
-               style="font-size: 18px; line-height: 32px; ">
-            We use technology to bring about a more sustainable future and increase resilience in the face of major
-            foreseeable risks
-          </div>
-        </div>
-        <div class="carousel-card">
-          <img src="/assets/pictures/akr-blockchain.png"
-               style="width: 132px;" alt="Example alternate text">
-          <div class="sub-title"
-               style="font-size: 18px; line-height: 32px; ">
-            We harness the blockchain and tokenization to create transparency and economic efficiency with minimum
-            leakage
-          </div>
-        </div>
-        <div class="carousel-card">
-          <img src="/assets/pictures/akr-control.png"
-               style="width: 132px;" alt="Example alternate text">
-          <div class="sub-title"
-               style="font-size: 18px; line-height: 32px; ">
-            We place control firmly in the hands and to the advantage of our users, over time removing the reliance
-            on third parties
-          </div>
+    <div class="login-carousel owl-carousel owl-theme">
+      <div class="carousel-card">
+        <img src="/assets/pictures/akr-technology.png" style="width: 132px;"
+             alt="Example alternate text">
+        <div class="sub-title"
+             style="font-size: 18px; line-height: 32px; ">
+          We use technology to bring about a more sustainable future and increase resilience in the face of major
+          foreseeable risks
         </div>
       </div>
-
-      <div style="margin-top: 30px; margin-bottom: 20px">
-        <div>
-          <button type="button" class="btn btn-primary btn-lg" ng-click="$ctrl.joinNow()"
-                  ng-disabled="$ctrl.hasAccount === true" style="width: 260px">Join Now
-          </button>
+      <div class="carousel-card">
+        <img src="/assets/pictures/akr-blockchain.png"
+             style="width: 132px;" alt="Example alternate text">
+        <div class="sub-title"
+             style="font-size: 18px; line-height: 32px; ">
+          We harness the blockchain and tokenization to create transparency and economic efficiency with minimum
+          leakage
         </div>
-        <div style="margin-top: 10px">
-          <button type="button" class="btn btn-info btn-lg " ng-disabled="$ctrl.hasAccount !== true"
-                  style="width: 260px">Already a member? Sign in
-          </button>
+      </div>
+      <div class="carousel-card">
+        <img src="/assets/pictures/akr-control.png"
+             style="width: 132px;" alt="Example alternate text">
+        <div class="sub-title"
+             style="font-size: 18px; line-height: 32px; ">
+          We place control firmly in the hands and to the advantage of our users, over time removing the reliance
+          on third parties
         </div>
       </div>
     </div>
 
+    <div style="margin-top: 30px; margin-bottom: 20px">
+      <div>
+        <button type="button" class="btn btn-primary btn-lg" ng-click="$ctrl.joinNow()"
+                ng-disabled="$ctrl.hasAccount === true" style="width: 260px">Join Now
+        </button>
+      </div>
+      <div style="margin-top: 10px">
+        <button type="button" class="btn btn-info btn-lg " ng-disabled="$ctrl.hasAccount !== true"
+                style="width: 260px">Already a member? Sign in
+        </button>
+      </div>
+    </div>
   </div>
 </div>
+
 
 <script>
   $(document).ready(function () {

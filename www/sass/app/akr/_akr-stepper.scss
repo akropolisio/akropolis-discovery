@@ -5,6 +5,11 @@
   }
 
   .minus, .plus {
+    &:hover {
+      cursor: pointer;
+      color: #209e91;
+    }
+
     color: #000000;
     font-size: 32px;
   }

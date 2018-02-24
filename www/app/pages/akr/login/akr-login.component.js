@@ -7,6 +7,7 @@
       templateUrl: 'app/pages/akr/login/akr-login.component.html'
     });
 
+  /** @ngInject */
   function ComponentController($location, AkrWeb3Service) {
     var ctrl = this;
 
