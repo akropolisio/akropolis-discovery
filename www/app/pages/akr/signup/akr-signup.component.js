@@ -7,7 +7,9 @@
       templateUrl: 'app/pages/akr/signup/akr-signup.component.html'
     });
 
-  function ComponentController($interval, AkrUserService, AkrWeb3Service) {
+
+  /** @ngInject */
+  function ComponentController($interval, $timeout, AkrUserService, AkrWeb3Service) {
     var ctrl = this;
 
     ctrl.isUploaded = false;
@@ -30,13 +32,17 @@
       var promise = $interval(function () {
         if (ctrl.uploadProgress > 99) {
           $interval.cancel(promise);
-          ctrl.isUploaded = true;
-          ctrl.isUploading = false;
+          $timeout(function () {
+            ctrl.isUploading = false;
+            ctrl.isUploaded = true;
+          }, 400);
+
         }
         else {
-          ctrl.uploadProgress++;
+          ctrl.uploadProgress += 5;
         }
-      }, 20);
+      }, 100);
+
     };
 
   }

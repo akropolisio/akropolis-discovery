@@ -4,7 +4,7 @@
   angular.module('akr-commons')
     .service('AkrUserService', AkrUserService);
 
-
+  /** @ngInject */
   function AkrUserService($q) {
 
     this.get = function () {
