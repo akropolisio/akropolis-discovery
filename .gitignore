@@ -1,10 +1,16 @@
 # Dependency directory
 node_modules
+bower_components
 
 # Generated files
 build
 coverage
 coverage.json
+.tmp
+www
+release
+dev-release
 
 # IDE
 .idea
+*.iml

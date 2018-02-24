@@ -8,6 +8,14 @@ var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
+var webpack = require('webpack-stream');
+
+gulp.task('dapp-webpack', function () {
+  return gulp.src('src/dapp.js')
+    .pipe(webpack( require('../webpack.config.js') ))
+    .pipe(gulp.dest('.tmp/dapp/'));
+});
+
 gulp.task('partials', function () {
   return gulp.src([
     path.join(conf.paths.src, '/app/**/*.html'),
@@ -25,11 +33,19 @@ gulp.task('partials', function () {
     .pipe(gulp.dest(conf.paths.tmp + '/partials/'));
 });
 
-gulp.task('html', ['inject', 'partials'], function () {
+gulp.task('html', ['dapp-webpack', 'inject', 'partials'], function () {
   var partialsInjectFile = gulp.src(path.join(conf.paths.tmp, '/partials/templateCacheHtml.js'), { read: false });
   var partialsInjectOptions = {
     starttag: '<!-- inject:partials -->',
     ignorePath: path.join(conf.paths.tmp, '/partials'),
+    addRootSlash: false
+  };
+
+
+  var dappInjectFile = gulp.src(path.join(conf.paths.tmp, '/dapp/bundle.js'), { read: false });
+  var dappInjectOptions = {
+    starttag: '<!-- inject:dapp -->',
+    ignorePath: path.join(conf.paths.tmp, '/dapp'),
     addRootSlash: false
   };
 
@@ -40,6 +56,7 @@ gulp.task('html', ['inject', 'partials'], function () {
 
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
     .pipe($.inject(partialsInjectFile, partialsInjectOptions))
+    .pipe($.inject(dappInjectFile, dappInjectOptions))
     .pipe(assets = $.useref.assets())
     .pipe($.rev())
     .pipe(jsFilter)
@@ -95,4 +112,4 @@ gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['html', 'fonts', 'other']);
+gulp.task('build', ['clean', 'html', 'fonts', 'other']);

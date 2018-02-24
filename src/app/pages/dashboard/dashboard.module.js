@@ -6,6 +6,5 @@
   'use strict';
 
   angular.module('BlurAdmin.pages.dashboard', [])
-    .config(routeConfig);
 
 })();

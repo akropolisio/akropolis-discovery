@@ -1,12 +1,13 @@
 const webpack = require("webpack");
 const path = require("path");
 const www = path.resolve(__dirname, "www");
+const tmp = path.resolve(__dirname, ".tmp");
 
 module.exports = {
   entry: "./src/dapp.js",
   output: {
     filename: "bundle.js",
-    path: www
+    path: tmp
   },
   module: {
     rules: [],
