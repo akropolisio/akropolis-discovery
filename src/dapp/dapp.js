@@ -29,7 +29,6 @@ function weiToEther (n) {
 
 
 window.Dapp = {
-	allocations: {},
 
 	start: function() {
 		this.setWhitelistedCount();
@@ -48,112 +47,110 @@ window.Dapp = {
 		throw err;
 	},
 
-	setWhitelistedCount: function() {
-		Whitelist.deployed().then(function(instance) {
-			return instance.getWhitelistedCount.call();
-		}).then(function(value) {
-			show("whitelisted-count", value.valueOf());
-		}).catch(function(err) {
-			console.log(err);
-		});
-	},
+	// setWhitelistedCount: function() {
+	// 	Whitelist.deployed().then(function(instance) {
+	// 		return instance.getWhitelistedCount.call();
+	// 	}).then(function(value) {
+	// 		show("whitelisted-count", value.valueOf());
+	// 	}).catch(function(err) {
+	// 		console.log(err);
+	// 	});
+	// },
+	//
+	// addToWhitelist: function() {
+	// 	var self = this;
+	// 	var address = document.getElementById("buyer-address").value;
+	// 	console.log("Adding to whitelist: " + address);
+	// 	Whitelist.deployed().then(function(instance) {
+	// 		self.setAlert("Adding to the whitelist...");
+	// 		return instance.addToWhitelist(address, {from: adminAccount});
+	// 	}).then(function() {
+	// 		self.setWhitelistedCount();
+	// 		self.setAlert("Buyer was added!", "success");
+	// 	}).catch(function(err) {
+	// 		Dapp.throwError("Cannot add to the whitelist!");
+	// 		console.log(err);
+	// 	});
+	// },
+	//
+	// removeFromWhitelist: function() {
+	// 	var self = this;
+	// 	var address = document.getElementById("remove-address").value;
+	// 	console.log("Removing from whitelist: " + address);
+	// 	Whitelist.deployed().then(function(instance) {
+	// 		self.setAlert("Removing from the whitelist...");
+	// 		return instance.removeFromWhitelist(address, {from: adminAccount});
+	// 	}).then(function() {
+	// 		self.setWhitelistedCount();
+	// 		self.setAlert("Buyer was removed!", "success");
+	// 	}).catch(function(err) {
+	// 		Dapp.throwError("Cannot remove from the whitelist!");
+	// 		console.log(err);
+	// 	});
+	// },
+	//
+	// checkAddress: function() {
+	// 	var self = this;
+	// 	var address = document.getElementById("check-address").value;
+	// 	console.log("Checking address: " + address);
+	// 	Whitelist.deployed().then(function(instance) {
+	// 		self.setAlert("Checking address...");
+	// 		return instance.isWhitelisted(address, {from: adminAccount});
+	// 	}).then(function(result) {
+	// 		console.log(result);
+	// 		if (result) {
+	// 			self.setAlert("Address: " + address + " is whitelisted.", "success");
+	// 		} else {
+	// 			self.setAlert("Address: " + address + " is NOT whitelisted.", "danger");
+	// 		}
+	// 	}).catch(function(err) {
+	// 		Dapp.throwError("Cannot check the address!");
+	// 		console.log(err);
+	// 	});
+	// },
+	//
+	// fetchWhitelistedAddress: function(index, max, contract, element) {
+	// 	var self = this;
+	// 	if (index<max) {
+	// 		contract.getWhitelistedAddress(index).then(function (value) {
+	// 			element.innerHTML = element.innerHTML + value + "<br/>";
+	// 			return self.fetchWhitelistedAddress(index+1, max, contract, element);
+	// 		}).catch(function(err) {
+	// 			console.log(err);
+	// 		});
+	// 	}
+	// },
+	//
+	// listAllWhitelisted: function() {
+	// 	var self = this;
+	// 	var contract;
+	// 	var element = document.getElementById("whitelisted-list");
+	// 	element.innerHTML = "";
+	// 	Whitelist.deployed().then(function(instance) {
+	// 		contract = instance;
+	// 		return instance.getWhitelistedCount.call();
+	// 	}).then(function(max) {
+	// 		return self.fetchWhitelistedAddress(0, max, contract, element);
+	// 	}).catch(function(err) {
+	// 		console.log(err);
+	// 	});
+	// },
+	//
+	// setAllocationsSummary: function() {
+	// 	this.allocations.totalAllocated().then(function(total){
+	// 		show("allocations-total", weiToEther(total).valueOf());
+	// 	}).catch(function(err) {
+	// 		console.log(err);
+	// 	});
+	//
+	// 	this.allocations.getAllocationsCount().then(function(count) {
+	// 		show("allocations-count", count.valueOf());
+	// 	}).catch(function(err) {
+	// 		console.log(err);
+	// 	});
+	//},
 
-	addToWhitelist: function() {
-		var self = this;
-		var address = document.getElementById("buyer-address").value;
-		console.log("Adding to whitelist: " + address);
-		Whitelist.deployed().then(function(instance) {
-			self.setAlert("Adding to the whitelist...");
-			return instance.addToWhitelist(address, {from: adminAccount});
-		}).then(function() {
-			self.setWhitelistedCount();
-			self.setAlert("Buyer was added!", "success");
-		}).catch(function(err) {
-			Dapp.throwError("Cannot add to the whitelist!");
-			console.log(err);
-		});
-	},
-
-	removeFromWhitelist: function() {
-		var self = this;
-		var address = document.getElementById("remove-address").value;
-		console.log("Removing from whitelist: " + address);
-		Whitelist.deployed().then(function(instance) {
-			self.setAlert("Removing from the whitelist...");
-			return instance.removeFromWhitelist(address, {from: adminAccount});
-		}).then(function() {
-			self.setWhitelistedCount();
-			self.setAlert("Buyer was removed!", "success");
-		}).catch(function(err) {
-			Dapp.throwError("Cannot remove from the whitelist!");
-			console.log(err);
-		});
-	},
-
-	checkAddress: function() {
-		var self = this;
-		var address = document.getElementById("check-address").value;
-		console.log("Checking address: " + address);
-		Whitelist.deployed().then(function(instance) {
-			self.setAlert("Checking address...");
-			return instance.isWhitelisted(address, {from: adminAccount});
-		}).then(function(result) {
-			console.log(result);
-			if (result) {
-				self.setAlert("Address: " + address + " is whitelisted.", "success");
-			} else {
-				self.setAlert("Address: " + address + " is NOT whitelisted.", "danger");
-			}
-		}).catch(function(err) {
-			Dapp.throwError("Cannot check the address!");
-			console.log(err);
-		});
-	},
-
-	fetchWhitelistedAddress: function(index, max, contract, element) {
-		var self = this;
-		if (index<max) {
-			contract.getWhitelistedAddress(index).then(function (value) {
-				element.innerHTML = element.innerHTML + value + "<br/>";
-				return self.fetchWhitelistedAddress(index+1, max, contract, element);
-			}).catch(function(err) {
-				console.log(err);
-			});
-		}
-	},
-
-	listAllWhitelisted: function() {
-		var self = this;
-		var contract;
-		var element = document.getElementById("whitelisted-list");
-		element.innerHTML = "";
-		Whitelist.deployed().then(function(instance) {
-			contract = instance;
-			return instance.getWhitelistedCount.call();
-		}).then(function(max) {
-			return self.fetchWhitelistedAddress(0, max, contract, element);
-		}).catch(function(err) {
-			console.log(err);
-		});
-	},
-
-	setAllocationsSummary: function() {
-		this.allocations.totalAllocated().then(function(total){
-			show("allocations-total", weiToEther(total).valueOf());
-		}).catch(function(err) {
-			console.log(err);
-		});
-
-		this.allocations.getAllocationsCount().then(function(count) {
-			show("allocations-count", count.valueOf());
-		}).catch(function(err) {
-			console.log(err);
-		});
-
-
-	},
-
-	addAllocation: function() {
+	/*addAllocation: function() {
 		var self = this;
 		var address = document.getElementById("allocation-address").value;
 		var value = etherToWei(document.getElementById("allocation-value").value);
@@ -244,7 +241,7 @@ window.Dapp = {
 			Dapp.throwError("Cannot remove the allocation!");
 			console.log(err);
 		});
-	},
+	},*/
 
 
 
@@ -261,8 +258,8 @@ window.addEventListener("load", function() {
 
 	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-	Whitelist.setProvider(web3.currentProvider);
-	Allocations.setProvider(web3.currentProvider);
+	//Whitelist.setProvider(web3.currentProvider);
+	//Allocations.setProvider(web3.currentProvider);
 
 	web3.eth.getAccounts(function(err, accounts) {
 		if (err) {
@@ -272,9 +269,9 @@ window.addEventListener("load", function() {
 			Dapp.throwError("Connect an account!");
 		}
 		adminAccount = accounts[1];
-		Allocations.deployed().then(function(instance) {
-			Dapp.allocations = instance;
-			Dapp.start();
-		});
+		// Allocations.deployed().then(function(instance) {
+		// 	Dapp.allocations = instance;
+		// 	Dapp.start();
+		// });
 	});
 });
