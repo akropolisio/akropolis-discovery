@@ -17,6 +17,11 @@
         return $filter('currency')(input, '£', 0);
       };
     }])
+    .filter('gbp_2', ['$filter', function ($filter) {
+      return function (input) {
+        return $filter('currency')(input, '£', 2);
+      };
+    }])
     .filter('age', ['$filter', function ($filter) {
       return function (input) {
         return input + ' years';

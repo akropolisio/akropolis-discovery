@@ -10,6 +10,6 @@
 
   /** @ngInject */
   function ComponentController() {
-    var ctrl = this;
+
   }
 })();

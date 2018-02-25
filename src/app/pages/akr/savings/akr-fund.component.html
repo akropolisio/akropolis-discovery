@@ -1,0 +1,17 @@
+<div class="akr-fund">
+
+  <div class="header" style="text-align: left">
+    <div class="title">
+      <i class="fa" ng-class="[$ctrl.iconClass]"></i> {{ $ctrl.fund.name }}
+    </div>
+    <div class="stepper">
+      <akr-stepper filter="percent" min="0" max="100" step="1" model="$ctrl.fund.allocation" ></akr-stepper>
+    </div>
+  </div>
+  <div class="description">
+    {{ $ctrl.fund.description }}
+  </div>
+
+  <hr/>
+
+</div>
