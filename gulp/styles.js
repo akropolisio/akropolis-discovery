@@ -20,13 +20,6 @@ gulp.task('styles', function () {
   return buildStyles();
 });
 
-gulp.task('stylesAuth', function () {
-  return buildSingleScss(path.join(conf.paths.src, '/sass/auth.scss'));
-});
-gulp.task('styles404', function () {
-  return buildSingleScss(path.join(conf.paths.src, '/sass/404.scss'));
-});
-
 var buildStyles = function () {
   var sassOptions = {
     style: 'expanded'
@@ -35,8 +28,6 @@ var buildStyles = function () {
   var injectFiles = gulp.src([
     path.join(conf.paths.src, '/sass/**/_*.scss'),
     '!' + path.join(conf.paths.src, '/sass/theme/conf/**/*.scss'),
-    '!' + path.join(conf.paths.src, '/sass/404.scss'),
-    '!' + path.join(conf.paths.src, '/sass/auth.scss')
   ], {read: false});
 
   var injectOptions = {
@@ -58,16 +49,5 @@ var buildStyles = function () {
     .pipe($.sass(sassOptions)).on('error', conf.errorHandler('Sass'))
     .pipe($.autoprefixer()).on('error', conf.errorHandler('Autoprefixer'))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')));
-};
-
-var buildSingleScss = function (paths) {
-  var sassOptions = {
-    style: 'expanded'
-  };
-
-  return gulp.src([paths])
-    .pipe($.sass(sassOptions)).on('error', conf.errorHandler('Sass'))
-    .pipe($.autoprefixer()).on('error', conf.errorHandler('Autoprefixer'))
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')));
 };
