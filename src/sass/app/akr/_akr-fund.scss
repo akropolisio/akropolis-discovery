@@ -1,0 +1,23 @@
+.akr-fund {
+  .header {
+    text-align: left;
+
+    .title {
+      display: inline-block;
+      font-size: 18px;
+      width: 125px
+    }
+
+    .stepper {
+      display: inline-block;
+
+      .akr-stepper .value {
+        width: 50px;
+      }
+    }
+  }
+
+  .description {
+    text-align: justify;
+  }
+}

@@ -1,0 +1,21 @@
+<div class="row funds-allocation">
+  <div ba-panel class="akr-panel">
+    <div id="page-title">
+      <h2>Select Funds</h2>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+
+        <akr-fund ng-repeat="(key, value) in $ctrl.funds" key="{{key}}" fund="value"></akr-fund>
+
+        <div>
+          <a href="#!/savings/deposit" class="btn btn-primary btn-lg" style="margin-top: 30px">
+            Deposit funds
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

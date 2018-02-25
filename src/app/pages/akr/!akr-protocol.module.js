@@ -11,6 +11,8 @@
       'akr-pension'
     ])
     .config(routeConfig)
+    .config(toastrConfig);
+  ;
 
   /** @ngInject */
   function routeConfig($stateProvider) {
@@ -35,11 +37,36 @@
         template: '<akr-dashboard></akr-dashboard>',
         title: 'Dashboard'
       })
-      .state('pension_introduction', {
-        url: '/pension/introduction',
-        template: '<akr-pension-intro></akr-pension-intro>',
-        title: 'Create Account'
-      });
+      .state('savings_introduction', {
+        url: '/savings/introduction',
+        template: '<akr-savings-intro></akr-savings-intro>',
+        title: 'Savings system'
+      })
+      .state('funds_allocations', {
+        url: '/savings/funds',
+        template: '<akr-funds-allocation></akr-funds-allocation>',
+        title: 'Savings system'
+      })
+      .state('deposit', {
+        url: '/savings/deposit',
+        template: '<akr-deposit></akr-deposit>',
+        title: 'Deposit'
+      })
+    ;
+  }
+
+  /** @ngInject */
+  function toastrConfig(toastrConfig) {
+    angular.extend(toastrConfig, {
+      autoDismiss: false,
+      containerId: 'toast-container',
+      maxOpened: 0,
+      newestOnTop: true,
+      positionClass: 'toast-top-center',
+      preventDuplicates: false,
+      preventOpenDuplicates: false,
+      target: 'body'
+    });
   }
 
 

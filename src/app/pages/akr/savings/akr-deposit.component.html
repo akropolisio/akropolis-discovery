@@ -1,0 +1,35 @@
+<div class="row akr-deposit">
+
+  <div ba-panel class="akr-panel">
+    <div id="page-title">
+      <h2>Deposit</h2>
+    </div>
+    <div class="panel">
+      <div class="panel-body">
+
+        <akr-stepper filter="gbp" min="5"
+                     max="10000" step="5" model="$ctrl.depositAmount"></akr-stepper>
+        <div class="info">
+          <p>{{5 | gbp}} Minimum</p>
+          <p>Your account will be charged <b>{{ $ctrl.brutto() | gbp_2 }}</b></p>
+        </div>
+
+        <a href="#!/dashboard" class="btn btn-primary btn-lg">
+          Deposit Now
+        </a>
+
+        <h3 class="title-hero" style="margin-top: 20px">
+          Transparent Fees & Rules
+        </h3>
+        <div class="pension-info">
+          <p>This account collects a 0.3% fee on deposits.</p>
+          <p>
+            Free withdraws are allowed on amount deposited in the last 30 days. Amount over that amount will
+            charged a 10% fee
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

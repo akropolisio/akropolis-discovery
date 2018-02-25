@@ -2,9 +2,9 @@
   'use strict';
 
   angular.module('akr-pension')
-    .component('akrPensionIntro', {
+    .component('akrSavingsIntro', {
       controller: ComponentController,
-      templateUrl: 'app/pages/akr/pension/akr-pension-intro.component.html'
+      templateUrl: 'app/pages/akr/savings/akr-savings-intro.component.html'
     });
 
   function ComponentController() {

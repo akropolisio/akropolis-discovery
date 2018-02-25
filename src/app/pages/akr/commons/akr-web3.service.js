@@ -19,7 +19,6 @@
       }
     };
 
-
     this.hasAccount = function () {
       return $q.when(false);
     };
@@ -41,24 +40,29 @@
     };
 
     this.pensionFunds = function () {
-      return {
+      return $q.when({
         TECH: {
           name: 'Tech',
-          description: 'Tech desc'
+          allocation: 25,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         },
         SUSTAINABLE: {
-          name: 'SUSTAINABLE',
-          description: 'SUSTAINABLE desc'
+          name: 'Sustainable',
+          allocation: 25,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         },
         BIOMED: {
-          name: 'BIOMED',
-          description: 'BIOMED desc'
+          name: 'Biomed',
+          allocation: 25,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         },
         ENERGY: {
           name: 'Energy',
-          description: 'Energy desc'
+          allocation: 25,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         }
-      };
+      });
+
     };
 
 
