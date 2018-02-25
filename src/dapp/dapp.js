@@ -1,5 +1,6 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
+console.log('dapp yo!');
 
 function show(element, text) {
 	var element = document.getElementById(element);
