@@ -11,9 +11,9 @@ var $ = require('gulp-load-plugins')({
 var webpack = require('webpack-stream');
 
 gulp.task('dapp-webpack', function () {
-  return gulp.src('src/dapp.js')
+  return gulp.src(conf.paths.src + '/dapp/dapp.js')
     .pipe(webpack( require('../webpack.config.js') ))
-    .pipe(gulp.dest('.tmp/dapp/'));
+    .pipe(gulp.dest(conf.paths.tmp + '/dapp/'));
 });
 
 gulp.task('partials', function () {
@@ -40,7 +40,6 @@ gulp.task('html', ['dapp-webpack', 'inject', 'partials'], function () {
     ignorePath: path.join(conf.paths.tmp, '/partials'),
     addRootSlash: false
   };
-
 
   var dappInjectFile = gulp.src(path.join(conf.paths.tmp, '/dapp/bundle.js'), { read: false });
   var dappInjectOptions = {

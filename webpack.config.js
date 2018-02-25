@@ -4,7 +4,7 @@ const www = path.resolve(__dirname, "www");
 const tmp = path.resolve(__dirname, ".tmp");
 
 module.exports = {
-  entry: "./src/dapp.js",
+  entry: "./src/dapp/dapp.js",
   output: {
     filename: "bundle.js",
     path: tmp
