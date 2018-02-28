@@ -2,6 +2,8 @@ var Web3 = require("web3");
 var contract = require("truffle-contract");
 console.log('dapp yo!');
 
+var mainAccount, networkId;
+
 function show(element, text) {
 	var element = document.getElementById(element);
 	if (element) {
@@ -26,7 +28,22 @@ function weiToEther (n) {
 	return new web3.BigNumber(web3.fromWei(n, 'ether'));
 }
 
-
+function idToNetworkName(networkId) {
+	switch (networkId) {
+		case "1":
+			return "Main";
+		case "2":
+			return "Morden";
+		case "3":
+			return "Ropsten";
+		case "4":
+			return "Rinkeby";
+		case "42":
+			return "Kovan";
+		default:
+			return "Unknown";
+	}
+}
 
 window.Dapp = {
 
@@ -46,6 +63,10 @@ window.Dapp = {
 		this.setAlert("<strong>Error!</strong> " + message, "danger");
 		throw err;
 	},
+
+	getNetworkName: function() {
+		return idToNetworkName(networkId);
+	}
 
 	// setWhitelistedCount: function() {
 	// 	Whitelist.deployed().then(function(instance) {
@@ -244,7 +265,6 @@ window.Dapp = {
 	},*/
 
 
-
 };
 
 window.addEventListener("load", function() {
@@ -268,7 +288,12 @@ window.addEventListener("load", function() {
 		if (accounts.length == 0) {
 			Dapp.throwError("Connect an account!");
 		}
-		adminAccount = accounts[1];
+
+		mainAccount = accounts[0];
+		networkId = web3.version.network;
+
+		console.log("Main account: " + mainAccount);
+
 		// Allocations.deployed().then(function(instance) {
 		// 	Dapp.allocations = instance;
 		// 	Dapp.start();
