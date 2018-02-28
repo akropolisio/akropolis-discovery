@@ -9,7 +9,13 @@
 
 
   /** @ngInject */
-  function ComponentController() {
+  function ComponentController(AkrWeb3Service) {
+    var ctrl = this;
 
+    ctrl.$onInit = function () {
+      AkrWeb3Service.accounts().then(function (result) {
+        ctrl.accounts = result;
+      });
+    };
   }
 })();

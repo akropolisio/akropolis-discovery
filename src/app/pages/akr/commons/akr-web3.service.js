@@ -9,13 +9,19 @@
 
     var mockAccounts = {
       VOLUNTARY: {
-        balance: 20000
+        label: 'Pension',
+        balance: 20000,
+        additionalInfo: 'from age 62'
       },
       EMERGENCY: {
-        balance: 10000
+        label: 'Emergency Fund',
+        balance: 10000,
+        additionalInfo: 'from age 62'
       },
       SHORT_TERM: {
-        balance: 5000
+        label: 'Short Term Savings',
+        balance: 5000,
+        additionalInfo: 'in 1 year'
       }
     };
 
@@ -30,8 +36,8 @@
       });
     };
 
-    this.accountDetails = function (type) {
-      return mockAccounts[type];
+    this.accounts = function () {
+      return $q.when(mockAccounts);
     };
 
     //Acropolis External Token

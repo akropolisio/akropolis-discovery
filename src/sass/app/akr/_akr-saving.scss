@@ -1,0 +1,46 @@
+.akr-saving {
+
+  .header {
+    display: inline-block;
+    .main {
+      font-size: 18px;
+    }
+
+    &.right {
+      a {
+        font-size: 14px;
+        padding-right: 5px;
+      }
+
+      float: right;
+      text-align: right;
+    }
+  }
+
+  .description {
+    clear: both;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    .info {
+      display: table;
+      width: 32%;
+      float: left;
+
+      i, span {
+        display: table-cell;
+      }
+
+      i {
+        vertical-align: middle;
+        width: 40px;
+        text-align: right;
+      }
+
+      span {
+        padding-left: 10px;
+      }
+    }
+
+  }
+
+}
