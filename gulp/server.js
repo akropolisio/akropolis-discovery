@@ -23,7 +23,7 @@ function browserSyncInit(baseDir, browser) {
 
   var server = {
     baseDir: baseDir,
-    routes: routes
+    routes: routes,
   };
 
   /*
@@ -39,7 +39,8 @@ function browserSyncInit(baseDir, browser) {
     startPath: '/',
     server: server,
     browser: browser,
-    ghostMode: false
+    ghostMode: false,
+    port:8080
   });
 }
 
@@ -48,6 +49,11 @@ browserSync.use(browserSyncSpa({
 }));
 
 gulp.task('serve', ['watch'], function () {
+  browserSyncInit([path.join(conf.paths.tmp, '/serve'), path.join(conf.paths.tmp, '/dapp'), conf.paths.src]);
+});
+
+
+gulp.task('serve:static', ['inject', 'inject-dapp'], function () {
   browserSyncInit([path.join(conf.paths.tmp, '/serve'), path.join(conf.paths.tmp, '/dapp'), conf.paths.src]);
 });
 
