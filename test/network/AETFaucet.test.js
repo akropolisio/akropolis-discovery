@@ -21,7 +21,7 @@ contract('AET Faucet', function ([owner, user]) {
 	});
 
 	it('should grant tokens', async function () {
-		await faucet.getTokens({from: user, value: web3.toWei(0.1, "ether")});
+		await faucet.getTokens(user, {from: user, value: web3.toWei(0.1, "ether")});
 
 		(await token.balanceOf(user)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 	});

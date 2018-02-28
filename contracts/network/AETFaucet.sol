@@ -18,8 +18,8 @@ contract AETFaucet is Pausable {
         aet = _aet;
     }
 
-    function getTokens() whenNotPaused public payable {
+    function getTokens(address _beneficiary) whenNotPaused public payable {
         uint256 amount = msg.value.mul(1000);
-        aet.transfer(msg.sender, amount);
+        aet.transfer(_beneficiary, amount);
     }
 }
