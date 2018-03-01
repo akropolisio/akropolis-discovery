@@ -1,0 +1,42 @@
+<div class="akr-saving panel">
+
+  <div class="panel-body">
+
+    <div>
+      <div class="header">
+        <div class="main">
+          Akropolis
+        </div>
+        <div class="sub">
+          {{ $ctrl.saving.label }}
+        </div>
+      </div>
+      <div class="header right">
+        <div class="main">
+          <a ng-if="$ctrl.showDepositLink" href="#!/savings/deposit">Deposit Funds</a>{{ $ctrl.saving.balance | gbp }}
+        </div>
+        <div class="sub">
+          {{ $ctrl.saving.additionalInfo }}
+        </div>
+      </div>
+    </div>
+
+
+    <div class="description" style="clear: both;">
+      <div class="info">
+        <i class="fa fa-shield"></i> <span>Flexible Withdraw</span>
+      </div>
+      <div class="info">
+        <i class="fa fa-shield"></i> <span>Proof of Ownership</span>
+      </div>
+      <div class="info">
+        <i class="fa fa-shield"></i> <span>Allocation Control</span>
+      </div>
+    </div>
+
+    <div style="clear: both; margin-top: 60px">
+    </div>
+
+  </div>
+
+</div>
