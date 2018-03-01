@@ -1,20 +1,21 @@
 <div class="row">
-  <div class="col-lg-3 col-md-12 col-sm-12" style="padding-top: 5px">
-    <dashboard-pie-chart></dashboard-pie-chart>
-
-    <div ba-panel ba-panel-title="Pension funds">
-      <akr-saving
-          ng-repeat="(key, value) in $ctrl.accounts"
-          show-deposit-link="key === 'VOLUNTARY'"
-          saving="value"></akr-saving>
-    </div>
-
-  </div>
 
   <div class="col-lg-9 col-md-12 col-sm-12">
     <div ba-panel ba-panel-title="Savings" ba-panel-class="medium-panel">
       <dashboard-line-chart></dashboard-line-chart>
     </div>
+
+    <div ba-panel ba-panel-title="Pension funds">
+      <akr-saving
+              ng-repeat="(key, value) in $ctrl.accounts"
+              show-deposit-link="key === 'VOLUNTARY'"
+              saving="value"></akr-saving>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-md-12 col-sm-12" style="padding-top: 5px">
+    <dashboard-pie-chart></dashboard-pie-chart>
+
   </div>
 
 
