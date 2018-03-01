@@ -1,6 +1,7 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import './Wallet.sol';
 
 
 /**
@@ -10,9 +11,11 @@ import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 contract User is Ownable {
 
     uint256 public dateOfBirth;
+    Wallet public wallet;
 
-    function User(uint256 _dateOfBirth) public {
+    function User(uint256 _dateOfBirth, Wallet _wallet) public {
         dateOfBirth = _dateOfBirth;
+        wallet = _wallet;
     }
 
 }
