@@ -1,8 +1,9 @@
 (function () {
   'use strict';
 
+  //TODO: Connect when deployed on testnet
   angular.module('akr-commons')
-    .service('AkrWeb3Service', AkrWeb3Service);
+    .service('RealAkrWeb3Service', AkrWeb3Service);
 
   /** @ngInject */
   function AkrWeb3Service($q) {
@@ -19,8 +20,16 @@
       }
     };
 
+		this.createAccount = function () {
+			return Dapp.createAccount();
+		};
+
     this.hasAccount = function () {
-      return $q.when(false);
+      return Dapp.hasAccount();
+    };
+
+    this.ethAccount = function() {
+      return Dapp.ethAccount();
     };
 
     this.savingsGoal = function () {

@@ -1,8 +1,12 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
-console.log('dapp yo!');
+var UserFactory = contract(require("../../build/contracts/UserFactory.json"));
+var AkropolisToken = contract(require("../../build/contracts/AkropolisToken.json"));
+var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
 
 var mainAccount, networkId;
+
+const USER_FACTORY = "0x6cf23552c72ffe11638274514b9aaf477d15f0db";
 
 function show(element, text) {
 	var element = document.getElementById(element);
@@ -66,6 +70,39 @@ window.Dapp = {
 
 	getNetworkName: function() {
 		return idToNetworkName(networkId);
+	},
+
+	createAccount: function() {
+		var self = this;
+		console.log("Hello from Dapp");
+		return UserFactory.at(USER_FACTORY).then(function(instance) {
+			return instance.createUser(1, {from: mainAccount, gas: 1000000}).then(function(tx) {
+				console.log("Creating user: " + tx.tx);
+				return self.getUserContract();
+			});
+		});
+
+	},
+
+	hasAccount: function() {
+		return this.getUserContract().then(function(contractAddress) {
+			console.log("User contract: " + contractAddress);
+			return contractAddress !== "0x0000000000000000000000000000000000000000";
+		});
+	},
+
+	getUserContract: function() {
+		return UserFactory.at(USER_FACTORY).then(function(instance) {
+			return instance.userRegistry();
+		}).then(function(registryAddress) {
+			return UserRegistry.at(registryAddress);
+		}).then(function(registry) {
+			return registry.getUserContract(mainAccount);
+		});
+	},
+
+	ethAccount: function() {
+		return mainAccount;
 	}
 
 	// setWhitelistedCount: function() {
@@ -278,8 +315,9 @@ window.addEventListener("load", function() {
 
 	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-	//Whitelist.setProvider(web3.currentProvider);
-	//Allocations.setProvider(web3.currentProvider);
+	UserFactory.setProvider(web3.currentProvider);
+	AkropolisToken.setProvider(web3.currentProvider);
+	UserRegistry.setProvider(web3.currentProvider);
 
 	web3.eth.getAccounts(function(err, accounts) {
 		if (err) {
@@ -294,9 +332,5 @@ window.addEventListener("load", function() {
 
 		console.log("Main account: " + mainAccount);
 
-		// Allocations.deployed().then(function(instance) {
-		// 	Dapp.allocations = instance;
-		// 	Dapp.start();
-		// });
 	});
 });
