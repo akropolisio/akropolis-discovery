@@ -5,6 +5,7 @@ const AkropolisToken = artifacts.require('./AkropolisToken.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 const UserFactory = artifacts.require('./UserFactory.sol');
 
+
 module.exports = async function(deployer) {
 	await deployer.deploy(StakingPool);
 	await deployer.deploy(PaymentGateway);

@@ -3,7 +3,7 @@
 
   //TODO: Connect when deployed on testnet
   angular.module('akr-commons')
-    .service('RealAkrWeb3Service', AkrWeb3Service);
+    .service('AkrWeb3Service', AkrWeb3Service);
 
   /** @ngInject */
   function AkrWeb3Service($q) {
@@ -30,6 +30,16 @@
 
     this.ethAccount = function() {
       return Dapp.ethAccount();
+    };
+
+    this.buyAETTokens = function(value) {
+      return Dapp.buyAETTokens(value).then(function(result) {
+        console.log(result);
+				return Dapp.getAETBalance().then(function(result) {
+					console.log("Balance: "  +result);
+				});
+      });
+
     };
 
     this.savingsGoal = function () {

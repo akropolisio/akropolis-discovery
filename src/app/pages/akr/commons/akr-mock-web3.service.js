@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('akr-commons')
-		.service('AkrWeb3Service', AkrWeb3Service);
+		.service('MAkrWeb3Service', AkrWeb3Service);
 
 	/** @ngInject */
 	function AkrWeb3Service($q) {

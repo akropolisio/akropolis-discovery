@@ -72,7 +72,9 @@
 						"maxOpened": 0,
 						"preventDuplicates": false,
 						"preventOpenDuplicates": false
-					})
+					});
+				//Initial account funding
+				AkrWeb3Service.buyAETTokens(100);
 			 });
 
 
