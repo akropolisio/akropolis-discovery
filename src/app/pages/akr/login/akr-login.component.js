@@ -25,6 +25,10 @@
       $location.path('/signup')
     };
 
+		ctrl.signIn = function () {
+			console.log('signIn');
+			$location.path('/dashboard');
+		}
 
   }
 })();

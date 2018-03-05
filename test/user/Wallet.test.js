@@ -43,7 +43,7 @@ contract('Wallet', function ([owner]) {
 		wallet = await Wallet.new(registry.address, paymentGateway.address);
 		await wallet.makeDeposit(100);
 
-		//(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
+		(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
 	});
 
 

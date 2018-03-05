@@ -15,7 +15,7 @@ contract('User', function ([]) {
 	let user;
 
 	it('should create a user', async function () {
-		user = await User.new(DOB.unix());
+		user = await User.new(DOB.unix(), 0x0);
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
 	});
 
