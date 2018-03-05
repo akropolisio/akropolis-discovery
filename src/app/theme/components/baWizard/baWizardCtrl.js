@@ -5,7 +5,7 @@
     .controller('baWizardCtrl', baWizardCtrl);
 
   /** @ngInject */
-  function baWizardCtrl($scope, $location, $timeout, toastr) {
+  function baWizardCtrl($scope, $location, $timeout, toastr, AkrMsgCenterService) {
     var vm = this;
     vm.tabs = [];
 
@@ -73,6 +73,9 @@
           "preventOpenDuplicates": false
         })
       }, 500);
+
+      AkrMsgCenterService.message('message', 'Your account is being verified now. We\'ll notify you as soon as that\'s complete')
+      AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification')
 
     };
 

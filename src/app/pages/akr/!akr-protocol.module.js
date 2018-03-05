@@ -8,11 +8,11 @@
       'akr-login',
       'akr-signup',
       'akr-dashboard',
-      'akr-pension'
+      'akr-pension',
+      'akr-msg-center'
     ])
     .config(routeConfig)
     .config(toastrConfig);
-  ;
 
   /** @ngInject */
   function routeConfig($stateProvider) {
