@@ -13,10 +13,14 @@
       </div>
       <div class="header right">
         <div class="main">
-          <a ng-if="$ctrl.showDepositLink" href="#!/savings/deposit">Deposit Funds</a>{{ $ctrl.saving.balance | gbp }}
+          {{ $ctrl.saving.balance | gbp }}
+
         </div>
         <div class="sub">
           {{ $ctrl.saving.additionalInfo }}
+        </div>
+        <div style="position: absolute; top: 70px; right: 20px;">
+          <a href="#!/savings/deposit"><i class="fa fa-credit-card" style="font-size: 36px;"></i></a>
         </div>
       </div>
     </div>

@@ -40,7 +40,19 @@
         padding-left: 10px;
       }
     }
-
   }
+
+  .create-button {
+    font-size: 18px;
+    text-align: center;
+    clear: both;
+  }
+
+  .create-button:hover {
+    color: #209e91;
+    cursor: pointer;
+  }
+
+
 
 }

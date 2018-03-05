@@ -10,7 +10,7 @@
     });
 
   /** @ngInject */
-  function ComponentController(AkrWeb3Service) {
+  function ComponentController($location, AkrWeb3Service) {
     var ctrl = this;
     ctrl.depositAmount = 100;
 
@@ -19,6 +19,13 @@
     ctrl.brutto = function () {
       return ctrl.depositAmount + FEE * ctrl.depositAmount;
     };
+
+    ctrl.deposit = function () {
+      //TODO - check if we come from saving accounts wizard
+			AkrWeb3Service.createSavingAccounts().then(function(result) {
+				$location.path('/dashboard');
+      });
+    }
 
 
   }

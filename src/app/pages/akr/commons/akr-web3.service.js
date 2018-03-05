@@ -7,7 +7,9 @@
   /** @ngInject */
   function AkrWeb3Service($q) {
 
-    var mockAccounts = {
+    var savingsAccountsCreated = false;
+
+    var mockSavingsAccounts = {
       VOLUNTARY: {
         label: 'Pension',
         balance: 20000,
@@ -36,8 +38,13 @@
       });
     };
 
+    this.createSavingAccounts = function() {
+			savingsAccountsCreated = true;
+      return $q.when(true);
+    };
+
     this.accounts = function () {
-      return $q.when(mockAccounts);
+      return $q.when(savingsAccountsCreated ? mockSavingsAccounts : {});
     };
 
     //Acropolis External Token

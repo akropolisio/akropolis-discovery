@@ -14,7 +14,7 @@
           <p>Your account will be charged <b>{{ $ctrl.brutto() | gbp_2 }}</b></p>
         </div>
 
-        <a href="#!/dashboard" class="btn btn-primary btn-lg">
+        <a ng-click="$ctrl.deposit()" class="btn btn-primary btn-lg">
           Deposit Now
         </a>
 

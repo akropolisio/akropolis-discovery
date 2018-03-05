@@ -9,7 +9,7 @@
 
 
   /** @ngInject */
-  function ComponentController(AkrWeb3Service) {
+  function ComponentController($location, AkrWeb3Service) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
@@ -17,5 +17,16 @@
         ctrl.accounts = result;
       });
     };
+
+    ctrl.createSavingAccounts = function () {
+			$location.path('/savings/introduction');
+    };
+
+    ctrl.hasSavingAccounts = function() {
+      return Object.keys(ctrl.accounts).length > 0;
+    };
+
+
+
   }
 })();
