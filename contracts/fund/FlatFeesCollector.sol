@@ -9,12 +9,10 @@ import './FeesCollector.sol';
  * @title FlatFeesCollector
  * @dev Implementation of a Fees Collector that takes the same fee for every investment
  */
-contract FlatFeesCollector {
+contract FlatFeesCollector is FeesCollector {
 
-    AkropolisToken AET;
-
-    function FlatFeesCollector(AkropolisToken _aet) {
-        AET = _aet;
+    function FlatFeesCollector(AkropolisToken _aet)
+        FeesCollector(_aet) {
     }
 
     function collectInvestmentFee(address _investor, ERC20 _token, uint _amount) public {
