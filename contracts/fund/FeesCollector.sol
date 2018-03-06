@@ -11,10 +11,10 @@ import '../tokens/AkropolisToken.sol';
  */
 contract FeesCollector {
 
-    AkropolisToken AET;
+    AkropolisToken aet;
 
     function FeesCollector(AkropolisToken _aet) public {
-        AET = _aet;
+        aet = _aet;
     }
 
     function collectInvestmentFee(address _investor, ERC20 _token, uint _amount) public;

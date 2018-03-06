@@ -11,13 +11,13 @@ import './FeesCollector.sol';
  */
 contract FlatFeesCollector is FeesCollector {
 
-    function FlatFeesCollector(AkropolisToken _aet)
+    function FlatFeesCollector(AkropolisToken _aet) public
         FeesCollector(_aet) {
     }
 
     function collectInvestmentFee(address _investor, ERC20 _token, uint _amount) public {
         uint256 fee = calculateInvestmentFee(_token, _amount);
-        AET.transferFrom(_investor, msg.sender, fee);
+        aet.transferFrom(_investor, msg.sender, fee);
     }
 
 
