@@ -29,7 +29,7 @@ contract PensionFund is Ownable, PricingOracle {
 
 
     function investFromUser(ERC20 _token, uint256 _amount) public {
-        aet.transferFrom(msg.sender, address(this), _amount);
+        _token.transferFrom(msg.sender, address(this), _amount);
         feesCollector.collectInvestmentFee(msg.sender, _token, _amount);
     }
 
