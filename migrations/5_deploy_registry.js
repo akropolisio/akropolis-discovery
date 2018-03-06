@@ -1,6 +1,7 @@
 const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
+const AkropolisToken = artifacts.require('./AkropolisToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
 
 module.exports = async function(deployer) {
-	await deployer.deploy(PensionFundsRegistry, StakingPool.address);
+	await deployer.deploy(PensionFundsRegistry, AkropolisToken.address, StakingPool.address);
 };
