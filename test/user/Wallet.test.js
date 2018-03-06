@@ -22,7 +22,7 @@ contract('Wallet', function ([owner]) {
 	before(async function () {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await PensionFundsRegistry.new(pool.address);
+		registry = await PensionFundsRegistry.new(token.address, pool.address);
 		fund = await PensionFund.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
 		usd = DigitalUSD.at(await paymentGateway.usdToken());

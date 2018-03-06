@@ -19,7 +19,7 @@ contract('Pension Funds Registry', function ([owner]) {
 	before(async function () {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await PensionFundsRegistry.new(pool.address);
+		registry = await PensionFundsRegistry.new(token.address, pool.address);
 		fund = await PensionFund.new(token.address, "FUND");
 
 		await token.mint(fund.address, 100, {from: owner});
@@ -56,6 +56,20 @@ contract('Pension Funds Registry', function ([owner]) {
 
 		await registry.unregister("FUND");
 		(await registry.getFund("FUND")).should.be.bignumber.equal(0);
+	});
+
+
+	it('should create and register fund', async function () {
+		await token.mint(owner, 100, {from: owner});
+		await token.approve(registry.address, 100, {from: owner});
+		await registry.createAndRegisterPensionFund("CREATED", {from: owner});
+
+		var fundAddress = await registry.getFund("CREATED");
+		var fund = await PensionFund.at(fundAddress);
+
+		(await fund.owner()).should.be.equal(owner);
+		(await fund.aet()).should.be.equal(token.address);
+
 	});
 
 });

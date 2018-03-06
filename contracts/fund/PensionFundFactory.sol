@@ -2,7 +2,6 @@ pragma solidity ^0.4.18;
 
 import '../tokens/AkropolisToken.sol';
 import '../network/StakingPool.sol';
-import './FeesCollector.sol';
 import './FlatFeesCollector.sol';
 import './PensionFund.sol';
 
@@ -13,21 +12,21 @@ import './PensionFund.sol';
  */
 contract PensionFundFactory {
 
-    AkropolisToken public akropolisToken;
+    AkropolisToken public aet;
     FeesCollector public feesCollector;
 
 
-    function PensionFundFactory(AkropolisToken _akropolisToken) public {
-        akropolisToken = _akropolisToken;
-        feesCollector = new FlatFeesCollector(akropolisToken);
+    function PensionFundFactory(AkropolisToken _aet) public {
+        aet = _aet;
+        feesCollector = new FlatFeesCollector(aet);
     }
 
 
     //Consider passing feesCollector type as a parameter
-    function createPensionFund(bytes32 _symbol) public {
-        PensionFund fund = new PensionFund(akropolisToken, _symbol);
+    function createPensionFund(bytes32 _symbol) public returns(PensionFund) {
+        PensionFund fund = new PensionFund(aet, _symbol);
         fund.setFeesCollector(feesCollector);
-        fund.transferOwnership(msg.sender);
+        return fund;
     }
 
 }
