@@ -2,13 +2,27 @@ pragma solidity ^0.4.18;
 
 import '../user/Wallet.sol';
 import '../fund/PensionFund.sol';
-import './FeesCollector.sol';
 
 
 /**
  * @title FlatFeesCollector
  * @dev Implementation of a Fees Collector that takes the same fee for every investment
  */
+contract FeesCollector {
+
+    AkropolisToken aet;
+
+    function FeesCollector(AkropolisToken _aet) public {
+        aet = _aet;
+    }
+
+    function collectInvestmentFee(address _investor, ERC20 _token, uint _amount) public;
+
+
+    function calculateInvestmentFee(ERC20 _token, uint _amount) public view returns(uint256);
+
+}
+
 contract FlatFeesCollector is FeesCollector {
 
     function FlatFeesCollector(AkropolisToken _aet) public
