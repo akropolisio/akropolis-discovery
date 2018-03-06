@@ -21,7 +21,7 @@ contract('Pension Fund', function ([owner, wallet]) {
 	before(async function () {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
-		fund = await PensionFund.new(token.address);
+		fund = await PensionFund.new(token.address, "FUND");
 		feesCollector = await FlatFeesCollector.new(token.address);
 		usd = await DigitalUSD.new();
 

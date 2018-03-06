@@ -20,7 +20,7 @@ contract('Pension Funds Registry', function ([owner]) {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
 		registry = await PensionFundsRegistry.new(pool.address);
-		fund = await PensionFund.new(token.address);
+		fund = await PensionFund.new(token.address, "FUND");
 
 		await token.mint(fund.address, 100, {from: owner});
 		(await token.balanceOf(fund.address)).should.be.bignumber.equal(100);
@@ -34,25 +34,25 @@ contract('Pension Funds Registry', function ([owner]) {
 
 
 	it('should NOT allow registering without staking', async function () {
-		await fund.register(registry.address, "FUND").should.be.rejectedWith('revert');
+		await fund.register(registry.address).should.be.rejectedWith('revert');
 	});
 
 
 	it('should allow registering', async function () {
 		await fund.stake(pool.address, 100);
-		await fund.register(registry.address, "FUND");
+		await fund.register(registry.address);
 		(await registry.getFund("FUND")).should.be.equal(fund.address);
 	});
 
 
 	it('should allow unregistering by pension fund', async function () {
-		await fund.unregister(registry.address, "FUND");
+		await fund.unregister(registry.address);
 		(await registry.getFund("FUND")).should.be.bignumber.equal(0);
 	});
 
 
 	it('should allow unregistering by the owner', async function () {
-		await fund.register(registry.address, "FUND");
+		await fund.register(registry.address);
 
 		await registry.unregister("FUND");
 		(await registry.getFund("FUND")).should.be.bignumber.equal(0);

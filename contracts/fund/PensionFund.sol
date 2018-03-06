@@ -5,20 +5,26 @@ import '../tokens/AkropolisToken.sol';
 import '../network/PensionFundsRegistry.sol';
 import '../network/StakingPool.sol';
 import './FeesCollector.sol';
+import '../assets/Shares.sol';
 
 
 /**
  * @title PensionFund
  * @dev Pension funds that manages users deposits
  */
-contract PensionFund is Ownable {
+contract PensionFund is Ownable, PricingOracle {
 
     AkropolisToken public akropolisToken;
     FeesCollector public feesCollector;
+    Shares public shares;
 
+    uint256 public totalShares;
+    bytes32 public symbol;
 
-    function PensionFund(AkropolisToken _akropolisToken) public {
+    function PensionFund(AkropolisToken _akropolisToken, bytes32 _symbol) public {
         akropolisToken = _akropolisToken;
+        symbol = _symbol;
+        shares = new Shares(symbol, this);
     }
 
 
@@ -39,18 +45,25 @@ contract PensionFund is Ownable {
     }
 
 
-    function register(PensionFundsRegistry _registry, bytes32 _name) onlyOwner public {
-        _registry.register(_name);
+    function register(PensionFundsRegistry _registry) onlyOwner public {
+        _registry.register(symbol);
     }
 
 
-    function unregister(PensionFundsRegistry _registry, bytes32 _name) onlyOwner public {
-        _registry.unregister(_name);
+    function unregister(PensionFundsRegistry _registry) onlyOwner public {
+        _registry.unregister(symbol);
     }
 
 
     function setFeesCollector(FeesCollector _feesCollector) onlyOwner public {
         feesCollector = _feesCollector;
+    }
+
+    //In a simple model pension fund can act as it's own pricing oracle,
+    //in a more complex scenario (audited fund) we can use a separate contract
+    function getRelativePrice(Asset _subject, Asset _reference) public view returns(uint256) {
+        //Forward valuation to assets once the investment module is implemented
+        return 1;
     }
 
 }

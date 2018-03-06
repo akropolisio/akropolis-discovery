@@ -1,7 +1,8 @@
 'use strict'
 
-const UserRegistry = artifacts.require('./UserRegistry.sol');
 const Moment = require('moment');
+
+const UserRegistry = artifacts.require('./UserRegistry.sol');
 const User = artifacts.require('./User.sol');
 const AkropolisToken = artifacts.require('./AkropolisToken.sol');
 const AETFaucet = artifacts.require('./AETFaucet.sol');
@@ -21,14 +22,17 @@ contract('User Registry', function ([owner, userAccount]) {
 	let registry, user, token, faucet;
 
 	before(async function () {
-		registry = await UserRegistry.new();
-		token = await AkropolisToken.new();
-		faucet = await AETFaucet.new(token.address);
+		registry = await UserRegistry.deployed();
+		token = await AkropolisToken.deployed();
+		faucet = await AETFaucet.deployed()
 		token.mint(faucet.address, web3.toWei(1000000, "ether"));
 	});
 
 	it('should crate a user contract', async function () {
-		user = await User.new(DOB.unix(), {from: userAccount});
+		await registry.createUser(DOB.unix(), {from: userAccount});
+		user = User.at(await registry.getUserContract(userAccount));
+
+		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
 	});
 
 	it('should fund it with AET Tokens', async function () {
@@ -37,10 +41,5 @@ contract('User Registry', function ([owner, userAccount]) {
 		(await token.balanceOf(user.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 	});
 
-	it('should register a user', async function () {
-		await registry.registerUser(userAccount, user.address);
-		var userContract = await registry.getUserContract(userAccount);
-		userContract.should.be.equal(user.address);
-	});
 
 });
