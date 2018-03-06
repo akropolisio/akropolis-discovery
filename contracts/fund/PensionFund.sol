@@ -4,7 +4,7 @@ import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import '../tokens/AkropolisToken.sol';
 import '../network/PensionFundsRegistry.sol';
 import '../network/StakingPool.sol';
-import './FeesCollector.sol';
+import './FlatFeesCollector.sol';
 import '../assets/Shares.sol';
 
 
@@ -14,28 +14,28 @@ import '../assets/Shares.sol';
  */
 contract PensionFund is Ownable, PricingOracle {
 
-    AkropolisToken public akropolisToken;
+    AkropolisToken public aet;
     FeesCollector public feesCollector;
     Shares public shares;
 
     uint256 public totalShares;
     bytes32 public symbol;
 
-    function PensionFund(AkropolisToken _akropolisToken, bytes32 _symbol) public {
-        akropolisToken = _akropolisToken;
+    function PensionFund(AkropolisToken _aet, bytes32 _symbol) public {
+        aet = _aet;
         symbol = _symbol;
         shares = new Shares(symbol, this);
     }
 
 
     function investFromUser(ERC20 _token, uint256 _amount) public {
-        _token.transferFrom(msg.sender, address(this), _amount);
+        aet.transferFrom(msg.sender, address(this), _amount);
         feesCollector.collectInvestmentFee(msg.sender, _token, _amount);
     }
 
 
     function stake(StakingPool _stakingPool, uint256 _amount) onlyOwner public {
-        akropolisToken.approve(_stakingPool, _amount);
+        aet.approve(_stakingPool, _amount);
         _stakingPool.stake(_amount);
     }
 
