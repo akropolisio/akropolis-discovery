@@ -13,7 +13,7 @@ contract FeesCollector {
 
     AkropolisToken AET;
 
-    function FeesCollector(AkropolisToken _aet) {
+    function FeesCollector(AkropolisToken _aet) public {
         AET = _aet;
     }
 

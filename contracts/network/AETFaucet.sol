@@ -14,7 +14,7 @@ contract AETFaucet is Pausable {
 
     AkropolisToken public aet;
 
-    function AETFaucet(AkropolisToken _aet) {
+    function AETFaucet(AkropolisToken _aet) public {
         aet = _aet;
     }
 

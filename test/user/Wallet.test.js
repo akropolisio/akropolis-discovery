@@ -23,7 +23,7 @@ contract('Wallet', function ([owner]) {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
 		registry = await PensionFundsRegistry.new(pool.address);
-		fund = await PensionFund.new(token.address);
+		fund = await PensionFund.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
 		usd = DigitalUSD.at(await paymentGateway.usdToken());
 	});
@@ -33,7 +33,7 @@ contract('Wallet', function ([owner]) {
 		await token.mint(fund.address, 100, {from: owner});
 		await registry.setMinStake(100, {from: owner});
 		await fund.stake(pool.address, 100);
-		await fund.register(registry.address, "FUND");
+		await fund.register(registry.address);
 
 		(await registry.getFund("FUND")).should.be.equal(fund.address);
 	});

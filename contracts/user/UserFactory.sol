@@ -13,13 +13,11 @@ contract UserFactory is Ownable {
 
     event Created(address indexed accountAddress, address indexed userContract);
 
-    UserRegistry public userRegistry;
     PensionFundsRegistry public pensionFundsRegistry;
     PaymentGateway public paymentGateway;
 
 
     function UserFactory(PensionFundsRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
-        userRegistry = new UserRegistry();
         pensionFundsRegistry = _pensionFundsRegistry;
         paymentGateway = _paymentGateway;
     }
@@ -30,7 +28,6 @@ contract UserFactory is Ownable {
         User user = new User(_dateOfBirth, wallet);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);
-        userRegistry.registerUser(msg.sender, user);
         return user;
     }
 

@@ -2,7 +2,8 @@
 
 const Moment = require('moment');
 
-const UserFactory = artifacts.require('./UserFactory.sol');
+const User = artifacts.require('./User.sol');
+const UserRegistry = artifacts.require('./UserRegistry.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -15,15 +16,18 @@ contract('User Factory', function ([owner, userAccount]) {
 
 	const DOB = Moment("1983-09-19");
 
-	let factory;
+	let registry, user;
 
 	before(async function () {
-		factory = await UserFactory.deployed();
+		registry = await UserRegistry.deployed();
 	});
 
 
 	it('should create a user', async function () {
-		await factory.createUser(DOB.unix(), {from: userAccount});
+		await registry.createUser(DOB.unix(), {from: userAccount});
+		user = User.at(await registry.getUserContract(userAccount));
+
+		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
 	});
 
 
