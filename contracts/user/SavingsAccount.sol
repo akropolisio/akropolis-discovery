@@ -12,26 +12,36 @@ contract SavingsAccount is Ownable {
 
     PensionFundsRegistry registry;
 
-    mapping(bytes32 => PensionFund) shares;
+    mapping(bytes32 => bool) funds;
+    bytes32[] fundsList;
 
     function SavingsAccount(PensionFundsRegistry _pensionFundsRegistry) public {
         registry = _pensionFundsRegistry;
     }
 
-    function balanceOfFund(bytes32 _fundName) public view returns(uint256) {
-        return 0;
-    }
-
-    function valueOfFund(bytes32 _fundName) public view returns(uint256) {
-        return 0;
-    }
-
     function addFund(bytes32 _fundName) public onlyOwner {
-
+        require(fundsList.length < 16);
+        if (!funds[_fundName]) {
+            funds[_fundName] = true;
+            fundsList.push(_fundName);
+        }
     }
 
-    function removeFund(bytes32 _fundName) public onlyOwner {
-
+    function balanceOfFund(bytes32 _fundName) public view returns(uint256) {
+        return registry.getFund(_fundName).balanceOf(this);
     }
+
+    function valueOfFund(bytes32 _fundName, ERC20 _reference) public view returns(uint256) {
+        return registry.getFund(_fundName).valueOf(this, _reference);
+    }
+
+    function totalValue(ERC20 _reference) public view returns(uint256) {
+        uint256 total = 0;
+        for(uint256 i = 0; i < fundsList.length; i++) {
+            total = total.add(balanceOfFund(fundsList[i]));
+        }
+        return total;
+    }
+
 
 }

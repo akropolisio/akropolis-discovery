@@ -38,6 +38,13 @@ contract User is Ownable {
         openSavingAccount("SHORT_TERM", _pensionFundsRegistry);
     }
 
+    function invest(bytes32 _fundName, uint256 _amount, bytes32 _accountName) public onlyOwner {
+        wallet.makeDeposit(_amount);
+        SavingsAccount account = savingAccounts[_accountName];
+        account.addFund(_fundName);
+        wallet.invest(_fundName, _amount, savingAccounts[_accountName]);
+    }
+
 
     function getSavingAccountByName(bytes32 _name) public view returns(SavingsAccount) {
         return savingAccounts[_name];

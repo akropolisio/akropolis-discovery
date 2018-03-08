@@ -21,10 +21,10 @@ contract UserRegistry is Ownable {
         userFactory = new UserFactory(_pensionFundsRegistry, _paymentGateway);
     }
 
-    function createUser(uint256 _dateOfBirth) {
+    function createUser(uint256 _dateOfBirth) public {
         User user = userFactory.createUser(_dateOfBirth);
         user.transferOwnership(msg.sender);
-        user.wallet().transferOwnership(msg.sender);
+        user.wallet().transferOwnership(user);
         registerUser(msg.sender, user);
     }
 
