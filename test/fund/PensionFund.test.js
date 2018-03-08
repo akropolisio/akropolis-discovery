@@ -5,6 +5,7 @@ const StakingPool = artifacts.require('./StakingPool.sol');
 const PensionFund = artifacts.require('./PensionFund.sol');
 const FlatFeesCollector  = artifacts.require('./FlatFeesCollector.sol');
 const DigitalUSD  = artifacts.require('./DigitalUSD.sol');
+const Shares = artifacts.require('./Shares.sol');
 
 const Moment = require('moment');
 const BigNumber = web3.BigNumber;
@@ -14,9 +15,9 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should();
 
-contract('Pension Fund', function ([owner, wallet]) {
+contract('Pension Fund', function ([owner, wallet, savingAccount]) {
 
-	let token, pool, fund, feesCollector, usd;
+	let token, pool, fund, feesCollector, usd, shares;
 
 	before(async function () {
 		token = await AkropolisToken.new();
@@ -24,6 +25,7 @@ contract('Pension Fund', function ([owner, wallet]) {
 		fund = await PensionFund.new(token.address, "FUND");
 		feesCollector = await FlatFeesCollector.new(token.address);
 		usd = await DigitalUSD.new();
+		shares = Shares.at(await fund.shares());
 
 		fund.setFeesCollector(feesCollector.address);
 		await token.mint(fund.address, 100, {from: owner});
@@ -59,7 +61,12 @@ contract('Pension Fund', function ([owner, wallet]) {
 		await token.approve(feesCollector.address, 1, {from: wallet});
 		await usd.approve(fund.address, 100, {from: wallet});
 
-		await fund.investFromUser(usd.address, 100, {from: wallet});
+		//No shares before the investment
+		(await shares.balanceOf(savingAccount)).should.be.bignumber.equal(0);
+
+		await fund.investFromUser(usd.address, 100, savingAccount, {from: wallet});
+
+		//Should issue shares after the investment
 
 
 		(await token.balanceOf(fund.address)).should.be.bignumber.equal(101);

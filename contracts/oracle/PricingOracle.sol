@@ -9,6 +9,6 @@ import '../assets/Asset.sol';
  */
 contract PricingOracle is Ownable {
 
-    function getRelativePrice(Asset _subject, Asset _reference) public view returns(uint256);
+    function getRelativePrice(Asset _subject, ERC20 _reference) public view returns(uint256);
 
 }

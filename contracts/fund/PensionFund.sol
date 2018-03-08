@@ -1,11 +1,14 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+
 import '../tokens/AkropolisToken.sol';
 import '../network/PensionFundsRegistry.sol';
 import '../network/StakingPool.sol';
 import './FlatFeesCollector.sol';
 import '../assets/Shares.sol';
+import '../user/SavingsAccount.sol';
 
 
 /**
@@ -13,6 +16,7 @@ import '../assets/Shares.sol';
  * @dev Pension funds that manages users deposits
  */
 contract PensionFund is Ownable, PricingOracle {
+    using SafeMath for uint256;
 
     AkropolisToken public aet;
     FeesCollector public feesCollector;
@@ -28,9 +32,11 @@ contract PensionFund is Ownable, PricingOracle {
     }
 
 
-    function investFromUser(ERC20 _token, uint256 _amount) public {
+    function investFromUser(ERC20 _token, uint256 _amount, SavingsAccount _savingsAccount) public {
         _token.transferFrom(msg.sender, address(this), _amount);
         feesCollector.collectInvestmentFee(msg.sender, _token, _amount);
+        uint256 ratio = getRelativePrice(shares, _token);
+        shares.issueShares(_savingsAccount, _amount.mul(ratio));
     }
 
 
@@ -61,8 +67,9 @@ contract PensionFund is Ownable, PricingOracle {
 
     //In a simple model pension fund can act as it's own pricing oracle,
     //in a more complex scenario (audited fund) we can use a separate contract
-    function getRelativePrice(Asset _subject, Asset _reference) public view returns(uint256) {
+    function getRelativePrice(Asset _subject, ERC20 _reference) public view returns(uint256) {
         //Forward valuation to assets once the investment module is implemented
+        //Deal with calculation precision
         return 1;
     }
 
