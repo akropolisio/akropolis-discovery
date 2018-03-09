@@ -40,7 +40,7 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		user = User.at(await userRegistry.getUserContract(userAccount));
 		var walletAddress = await user.wallet();
 		await aet.mint(walletAddress, 100, {from: owner});
-		await user.createDefaultAccounts(fundRegistry.address, {from: userAccount});
+		await user.createDefaultAccounts({from: userAccount});
 		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());

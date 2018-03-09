@@ -27,7 +27,7 @@ contract('User', function ([owner, userAccount]) {
 	});
 
 	it('should open a saving account', async function () {
-		await user.openSavingAccount("FIRST", registry.address, {from: userAccount});
+		await user.openSavingAccount("FIRST", {from: userAccount});
 	  var accountAddress = await user.getSavingAccountByName("FIRST");
 	  var account = await SavingsAccount.at(accountAddress);
 
@@ -36,7 +36,7 @@ contract('User', function ([owner, userAccount]) {
 	});
 
 	it('should create a 3 pot system', async function () {
-		await user.createDefaultAccounts(registry.address, {from: userAccount});
+		await user.createDefaultAccounts({from: userAccount});
 
 		(await user.getSavingAccountsCount()).should.be.bignumber.equal(4);
 	});

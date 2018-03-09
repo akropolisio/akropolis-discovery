@@ -26,6 +26,7 @@ contract UserFactory is Ownable {
     function createUser(uint256 _dateOfBirth) public returns(User) {
         Wallet wallet = new Wallet(pensionFundsRegistry, paymentGateway);
         User user = new User(_dateOfBirth, wallet);
+        user.setPensionFundsRegistry(pensionFundsRegistry);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);
         return user;

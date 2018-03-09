@@ -16,6 +16,7 @@ contract User is Ownable {
     uint256 public dateOfBirth;
     Wallet public wallet;
     InvestmentStrategy public investmentStrategy;
+    PensionFundsRegistry public pensionFundsRegistry;
 
     mapping(bytes32 => SavingsAccount) savingAccounts;
     bytes32[] savingAccountsList;
@@ -26,18 +27,18 @@ contract User is Ownable {
     }
 
 
-    function openSavingAccount(bytes32 _name, PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
+    function openSavingAccount(bytes32 _name) public onlyOwner {
         require(savingAccountsList.length < 16);
         require(address(savingAccounts[_name]) == 0x0);
-        SavingsAccount account = new SavingsAccount(_pensionFundsRegistry);
+        SavingsAccount account = new SavingsAccount(pensionFundsRegistry);
         savingAccounts[_name] = account;
         savingAccountsList.push(_name);
     }
 
-    function createDefaultAccounts(PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
-        openSavingAccount("VOLUNTARY", _pensionFundsRegistry);
-        openSavingAccount("EMERGENCY", _pensionFundsRegistry);
-        openSavingAccount("SHORT_TERM", _pensionFundsRegistry);
+    function createDefaultAccounts() public onlyOwner {
+        openSavingAccount("VOLUNTARY");
+        openSavingAccount("EMERGENCY");
+        openSavingAccount("SHORT_TERM");
     }
 
     function createFixedAllocationInvestmentStrategy(bytes32[] _fundNames, uint256[] _allocations) onlyOwner public {
@@ -73,6 +74,11 @@ contract User is Ownable {
 
     function getSavingAccountsCount() public view returns(uint256) {
         return savingAccountsList.length;
+    }
+
+
+    function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) {
+        pensionFundsRegistry = _pensionFundsRegistry;
     }
 
 }
