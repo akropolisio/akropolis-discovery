@@ -4,6 +4,7 @@ import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './Wallet.sol';
 import './SavingsAccount.sol';
 import '../network/PensionFundsRegistry.sol';
+import './InvestmentStrategy.sol';
 
 
 /**
@@ -14,6 +15,7 @@ contract User is Ownable {
 
     uint256 public dateOfBirth;
     Wallet public wallet;
+    InvestmentStrategy public investmentStrategy;
 
     mapping(bytes32 => SavingsAccount) savingAccounts;
     bytes32[] savingAccountsList;
@@ -38,13 +40,26 @@ contract User is Ownable {
         openSavingAccount("SHORT_TERM", _pensionFundsRegistry);
     }
 
-    function invest(bytes32 _fundName, uint256 _amount, bytes32 _accountName) public onlyOwner {
+    function createFixedAllocationInvestmentStrategy(bytes32[] _fundNames, uint256[] _allocations) onlyOwner public {
+        investmentStrategy = new FixedAllocationInvestmentStrategy(_fundNames, _allocations);
+    }
+
+    function invest(uint256 _amount, bytes32 _accountName) public onlyOwner {
+        uint256 recommendationsCount = investmentStrategy.getNumberOfRecommendations();
+        for(uint256 i=0; i <investmentStrategy.getNumberOfRecommendations(); i++) {
+            bytes32 fundName;
+            uint256 fundAmount;
+            (fundName, fundAmount) = investmentStrategy.getRecommendedInvestment(i, _amount);
+            investIntoFund(fundName, fundAmount, _accountName);
+        }
+    }
+
+    function investIntoFund(bytes32 _fundName, uint256 _amount, bytes32 _accountName) public onlyOwner {
         wallet.makeDeposit(_amount);
         SavingsAccount account = savingAccounts[_accountName];
         account.addFund(_fundName);
         wallet.invest(_fundName, _amount, savingAccounts[_accountName]);
     }
-
 
     function getSavingAccountByName(bytes32 _name) public view returns(SavingsAccount) {
         return savingAccounts[_name];

@@ -11,6 +11,7 @@ const AkropolisToken = artifacts.require('./AkropolisToken.sol');
 const Wallet = artifacts.require('./Wallet.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
 const DigitalUSD = artifacts.require('./DigitalUSD.sol');
+const InvestmentStrategy = artifacts.require('./InvestmentStrategy.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -19,11 +20,11 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should();
 
-contract('Investment', function ([owner, userAccount, fundAccount]) {
+contract('Investment with strategy scenario', function ([owner, userAccount, fund1Account, fund2Account]) {
 
 	const DOB = Moment("1983-09-19");
 
-	let userRegistry, user, fundRegistry, fund, aet, usd, savingsAccount;
+	let userRegistry, user, fundRegistry, fund1, fund2, aet, usd, savingsAccount;
 
 	before(async function () {
 		userRegistry = await UserRegistry.deployed();
@@ -48,13 +49,31 @@ contract('Investment', function ([owner, userAccount, fundAccount]) {
 	});
 
 
-	it('should create a pension fund', async function () {
-		await aet.mint(fundAccount, 100, {from: owner});
-		await aet.approve(fundRegistry.address, 100, {from: fundAccount});
-		await fundRegistry.createAndRegisterPensionFund("FUND", {from: fundAccount});
-		fund = PensionFund.at(await fundRegistry.getFund("FUND"));
+	it('should create first pension fund', async function () {
+		await aet.mint(fund1Account, 100, {from: owner});
+		await aet.approve(fundRegistry.address, 100, {from: fund1Account});
+		await fundRegistry.createAndRegisterPensionFund("FUND_1", {from: fund1Account});
+		fund1 = PensionFund.at(await fundRegistry.getFund("FUND_1"));
 
-		(await fund.owner()).should.be.equal(fundAccount);
+		(await fund1.owner()).should.be.equal(fund1Account);
+	});
+
+
+	it('should create second pension fund', async function () {
+		await aet.mint(fund2Account, 100, {from: owner});
+		await aet.approve(fundRegistry.address, 100, {from: fund2Account});
+		await fundRegistry.createAndRegisterPensionFund("FUND_2", {from: fund2Account});
+		fund2 = PensionFund.at(await fundRegistry.getFund("FUND_2"));
+
+		(await fund2.owner()).should.be.equal(fund2Account);
+	});
+
+
+	it('should create investment strategy', async function () {
+		await user.createFixedAllocationInvestmentStrategy(["FUND_1", "FUND_2"], [80, 20], {from: userAccount});
+		var strategy = InvestmentStrategy.at(await user.investmentStrategy());
+
+		(await strategy.getNumberOfRecommendations()).should.be.bignumber.equal(2);
 	});
 
 
@@ -62,9 +81,9 @@ contract('Investment', function ([owner, userAccount, fundAccount]) {
 		var wallet = Wallet.at(await user.wallet());
 		(await wallet.balance(aet.address)).should.be.bignumber.equal(100);
 
-		await user.invest("FUND", 100, "VOLUNTARY", {from: userAccount});
+		await user.invest(100, "VOLUNTARY", {from: userAccount});
 
-		(await wallet.balance(aet.address)).should.be.bignumber.equal(99);
+		(await wallet.balance(aet.address)).should.be.bignumber.equal(98);
 		(await savingsAccount.totalValue(usd.address)).should.be.bignumber.equal(100);
 	});
 
