@@ -39,7 +39,7 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 		user = User.at(await userRegistry.getUserContract(userAccount));
 		var walletAddress = await user.wallet();
 		await aet.mint(walletAddress, 100, {from: owner});
-		await user.createDefaultAccounts(fundRegistry.address, {from: userAccount});
+		await user.createDefaultAccounts({from: userAccount});
 		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
@@ -62,7 +62,7 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 		var wallet = Wallet.at(await user.wallet());
 		(await wallet.balance(aet.address)).should.be.bignumber.equal(100);
 
-		await user.invest("FUND", 100, "VOLUNTARY", {from: userAccount});
+		await user.investIntoFund("FUND", 100, "VOLUNTARY", {from: userAccount});
 
 		(await wallet.balance(aet.address)).should.be.bignumber.equal(99);
 		(await savingsAccount.totalValue(usd.address)).should.be.bignumber.equal(100);
