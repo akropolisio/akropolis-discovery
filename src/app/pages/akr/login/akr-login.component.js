@@ -31,7 +31,7 @@
 		};
 
 		ctrl.test = function() {
-			AkrWeb3Service.createUserAccount();
+			AkrWeb3Service.createSavingAccounts();
 		};
 
   }

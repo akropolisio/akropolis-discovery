@@ -21,7 +21,7 @@
     };
 
     ctrl.deposit = function () {
-      //TODO - check if we come from saving accounts wizard
+      //TODO - check if we come from saving accounts wizard and pass initial allocations
 			AkrWeb3Service.createSavingAccounts().then(function(result) {
 				$location.path('/dashboard');
       });

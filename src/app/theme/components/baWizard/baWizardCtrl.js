@@ -54,7 +54,7 @@
 
     vm.finish = function () {
       $location.path('/dashboard');
-			AkrWeb3Service.createAccount().then(function(result) {
+			AkrWeb3Service.createUserAccount().then(function(result) {
 			 	console.log(result);
 				toastr.info('<p>Your account is being verified now. We\'ll notify you as soon as that\'s complete.</p>\n' +
 					'          <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>',

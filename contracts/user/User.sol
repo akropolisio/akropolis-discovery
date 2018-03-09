@@ -26,19 +26,18 @@ contract User is Ownable {
         wallet = _wallet;
     }
 
+    function createDefaultAccounts() public onlyOwner {
+        openSavingAccount("VOLUNTARY");
+        openSavingAccount("EMERGENCY");
+        openSavingAccount("SHORT_TERM");
+    }
 
-    function openSavingAccount(bytes32 _name) public onlyOwner {
+    function openSavingAccount(bytes32 _name) internal {
         require(savingAccountsList.length < 16);
         require(address(savingAccounts[_name]) == 0x0);
         SavingsAccount account = new SavingsAccount(pensionFundsRegistry);
         savingAccounts[_name] = account;
         savingAccountsList.push(_name);
-    }
-
-    function createDefaultAccounts() public onlyOwner {
-        openSavingAccount("VOLUNTARY");
-        openSavingAccount("EMERGENCY");
-        openSavingAccount("SHORT_TERM");
     }
 
     function createFixedAllocationInvestmentStrategy(bytes32[] _fundNames, uint256[] _allocations) onlyOwner public {

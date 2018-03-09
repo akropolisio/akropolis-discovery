@@ -7,9 +7,9 @@ var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
 
 var mainAccount, userContract, networkId, faucet, token, user, wallet;
 
-const USER_REGISTRY = "0x5565c6484a8509ac16b263f04adc0a9b5dc8c785";
-const AET_FAUCET = "0xd6936c434d9d12220f36aee83d149c2c05a44067";
-const AET_TOKEN = "0x2e2d2b90853e40a85bf798db79e26cf1ab75337a";
+const USER_REGISTRY = "0xb083581c30bc2932fb15986af9e8022955cde071";
+const AET_FAUCET = "0x986e26b0f8a5860f4d434be772a6ccbea52bbf08";
+const AET_TOKEN = "0x4707460c8463e9c68e35caf6034b13bb4624fef5";
 
 function show(element, text) {
 	var element = document.getElementById(element);
@@ -110,16 +110,18 @@ window.Dapp = {
 	},
 
 	createDefaultAccounts: function() {
-		return user.createDefaultAccounts({from: mainAccount, gas: 1000000}).then(function(tx) {
-			console.log("Creating default savings accounts: " + tx.tx);
-			return tx;
-		});
+		console.log("Creating default savings accounts...");
+		return user.createDefaultAccounts({from: mainAccount, gas: 4000000});
 	},
 
 	buyAETTokens: function(value) {
 		var self = this;
-		console.log("Buying AET Tokens");
-		return faucet.getTokens(wallet, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
+		console.log("Buying AET Tokens: " + value);
+		return self.getUserContract().then(function(address) {
+			return self.fetchUser(address).then(function() {
+				return faucet.getTokens(wallet, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
+			});
+		});
 	},
 
 	getAETBalance: function() {

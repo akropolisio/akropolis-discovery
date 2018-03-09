@@ -58,8 +58,11 @@
     };
 
     this.createSavingAccounts = function() {
-			savingsAccountsCreated = true;
-      return $q.when(true);
+      return Dapp.createDefaultAccounts().then(function(tx) {
+			  console.log("Savings accounts created in: " + tx.tx);
+				savingsAccountsCreated = true;
+				return $q.when(true);
+			});
     };
 
     this.accounts = function () {
