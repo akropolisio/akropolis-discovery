@@ -1,6 +1,5 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
-var UserFactory = contract(require("../../build/contracts/UserFactory.json"));
 var AkropolisToken = contract(require("../../build/contracts/AkropolisToken.json"));
 var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
 var User = contract(require("../../build/contracts/User.json"));
@@ -8,9 +7,9 @@ var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
 
 var mainAccount, userContract, networkId, faucet, token, user, wallet;
 
-const USER_FACTORY = "0x147e2c9ac0d1ae1f9a36328ee28fe2e81602dee7";
-const AET_FAUCET = "0x9d5ce6e4239770ebf880afca3c2f2fb147411529";
-const AET_TOKEN = "0x8b9d26e55d182cb112b7c91ce743db28c987d9b3";
+const USER_REGISTRY = "0x5565c6484a8509ac16b263f04adc0a9b5dc8c785";
+const AET_FAUCET = "0xd6936c434d9d12220f36aee83d149c2c05a44067";
+const AET_TOKEN = "0x2e2d2b90853e40a85bf798db79e26cf1ab75337a";
 
 function show(element, text) {
 	var element = document.getElementById(element);
@@ -76,14 +75,44 @@ window.Dapp = {
 		return idToNetworkName(networkId);
 	},
 
-	createAccount: function() {
+	getUserContract: function() {
+		console.log("Getting user contract...");
+		return UserRegistry.at(USER_REGISTRY)
+		.then(function(registry) {
+				return registry.getUserContract(mainAccount);
+		}).then(function(account) {
+			  console.log("Found user contract: " + account);
+				return account;
+		})
+	},
+
+	fetchUser: function(userAddress)  {
+		console.log("Fetching user contract...");
+		console.log("User contract: " + userAddress);
+		return User.at(userAddress).then(function(instance) {
+			user = instance;
+			return user.wallet();
+		}).then(function(walletAddress) {
+			console.log("Wallet contract: " + walletAddress);
+			wallet = walletAddress;
+		});
+	},
+
+	createUserAccount: function() {
 		var self = this;
-		console.log("Hello from Dapp");
-		return UserFactory.at(USER_FACTORY).then(function(instance) {
-			return instance.createUser(1, {from: mainAccount, gas: 1000000}).then(function(tx) {
+		return UserRegistry.at(USER_REGISTRY).then(function(instance) {
+			console.log(instance);
+			return instance.createUser(1, {from: mainAccount, gas: 3000000}).then(function(tx) {
 				console.log("Creating user: " + tx.tx);
-				return self.getUserContract();
+				return self.hasAccount();
 			});
+		});
+	},
+
+	createDefaultAccounts: function() {
+		return user.createDefaultAccounts({from: mainAccount, gas: 1000000}).then(function(tx) {
+			console.log("Creating default savings accounts: " + tx.tx);
+			return tx;
 		});
 	},
 
@@ -98,32 +127,14 @@ window.Dapp = {
 	},
 
 	hasAccount: function() {
-		console.log("Checking has account");
-		return this.getUserContract().then(function() {
-		console.log("User: " + user);
-			if (user !== "0x0000000000000000000000000000000000000000") {
+		var self = this;
+		console.log("Checking has account...");
+		return self.getUserContract().then(function(userContractAddress) {
+			if (userContractAddress !== "0x0000000000000000000000000000000000000000") {
+				self.fetchUser(userContractAddress);
 				return true;
 			}
 			return false;
-		});
-	},
-
-	getUserContract: function() {
-		return UserFactory.at(USER_FACTORY).then(function(instance) {
-			return instance.userRegistry();
-		}).then(function(registryAddress) {
-			return UserRegistry.at(registryAddress);
-		}).then(function(registry) {
-			return registry.getUserContract(mainAccount);
-		}).then(function(userAddress) {
-			console.log("User contract: " + userAddress);
-			return User.at(userAddress);
-		}).then(function(instance) {
-			user = instance;
-			return user.wallet();
-		}).then(function(walletAddress) {
-			console.log("Wallet contract: " + walletAddress);
-			wallet = walletAddress;
 		});
 	},
 
@@ -143,7 +154,6 @@ window.addEventListener("load", function() {
 
 	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-	UserFactory.setProvider(web3.currentProvider);
 	AkropolisToken.setProvider(web3.currentProvider);
 	UserRegistry.setProvider(web3.currentProvider);
 	User.setProvider(web3.currentProvider);
@@ -164,6 +174,9 @@ window.addEventListener("load", function() {
 
 		AkropolisToken.at(AET_TOKEN).then(function(instance) {
 			token = instance;
+			token.balanceOf(faucet.address).then(function(balance) {
+				console.log("Initial faucet balance: " + balance.valueOf());
+			})
 		});
 
 		mainAccount = accounts[0];
