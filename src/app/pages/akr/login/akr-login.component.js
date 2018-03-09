@@ -28,7 +28,11 @@
 		ctrl.signIn = function () {
 			console.log('signIn');
 			$location.path('/dashboard');
-		}
+		};
+
+		ctrl.test = function() {
+			AkrWeb3Service.createUserAccount();
+		};
 
   }
 })();

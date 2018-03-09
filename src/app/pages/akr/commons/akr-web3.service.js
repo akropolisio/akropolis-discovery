@@ -28,8 +28,8 @@
       }
     };
 
-		this.createAccount = function () {
-			return Dapp.createAccount();
+		this.createUserAccount = function () {
+			return Dapp.createUserAccount();
 		};
 
     this.hasAccount = function () {
