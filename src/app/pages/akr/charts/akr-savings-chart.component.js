@@ -14,13 +14,6 @@
 
     ctrl.$onInit = function () {
       var layoutColors = baConfig.colors;
-      ctrl.colors = [
-        layoutColors.primary,
-        layoutColors.warning,
-        layoutColors.success,
-        layoutColors.danger,
-        layoutColors.info,
-        layoutColors.primaryDark];
 
       $q.all([AkrUserService.get(), AkrWeb3Service.savingsGoal(), AkrWeb3Service.accounts()])
         .then(function (result) {
@@ -34,9 +27,9 @@
           var savingGoalAge = savingGoals.age;
           var yearsLeft = savingGoalAge - age;
 
-          var pessimisticPercent = 0.02;
-          var normalPercent = 0.05;
-          var optimisticPercent = 0.08;
+          var pessimisticPercent = 0.06;
+          var normalPercent = 0.08;
+          var optimisticPercent = 0.10;
 
           var accountsSum = Object.keys(accounts)
             .map(function (key) {
@@ -69,9 +62,6 @@
             return ~~(base + percent * base);
           }
 
-          ctrl.areaData = areaData;
-
-
           var chart = AmCharts.makeChart("zoomAxisChart", {
             "type": "serial",
             "theme": "none",
@@ -89,31 +79,19 @@
               "labelFunction": function (value) {
                 return "$" + Math.round(value);
               }
-            }, {
-              color: layoutColors.defaultText,
-              axisColor: layoutColors.defaultText,
-              gridColor: layoutColors.defaultText,
-              "id": "v2",
-              "title": "Year to year growth",
-              "gridAlpha": 0,
-              "position": "right",
-              "autoGridCount": false,
-              "labelFunction": function (value) {
-                return "$" + Math.round(value);
-              }
             }],
             "graphs": [
               {
                 "id": "g3",
                 color: layoutColors.defaultText,
-                "valueAxis": "v2",
+                "valueAxis": "v1",
                 "lineColor": layoutColors.dashboard.surfieGreen,
                 "fillColors": layoutColors.dashboard.surfieGreen,
                 "fillAlphas": 1,
                 "lineAlpha": 1,
                 "type": "column",
                 "title": "Optimistic grow",
-                "valueField": "odiff",
+                "valueField": "o",
                 "clustered": false,
                 "columnWidth": 200,
                 "lineColorField": layoutColors.defaultText,
@@ -123,14 +101,14 @@
               {
                 "id": "g2",
                 color: layoutColors.defaultText,
-                "valueAxis": "v2",
+                "valueAxis": "v1",
                 "lineColor": layoutColors.dashboard.silverTree,
                 "fillColors": layoutColors.dashboard.silverTree,
                 "fillAlphas": 1,
                 "lineAlpha": 1,
                 "type": "column",
                 "title": "Normal grow",
-                "valueField": "ndiff",
+                "valueField": "n",
                 "clustered": false,
                 "columnWidth": 200,
                 "lineColorField": layoutColors.defaultText,
@@ -140,75 +118,20 @@
               {
                 "id": "g1",
                 color: layoutColors.defaultText,
-                "valueAxis": "v2",
+                "valueAxis": "v1",
                 "lineColor": layoutColors.dashboard.gossip,
                 "fillColors": layoutColors.dashboard.gossip,
                 "fillAlphas": 1,
                 "lineAlpha": 1,
                 "type": "column",
                 "title": "Pessimistic grow",
-                "valueField": "pdiff",
+                "valueField": "p",
                 "clustered": false,
                 "columnWidth": 200,
                 "lineColorField": layoutColors.defaultText,
                 "legendValueText": "$[[value]]",
                 "balloonText": "[[title]]<br/><b style='font-size: 130%'>$[[value]]</b>",
-              }
-              , {
-                "id": "g4",
-                "valueAxis": "v1",
-                "bullet": "round",
-                "bulletBorderAlpha": 1,
-                "bulletColor": layoutColors.defaultText,
-                color: layoutColors.defaultText,
-                "bulletSize": 5,
-                "hideBulletsCount": 50,
-                "lineThickness": 2,
-                "lineColor": layoutColors.danger,
-                "type": "smoothedLine",
-                "title": "Pessimistic",
-                "useLineColorForBulletBorder": true,
-                "valueField": "p",
-                "legendValueText": "$[[value]]",
-                "balloonText": "[[title]]<br/><b style='font-size: 130%'>$[[value]]</b>"
-              }, {
-                "id": "g5",
-                "valueAxis": "v1",
-                "bullet": "round",
-                "bulletBorderAlpha": 1,
-                "bulletColor": layoutColors.defaultText,
-                color: layoutColors.defaultText,
-                "bulletSize": 5,
-                "hideBulletsCount": 50,
-                "lineThickness": 2,
-                "lineColor": layoutColors.warning,
-                "type": "smoothedLine",
-                "title": "Normal",
-                "useLineColorForBulletBorder": true,
-                "valueField": "n",
-                "legendValueText": "$[[value]]",
-                "balloonText": "[[title]]<br/><b style='font-size: 130%'>$[[value]]</b>"
-              },
-              {
-                "id": "g6",
-                "valueAxis": "v1",
-                "bullet": "round",
-                "bulletBorderAlpha": 1,
-                "bulletColor": layoutColors.defaultText,
-                color: layoutColors.defaultText,
-                "bulletSize": 5,
-                "hideBulletsCount": 50,
-                "lineThickness": 2,
-                "lineColor": layoutColors.success,
-                "type": "smoothedLine",
-                "title": "Optimistic",
-                "useLineColorForBulletBorder": true,
-                "valueField": "o",
-                "legendValueText": "$[[value]]",
-                "balloonText": "[[title]]<br/><b style='font-size: 130%'>$[[value]]</b>"
-              }
-
-            ],
+              }],
             "chartScrollbar": {
               "graph": "g5",
               "oppositeAxis": false,
@@ -258,7 +181,6 @@
             "dataProvider": areaData,
             pathToImages: layoutPaths.images.amChart
           });
-
 
         });
 
