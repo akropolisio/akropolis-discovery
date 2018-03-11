@@ -1,7 +1,7 @@
 <div class="row">
   <div ba-panel ba-panel-title="Sign Up Form" class="akr-panel">
     <ba-wizard>
-      <ba-wizard-step title="Passport">
+      <ba-wizard-step title="Passport" valid="$ctrl.isUploaded" invalid-handler="$ctrl.showPassportValidationMessage()">
         <form class="form-horizontal" novalidate style="text-align: center">
 
           <button type="button" class="btn btn-lg btn-primary btn-with-icon"
@@ -23,37 +23,53 @@
         </form>
       </ba-wizard-step>
 
-      <ba-wizard-step title="Account information">
-        <form class="form-horizontal" novalidate>
+      <ba-wizard-step title="Account information" form="$ctrl.accountInformationForm">
+        <form class="form-horizontal" name="$ctrl.accountInformationForm" novalidate>
           <div class="row">
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{'has-error': $ctrl.accountInformationForm.firstName.$invalid
+                 && ($ctrl.accountInformationForm.firstName.$dirty || $ctrl.accountInformationForm.$submitted)}">
               <label class="col-sm-4 control-label">First Name</label>
               <div class="col-sm-6">
-                <input type="text" ng-model="$ctrl.user.firstName" required class="form-control">
+                <input type="text" ng-model="$ctrl.user.firstName" name="firstName" required class="form-control">
+                <span class="help-block error-block basic-block">Required</span>
               </div>
             </div>
-            <div class="form-group">
+
+            <div class="form-group"
+                 ng-class="{'has-error': $ctrl.accountInformationForm.lastName.$invalid
+                 && ($ctrl.accountInformationForm.lastName.$dirty || $ctrl.accountInformationForm.$submitted)}">
               <label class="col-sm-4 control-label">Last Name</label>
               <div class="col-sm-6">
-                <input type="text" ng-model="$ctrl.user.lastName" required class="form-control">
+                <input type="text" ng-model="$ctrl.user.lastName" name="lastName" required class="form-control">
+                <span class="help-block error-block basic-block">Required</span>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{'has-error': $ctrl.accountInformationForm.dateOfBirth.$invalid
+                 && ($ctrl.accountInformationForm.dateOfBirth.$dirty || $ctrl.accountInformationForm.$submitted)}">
               <label class="col-sm-4 control-label">Date of birth</label>
               <div class="col-sm-6">
-                <input type="text" ng-model="$ctrl.user.dateOfBirth" required class="form-control">
+                <input type="text" ng-model="$ctrl.user.dateOfBirth" name="dateOfBirth" required class="form-control">
+                <span class="help-block error-block basic-block">Required</span>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{'has-error': $ctrl.accountInformationForm.passportNumber.$invalid
+                 && ($ctrl.accountInformationForm.passportNumber.$dirty || $ctrl.accountInformationForm.$submitted)}">
               <label class="col-sm-4 control-label">Passport number</label>
               <div class="col-sm-6">
-                <input type="text" ng-model="$ctrl.user.passportNumber" required class="form-control">
+                <input type="text" ng-model="$ctrl.user.passportNumber" name="passportNumber" required class="form-control">
+                <span class="help-block error-block basic-block">Required</span>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group"
+                 ng-class="{'has-error': $ctrl.accountInformationForm.nationality.$invalid
+                 && ($ctrl.accountInformationForm.nationality.$dirty || $ctrl.accountInformationForm.$submitted)}">
               <label class="col-sm-4 control-label">Nationality</label>
               <div class="col-sm-6">
-                <input type="text" ng-model="$ctrl.user.nationality" required class="form-control">
+                <input type="text" ng-model="$ctrl.user.nationality" name="nationality" required class="form-control">
+                <span class="help-block error-block basic-block">Required</span>
               </div>
             </div>
 

@@ -9,7 +9,8 @@
       'akr-signup',
       'akr-dashboard',
       'akr-pension',
-      'akr-msg-center'
+      'akr-msg-center',
+      'akr-charts'
     ])
     .config(routeConfig)
     .config(toastrConfig);

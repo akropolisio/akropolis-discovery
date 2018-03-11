@@ -5,7 +5,7 @@
       <i class="fa" ng-class="[$ctrl.iconClass]"></i> {{ $ctrl.fund.name }}
     </div>
     <div class="stepper">
-      <akr-stepper filter="percent" min="0" max="100" step="1" model="$ctrl.fund.allocation" ></akr-stepper>
+      <akr-stepper filter="percent" min="0" max="$ctrl.max" step="5" model="$ctrl.fund.allocation" ></akr-stepper>
     </div>
   </div>
   <div class="description">
