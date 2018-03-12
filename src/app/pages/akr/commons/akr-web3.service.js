@@ -33,7 +33,9 @@
 		};
 
     this.hasAccount = function () {
-      return Dapp.hasAccount();
+      return Dapp.getUser().then(function(user) {
+        return $q.when(user !== undefined);
+      });
     };
 
     this.ethAccount = function() {
@@ -44,7 +46,7 @@
       return Dapp.buyAETTokens(value).then(function(result) {
         console.log(result);
 				return Dapp.getAETBalance().then(function(result) {
-					console.log("Balance: "  +result);
+					return $q.when(result);
 				});
       });
 
@@ -61,7 +63,7 @@
       return Dapp.createDefaultAccounts().then(function(tx) {
 			  console.log("Savings accounts created in: " + tx.tx);
 				savingsAccountsCreated = true;
-				return $q.when(true);
+				return $q.when(savingsAccountsCreated);
 			});
     };
 

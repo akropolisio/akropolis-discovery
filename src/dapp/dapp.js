@@ -74,31 +74,38 @@ window.Dapp = {
 		return idToNetworkName(networkId);
 	},
 
-	getUserContract: function() {
-		console.log("Getting user contract...");
-		return userRegistry.getUserContract(mainAccount).then(function(account) {
-			console.log("Found user contract: " + account);
-			return account;
-		})
+	fetchUser: function()  {
+		console.log("Fetching user...");
+		return userRegistry.getUserContract(mainAccount).then(function(address) {
+			console.log("Found user contract: " + address);
+			if (address !== "0x0000000000000000000000000000000000000000") {
+				return User.at(address).then(function(instance) {
+					user = instance;
+					return user.wallet();
+				}).then(function(walletAddress) {
+					console.log("Wallet contract: " + walletAddress);
+					wallet = walletAddress;
+					return Promise.resolve(user);
+				});
+			} else {
+				return Promise.resolve(undefined);
+			}
+		});
 	},
 
-	fetchUser: function(userAddress)  {
-		console.log("Fetching user contract...");
-		console.log("User contract: " + userAddress);
-		return User.at(userAddress).then(function(instance) {
-			user = instance;
-			return user.wallet();
-		}).then(function(walletAddress) {
-			console.log("Wallet contract: " + walletAddress);
-			wallet = walletAddress;
-		});
+	getUser: function() {
+		if (user) {
+			return Promise.resolve(user);
+		} else {
+			return this.fetchUser();
+		}
 	},
 
 	createUserAccount: function() {
 		var self = this;
-		userRegistry.createUser(1, {from: mainAccount, gas: 3000000}).then(function(tx) {
+		return userRegistry.createUser(1, {from: mainAccount, gas: 3000000}).then(function(tx) {
 			console.log("Creating user: " + tx.tx);
-			return self.hasAccount();
+			return self.fetchUser();
 		});
 	},
 
@@ -110,27 +117,13 @@ window.Dapp = {
 	buyAETTokens: function(value) {
 		var self = this;
 		console.log("Buying AET Tokens: " + value);
-		return self.getUserContract().then(function(address) {
-			return self.fetchUser(address).then(function() {
-				return faucet.getTokens(wallet, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
-			});
+		return self.getUser().then(function() {
+			return faucet.getTokens(wallet, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
 		});
 	},
 
 	getAETBalance: function() {
 		return token.balanceOf(wallet);
-	},
-
-	hasAccount: function() {
-		var self = this;
-		console.log("Checking has account...");
-		return self.getUserContract().then(function(userContractAddress) {
-			if (userContractAddress !== "0x0000000000000000000000000000000000000000") {
-				self.fetchUser(userContractAddress);
-				return true;
-			}
-			return false;
-		});
 	},
 
 	ethAccount: function() {
