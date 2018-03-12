@@ -14,6 +14,7 @@
       templateUrl: 'app/pages/akr/savings/akr-fund.component.html',
       bindings: {
         fund: '=',
+        max: '<',
         key: '@'
       }
     });
@@ -23,10 +24,7 @@
     var ctrl = this;
 
     ctrl.$onInit = function () {
-      console.log(ctrl.key)
-      console.log(ctrl.fund)
       ctrl.iconClass = KEY_TO_ICON[ctrl.key];
-      console.log(ctrl.iconClass)
     };
 
 

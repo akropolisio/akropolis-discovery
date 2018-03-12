@@ -9,7 +9,7 @@
 
 
   /** @ngInject */
-  function ComponentController($interval, $timeout, AkrUserService, AkrWeb3Service) {
+  function ComponentController($interval, $timeout, AkrUserService, AkrWeb3Service, toastr) {
     var ctrl = this;
 
     ctrl.isUploaded = false;
@@ -35,6 +35,7 @@
           $timeout(function () {
             ctrl.isUploading = false;
             ctrl.isUploaded = true;
+            toastr.clear();
           }, 400);
 
         }
@@ -42,8 +43,14 @@
           ctrl.uploadProgress += 5;
         }
       }, 100);
-
     };
+
+    ctrl.showPassportValidationMessage = function() {
+      toastr.error('Please update passport photo',
+        {
+          "positionClass": "toast-top-center"
+        });
+    }
 
   }
 })();

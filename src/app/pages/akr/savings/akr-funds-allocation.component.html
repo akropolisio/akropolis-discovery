@@ -6,10 +6,21 @@
     <div class="panel">
       <div class="panel-body">
 
-        <akr-fund ng-repeat="(key, value) in $ctrl.funds" key="{{key}}" fund="value"></akr-fund>
+        <akr-fund ng-repeat="(key, value) in $ctrl.funds"
+                  key="{{key}}"
+                  fund="value"
+                  max="100 - $ctrl.otherAllocationSum(key)"></akr-fund>
+
+        <div class="progress">
+          <div class="progress-bar progress-bar-info" role="progressbar"
+               ng-style="{'width': $ctrl.fundsSplitSum() + '%'}">
+            <span>Total: {{$ctrl.fundsSplitSum()}}%</span>
+          </div>
+        </div>
+
 
         <div>
-          <a href="#!/savings/deposit" class="btn btn-primary btn-lg" style="margin-top: 30px">
+          <a ng-click="$ctrl.depositFunds()" class="btn btn-primary btn-lg" style="margin-top: 30px">
             Deposit funds
           </a>
         </div>

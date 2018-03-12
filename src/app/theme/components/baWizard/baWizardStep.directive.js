@@ -11,7 +11,9 @@
       transclude: true,
       require: '^baWizard',
       scope: {
-        form: '='
+        form: '=',
+        valid: '&',
+        invalidHandler: '&'
       },
       templateUrl: 'app/theme/components/baWizard/baWizardStep.html',
       link: function ($scope, $element, $attrs, wizard) {
@@ -30,11 +32,7 @@
         wizard.addTab(tab);
 
         function select(isSelected) {
-          if (isSelected) {
-            $scope.selected = true;
-          } else {
-            $scope.selected = false;
-          }
+          $scope.selected = isSelected;
         }
 
         function submit() {
@@ -42,7 +40,15 @@
         }
 
         function isComplete() {
-          return $scope.form ? $scope.form.$valid : true;
+          var isValid = $scope.form
+            ? $scope.form.$valid
+            : $scope.valid
+              ? $scope.valid()
+              : true;
+          if ($scope.invalidHandler && !isValid) {
+            $scope.invalidHandler();
+          }
+          return isValid;
         }
 
         function isAvailiable() {
