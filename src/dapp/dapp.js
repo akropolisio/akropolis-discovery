@@ -4,12 +4,11 @@ var AkropolisToken = contract(require("../../build/contracts/AkropolisToken.json
 var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
 var User = contract(require("../../build/contracts/User.json"));
 var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
+var DEPLOYMENT = require("../../build/deployment.json");
 
-var mainAccount, userContract, networkId, faucet, token, user, wallet;
+var mainAccount, userRegistry, networkId, faucet, token, user, wallet;
 
-const USER_REGISTRY = "0xb083581c30bc2932fb15986af9e8022955cde071";
-const AET_FAUCET = "0x986e26b0f8a5860f4d434be772a6ccbea52bbf08";
-const AET_TOKEN = "0x4707460c8463e9c68e35caf6034b13bb4624fef5";
+console.log(DEPLOYMENT);
 
 function show(element, text) {
 	var element = document.getElementById(element);
@@ -77,12 +76,9 @@ window.Dapp = {
 
 	getUserContract: function() {
 		console.log("Getting user contract...");
-		return UserRegistry.at(USER_REGISTRY)
-		.then(function(registry) {
-				return registry.getUserContract(mainAccount);
-		}).then(function(account) {
-			  console.log("Found user contract: " + account);
-				return account;
+		return userRegistry.getUserContract(mainAccount).then(function(account) {
+			console.log("Found user contract: " + account);
+			return account;
 		})
 	},
 
@@ -100,12 +96,9 @@ window.Dapp = {
 
 	createUserAccount: function() {
 		var self = this;
-		return UserRegistry.at(USER_REGISTRY).then(function(instance) {
-			console.log(instance);
-			return instance.createUser(1, {from: mainAccount, gas: 3000000}).then(function(tx) {
-				console.log("Creating user: " + tx.tx);
-				return self.hasAccount();
-			});
+		userRegistry.createUser(1, {from: mainAccount, gas: 3000000}).then(function(tx) {
+			console.log("Creating user: " + tx.tx);
+			return self.hasAccount();
 		});
 	},
 
@@ -170,11 +163,17 @@ window.addEventListener("load", function() {
 		}
 
 		//Fetch contract instances
-		AETFaucet.at(AET_FAUCET).then(function(instance) {
+		AETFaucet.at(DEPLOYMENT.AETFaucet).then(function(instance) {
 			faucet = instance;
 		});
 
-		AkropolisToken.at(AET_TOKEN).then(function(instance) {
+		UserRegistry.at(DEPLOYMENT.UserRegistry).then(function(instance) {
+			userRegistry = instance;
+		});
+
+
+
+		AkropolisToken.at(DEPLOYMENT.AkropolisToken).then(function(instance) {
 			token = instance;
 			token.balanceOf(faucet.address).then(function(balance) {
 				console.log("Initial faucet balance: " + balance.valueOf());

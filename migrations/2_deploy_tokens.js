@@ -1,6 +1,7 @@
 const AkropolisToken = artifacts.require('./AkropolisToken.sol');
 
 
-module.exports = function(deployer) {
-	deployer.deploy(AkropolisToken);
+module.exports = async function(deployer) {
+	await deployer.deploy(AkropolisToken);
+	process.deployment = {"AkropolisToken" : AkropolisToken.address};
 };
