@@ -24,7 +24,7 @@ contract('User Registry', function ([owner, userAccount]) {
 	before(async function () {
 		registry = await UserRegistry.deployed();
 		token = await AkropolisToken.deployed();
-		faucet = await AETFaucet.deployed()
+		faucet = await AETFaucet.new(token.address);
 		token.mint(faucet.address, web3.toWei(1000000, "ether"));
 	});
 

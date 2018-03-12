@@ -36,7 +36,7 @@ contract Wallet is Ownable {
     }
 
     function refund(ERC20 _token, uint _amount) public onlyOwner {
-        usdToken.transfer(owner, _amount);
+        _token.transfer(owner, _amount);
     }
 
     function balance(ERC20 _token) public view returns(uint256){

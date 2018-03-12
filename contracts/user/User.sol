@@ -32,7 +32,7 @@ contract User is Ownable {
         openSavingAccount("SHORT_TERM");
     }
 
-    function openSavingAccount(bytes32 _name) internal {
+    function openSavingAccount(bytes32 _name) public onlyOwner {
         require(savingAccountsList.length < 16);
         require(address(savingAccounts[_name]) == 0x0);
         SavingsAccount account = new SavingsAccount(pensionFundsRegistry);
@@ -45,7 +45,6 @@ contract User is Ownable {
     }
 
     function invest(uint256 _amount, bytes32 _accountName) public onlyOwner {
-        uint256 recommendationsCount = investmentStrategy.getNumberOfRecommendations();
         for(uint256 i=0; i <investmentStrategy.getNumberOfRecommendations(); i++) {
             bytes32 fundName;
             uint256 fundAmount;

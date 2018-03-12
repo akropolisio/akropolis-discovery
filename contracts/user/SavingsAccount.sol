@@ -38,7 +38,7 @@ contract SavingsAccount is Ownable {
     function totalValue(ERC20 _reference) public view returns(uint256) {
         uint256 total = 0;
         for(uint256 i = 0; i < fundsList.length; i++) {
-            total = total.add(balanceOfFund(fundsList[i]));
+            total = total.add(valueOfFund(fundsList[i], _reference));
         }
         return total;
     }
