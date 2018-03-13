@@ -75,7 +75,7 @@ contract User is Ownable {
     }
 
 
-    function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) {
+    function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
         pensionFundsRegistry = _pensionFundsRegistry;
     }
 
