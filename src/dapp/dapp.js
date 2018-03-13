@@ -158,19 +158,19 @@ window.addEventListener("load", function() {
 		//Fetch contract instances
 		AETFaucet.at(DEPLOYMENT.AETFaucet).then(function(instance) {
 			faucet = instance;
+
+			AkropolisToken.at(DEPLOYMENT.AkropolisToken).then(function(instance) {
+				token = instance;
+				console.log("Faucet address: " + faucet.address);
+				token.balanceOf(faucet.address).then(function(balance) {
+					console.log("Initial faucet balance: " + balance.valueOf());
+				})
+			});
+
 		});
 
 		UserRegistry.at(DEPLOYMENT.UserRegistry).then(function(instance) {
 			userRegistry = instance;
-		});
-
-
-
-		AkropolisToken.at(DEPLOYMENT.AkropolisToken).then(function(instance) {
-			token = instance;
-			token.balanceOf(faucet.address).then(function(balance) {
-				console.log("Initial faucet balance: " + balance.valueOf());
-			})
 		});
 
 		mainAccount = accounts[0];
