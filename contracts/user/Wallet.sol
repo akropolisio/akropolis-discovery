@@ -12,8 +12,8 @@ import '../tokens/AkropolisToken.sol';
 contract Wallet is Ownable {
     using SafeMath for uint256;
 
-    PensionFundsRegistry registry;
-    PaymentGateway paymentGateway;
+    PensionFundsRegistry public registry;
+    PaymentGateway public paymentGateway;
     DigitalUSD public usdToken;
 
     function Wallet(PensionFundsRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
