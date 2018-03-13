@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  //TODO: Connect when deployed on testnet
   angular.module('akr-commons')
     .service('AkrWeb3Service', AkrWeb3Service);
 
@@ -27,8 +28,28 @@
       }
     };
 
+		this.createUserAccount = function () {
+			return Dapp.createUserAccount();
+		};
+
     this.hasAccount = function () {
-      return $q.when(false);
+      return Dapp.getUser().then(function(user) {
+        return $q.when(user !== undefined);
+      });
+    };
+
+    this.ethAccount = function() {
+      return Dapp.ethAccount();
+    };
+
+    this.buyAETTokens = function(value) {
+      return Dapp.buyAETTokens(value).then(function(result) {
+        console.log(result);
+				return Dapp.getAETBalance().then(function(result) {
+					return $q.when(result);
+				});
+      });
+
     };
 
     this.savingsGoal = function () {
@@ -39,8 +60,11 @@
     };
 
     this.createSavingAccounts = function() {
-			savingsAccountsCreated = true;
-      return $q.when(true);
+      return Dapp.createDefaultAccounts().then(function(tx) {
+			  console.log("Savings accounts created in: " + tx.tx);
+				savingsAccountsCreated = true;
+				return $q.when(savingsAccountsCreated);
+			});
     };
 
     this.accounts = function () {

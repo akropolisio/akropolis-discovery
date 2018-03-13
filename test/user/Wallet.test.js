@@ -22,8 +22,8 @@ contract('Wallet', function ([owner]) {
 	before(async function () {
 		token = await AkropolisToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await PensionFundsRegistry.new(pool.address);
-		fund = await PensionFund.new(token.address);
+		registry = await PensionFundsRegistry.new(token.address, pool.address);
+		fund = await PensionFund.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
 		usd = DigitalUSD.at(await paymentGateway.usdToken());
 	});
@@ -33,7 +33,7 @@ contract('Wallet', function ([owner]) {
 		await token.mint(fund.address, 100, {from: owner});
 		await registry.setMinStake(100, {from: owner});
 		await fund.stake(pool.address, 100);
-		await fund.register(registry.address, "FUND");
+		await fund.register(registry.address);
 
 		(await registry.getFund("FUND")).should.be.equal(fund.address);
 	});
@@ -43,7 +43,7 @@ contract('Wallet', function ([owner]) {
 		wallet = await Wallet.new(registry.address, paymentGateway.address);
 		await wallet.makeDeposit(100);
 
-		//(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
+		(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
 	});
 
 

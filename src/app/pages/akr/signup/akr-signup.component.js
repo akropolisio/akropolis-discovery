@@ -43,6 +43,7 @@
           ctrl.uploadProgress += 5;
         }
       }, 100);
+
     };
 
     ctrl.showPassportValidationMessage = function() {
