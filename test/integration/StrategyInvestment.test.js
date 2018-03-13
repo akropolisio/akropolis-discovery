@@ -50,8 +50,8 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 
 	it('should create first pension fund', async function () {
-		await aet.mint(fund1Account, 100, {from: owner});
-		await aet.approve(fundRegistry.address, 100, {from: fund1Account});
+		await aet.mint(fund1Account, web3.toWei(100, "ether"), {from: owner});
+		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fund1Account});
 		await fundRegistry.createAndRegisterPensionFund("FUND_1", {from: fund1Account});
 		fund1 = PensionFund.at(await fundRegistry.getFund("FUND_1"));
 
@@ -60,8 +60,8 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 
 	it('should create second pension fund', async function () {
-		await aet.mint(fund2Account, 100, {from: owner});
-		await aet.approve(fundRegistry.address, 100, {from: fund2Account});
+		await aet.mint(fund2Account, web3.toWei(100, "ether"), {from: owner});
+		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fund2Account});
 		await fundRegistry.createAndRegisterPensionFund("FUND_2", {from: fund2Account});
 		fund2 = PensionFund.at(await fundRegistry.getFund("FUND_2"));
 

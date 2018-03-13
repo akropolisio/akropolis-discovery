@@ -1,7 +1,12 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
 var AkropolisToken = contract(require("../../build/contracts/AkropolisToken.json"));
+
 var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
+var PensionFundsRegistry = contract(require("../../build/contracts/PensionFundsRegistry.json"));
+var PaymentGateway = contract(require("../../build/contracts/PaymentGateway.json"));
+
+var Wallet = contract(require("../../build/contracts/Wallet.json"));
 var User = contract(require("../../build/contracts/User.json"));
 var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
 var DEPLOYMENT = require("../../build/deployment.json");
@@ -9,6 +14,8 @@ var DEPLOYMENT = require("../../build/deployment.json");
 var mainAccount, userRegistry, networkId, faucet, token, user, wallet;
 
 console.log(DEPLOYMENT);
+
+DEPLOYMENT.UserRegistry = "0x29b96ea0b863184ba2ede09351fbecf98710d0fb";
 
 function show(element, text) {
 	var element = document.getElementById(element);
@@ -111,7 +118,9 @@ window.Dapp = {
 
 	createDefaultAccounts: function() {
 		console.log("Creating default savings accounts...");
-		return user.createDefaultAccounts({from: mainAccount, gas: 4000000});
+		return this.getUser().then(function(user) {
+			return user.createDefaultAccounts({from: mainAccount, gas: 4000000});
+		});
 	},
 
 	buyAETTokens: function(value) {
@@ -128,6 +137,22 @@ window.Dapp = {
 
 	ethAccount: function() {
 		return mainAccount;
+	},
+
+	getSavingAccountBalance: function(accountName) {
+		return this.getUser().then(function(user) {
+			return user.getSavingAccountValue("VOLUNTARY", {from: mainAccount}).then(function (value) {
+				console.log("Savings: " + value.valueOf());
+			});
+		});
+	},
+
+	invest: function(value) {
+		return this.getUser().then(function(user) {
+			return user.investIntoFund("FUND", 100, "VOLUNTARY", {from: mainAccount, gas: 4000000}).then(function (tx) {
+				console.log(tx)
+			});
+		});
 	}
 };
 
@@ -144,8 +169,11 @@ window.addEventListener("load", function() {
 
 	AkropolisToken.setProvider(web3.currentProvider);
 	UserRegistry.setProvider(web3.currentProvider);
+	PensionFundsRegistry.setProvider(web3.currentProvider);
 	User.setProvider(web3.currentProvider);
 	AETFaucet.setProvider(web3.currentProvider);
+	Wallet.setProvider(web3.currentProvider);
+	PaymentGateway.setProvider(web3.currentProvider);
 
 	web3.eth.getAccounts(function(err, accounts) {
 		if (err) {

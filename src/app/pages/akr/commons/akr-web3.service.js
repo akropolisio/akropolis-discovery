@@ -8,7 +8,7 @@
   /** @ngInject */
   function AkrWeb3Service($q) {
 
-    var savingsAccountsCreated = true;
+    var savingsAccountsCreated = false;
 
     var mockSavingsAccounts = {
       VOLUNTARY: {

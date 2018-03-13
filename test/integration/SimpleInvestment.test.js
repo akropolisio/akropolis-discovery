@@ -49,8 +49,8 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 
 
 	it('should create a pension fund', async function () {
-		await aet.mint(fundAccount, 100, {from: owner});
-		await aet.approve(fundRegistry.address, 100, {from: fundAccount});
+		await aet.mint(fundAccount, web3.toWei(100, "ether"), {from: owner});
+		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fundAccount});
 		await fundRegistry.createAndRegisterPensionFund("FUND", {from: fundAccount});
 		fund = PensionFund.at(await fundRegistry.getFund("FUND"));
 
@@ -66,6 +66,7 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 
 		(await wallet.balance(aet.address)).should.be.bignumber.equal(99);
 		(await savingsAccount.totalValue(usd.address)).should.be.bignumber.equal(100);
+		(await user.getSavingAccountValue("VOLUNTARY")).should.be.bignumber.equal(100);
 	});
 
 

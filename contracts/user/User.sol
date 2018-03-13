@@ -75,6 +75,11 @@ contract User is Ownable {
     }
 
 
+    function getSavingAccountValue(bytes32 _name) public view returns(uint256) {
+        return savingAccounts[_name].totalValue(wallet.usdToken());
+    }
+
+
     function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
         pensionFundsRegistry = _pensionFundsRegistry;
     }

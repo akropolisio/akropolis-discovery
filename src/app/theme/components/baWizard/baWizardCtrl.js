@@ -73,12 +73,14 @@
 						"preventDuplicates": false,
 						"preventOpenDuplicates": false
 					});
+				//TODO: Move to user account creation
 				//Initial account funding
 				AkrWeb3Service.buyAETTokens(100);
 			 });
 
 
       AkrMsgCenterService.message('message', 'Your account is being verified now. We\'ll notify you as soon as that\'s complete')
+			//TODO: Move to user account creation
       AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification')
 
     };
