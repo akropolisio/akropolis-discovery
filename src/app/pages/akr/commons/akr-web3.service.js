@@ -5,22 +5,19 @@
     .service('AkrWeb3Service', AkrWeb3Service);
 
   /** @ngInject */
-  function AkrWeb3Service($q) {
+  function AkrWeb3Service($q, $rootScope) {
 
     var mockSavingsAccounts = {
       VOLUNTARY: {
         label: 'Pension',
-        balance: 20000,
         additionalInfo: 'from age 62'
       },
       EMERGENCY: {
         label: 'Emergency Fund',
-        balance: 10000,
         additionalInfo: 'from age 62'
       },
       SHORT_TERM: {
         label: 'Short Term Savings',
-        balance: 5000,
         additionalInfo: 'in 1 year'
       }
     };
@@ -57,32 +54,76 @@
     };
 
     this.createSavingAccounts = function () {
-      return Dapp.createDefaultAccounts()
-        .then(function (tx) {
-          console.log("Savings accounts created in: " + tx.tx);
-          return Dapp.hasSavingAccount();
+      console.log('createSavingAccounts');
+      return Dapp.hasSavingAccount()
+        .then(function (hasAccount) {
+          console.log('hasSavingAccount: ' + hasAccount);
+          if (!hasAccount) {
+            return Dapp.createDefaultAccounts()
+              .then(function (tx) {
+                console.log("Savings accounts created in: " + tx.tx);
+                return true;
+              });
+          } else {
+            return false
+          }
         });
     };
 
-    this.invest = function () {
-      return Dapp.invest("TECH", 100, "VOLUNTARY").then(function (tx) {
-        console.log("Investment: " + tx);
-        //update saving account value
-        return $q.when(true);
-      });
+    this.invest = function (value, account) {
+      console.log('dapp invest');
+      return Dapp.invest(value, account)
+        .then(function (tx) {
+          console.log("Investment: " + tx);
+          return true;
+        });
     };
 
     this.accounts = function () {
+
       return Dapp.hasSavingAccount()
         .then(function (hasAccount) {
           console.log('hasAccount: ' + hasAccount);
-          return hasAccount ? mockSavingsAccounts : {}
+          return hasAccount ? accountsWithBalance() : $q.when({});
         });
+
+      function accountsWithBalance() {
+        var accounts = angular.copy(mockSavingsAccounts);
+        var promises = {};
+        Object.keys(accounts).forEach(function (key) {
+          promises[key] = Dapp.getSavingAccountBalance(key);
+        });
+        return $q.all(promises)
+          .then(function (results) {
+            console.log('balance download complete');
+            console.log(results);
+            Object.keys(accounts).forEach(function (key) {
+              accounts[key].balance = parseInt(results[key]);
+            });
+            return accounts;
+          });
+
+      }
     };
 
     //Acropolis External Token
     this.aetBalance = function () {
       return 100;
+    };
+
+
+    this.configureFundsAllocation = function (funds) {
+      console.log(funds);
+
+      var fundKeys = [];
+      var fundAllocations = [];
+
+      Object.keys(funds).forEach(function (key) {
+        fundKeys.push(key);
+        fundAllocations.push(funds[key].allocation);
+      });
+
+      return Dapp.createFixedAllocationInvestmentStrategy(fundKeys, fundAllocations);
     };
 
     this.pensionFunds = function () {

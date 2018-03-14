@@ -79,7 +79,7 @@
 
           AkrWeb3Service.buyAETTokens(100)
             .then(function () {
-              AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification')
+              AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification');
               $location.path('/dashboard');
             });
 

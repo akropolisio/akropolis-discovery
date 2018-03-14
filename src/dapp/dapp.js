@@ -133,10 +133,10 @@ window.Dapp = {
 
   hasSavingAccount: function () {
     var self = this;
-    return self.getUser().then(function(user) {
-      return user.getSavingAccountsCount().then(function(count) {
+    return self.getUser().then(function (user) {
+      return user.getSavingAccountsCount().then(function (count) {
         console.log("Saving accounts count: " + count);
-        return Promise.resolve(count > 0);
+        return count > 0;
       })
     })
   },
@@ -144,6 +144,7 @@ window.Dapp = {
   createDefaultAccounts: function () {
     console.log("Creating default savings accounts...");
     return this.getUser().then(function (user) {
+      console.log('user');
       return user.createDefaultAccounts({from: mainAccount, gas: 4000000});
     });
   },
@@ -166,23 +167,44 @@ window.Dapp = {
 
   getSavingAccountBalance: function (accountName) {
     return this.getUser().then(function (user) {
-      return user.getSavingAccountValue("VOLUNTARY", {from: mainAccount}).then(function (value) {
-        console.log("Savings: " + value.valueOf());
-      });
+      return user.getSavingAccountValue(accountName, {from: mainAccount})
+        .then(function (value) {
+          console.log("Savings: " + value.valueOf());
+          return value.valueOf();
+        });
     });
   },
 
   /**
    *
-   * @param name of the fund
-   * @param name of the savings account
    * @param value in cents, so 10USD = 1000 units
+   * @param account of the savings account
    */
-  invest: function (fund, value, account) {
+  invest: function (value, account) {
+    return this.getUser().then(function (user) {
+      return user.invest(value, account, {from: mainAccount, gas: 4000000});
+    });
+  },
+
+  /**
+   *
+   * @param fund of the fund
+   * @param value in cents, so 10USD = 1000 units
+   * @param account of the savings account
+   */
+  investIntoFund: function (fund, value, account) {
     return this.getUser().then(function (user) {
       return user.investIntoFund(fund, value, account, {from: mainAccount, gas: 4000000});
     });
+  },
+
+  createFixedAllocationInvestmentStrategy: function (funds, allocations) {
+    return this.getUser()
+      .then(function (user) {
+        return user.createFixedAllocationInvestmentStrategy(funds, allocations, {from: mainAccount, gas: 4000000});
+      });
   }
+
 };
 
 window.addEventListener("load", function () {

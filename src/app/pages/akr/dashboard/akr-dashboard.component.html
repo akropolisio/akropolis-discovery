@@ -1,7 +1,7 @@
 <div class="row">
 
   <div class="col-lg-9 col-md-12 col-sm-12">
-    <div ba-panel ba-panel-title="Savings" ba-panel-class="with-scroll">
+    <div ba-panel ba-panel-title="Savings" ba-panel-class="with-scroll" ng-show="$ctrl.hasSavingAccounts()">
       <akr-savings-chart></akr-savings-chart>
     </div>
 
@@ -17,7 +17,8 @@
 
       <akr-saving
               ng-repeat="(key, value) in $ctrl.accounts"
-              saving="value">
+              saving="value"
+              type="key">
       </akr-saving>
     </div>
   </div>

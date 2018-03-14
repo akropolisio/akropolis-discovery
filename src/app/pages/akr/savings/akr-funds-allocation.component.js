@@ -46,9 +46,13 @@
           });
         return;
       }
+      AkrWeb3Service.configureFundsAllocation(ctrl.funds)
+        .then(function (result) {
+          console.log(result);
+          $location.path('/savings/deposit/VOLUNTARY/true');
+        });
 
 
-      $location.path('/savings/deposit');
     }
 
 

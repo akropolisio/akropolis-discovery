@@ -14,6 +14,7 @@
 
     ctrl.$onInit = function () {
       AkrWeb3Service.accounts().then(function (result) {
+        console.log(result);
         ctrl.accounts = result;
       });
     };
