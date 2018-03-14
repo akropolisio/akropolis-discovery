@@ -134,7 +134,10 @@ window.Dapp = {
   hasSavingAccount: function () {
     var self = this;
     return self.getUser().then(function(user) {
-      return user.getSavingAccountsCount() > 0;
+      return user.getSavingAccountsCount().then(function(count) {
+        console.log("Saving accounts count: " + count);
+        return Promise.resolve(count > 0);
+      })
     })
   },
 
