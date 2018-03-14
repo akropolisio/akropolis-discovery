@@ -53,36 +53,7 @@
     };
 
     vm.finish = function () {
-      $location.path('/dashboard');
-			AkrWeb3Service.createUserAccount().then(function(result) {
-			 	console.log(result);
-				toastr.info('<p>Your account is being verified now. We\'ll notify you as soon as that\'s complete.</p>\n' +
-					'          <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>',
-					'Welcome!', {
-						"autoDismiss": false,
-						"positionClass": "toast-top-center",
-						"type": "info",
-						"timeOut": "10000",
-						"extendedTimeOut": "2000",
-						"allowHtml": true,
-						"closeButton": true,
-						"tapToDismiss": true,
-						"progressBar": false,
-						"newestOnTop": true,
-						"maxOpened": 0,
-						"preventDuplicates": false,
-						"preventOpenDuplicates": false
-					});
-				//TODO: Move to user account creation
-				//Initial account funding
-				AkrWeb3Service.buyAETTokens(100);
-			 });
-
-
-      AkrMsgCenterService.message('message', 'Your account is being verified now. We\'ll notify you as soon as that\'s complete')
-			//TODO: Move to user account creation
-      AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification')
-
+      $scope.onFinish();
     };
 
     function calcProgress() {

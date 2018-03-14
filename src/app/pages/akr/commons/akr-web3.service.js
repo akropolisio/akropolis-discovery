@@ -7,9 +7,6 @@
   /** @ngInject */
   function AkrWeb3Service($q) {
 
-    //TODO: Connect to dapp and query for accounts
-    var savingsAccountsCreated = false;
-
     var mockSavingsAccounts = {
       VOLUNTARY: {
         label: 'Pension',
@@ -28,26 +25,26 @@
       }
     };
 
-		this.createUserAccount = function () {
-			return Dapp.createUserAccount();
-		};
+    this.createUserAccount = function (dateOfBirth) {
+      return Dapp.createUserAccount(dateOfBirth);
+    };
 
     this.hasAccount = function () {
-      return Dapp.getUser().then(function(user) {
+      return Dapp.getUser().then(function (user) {
         return $q.when(user !== undefined);
       });
     };
 
-    this.ethAccount = function() {
+    this.ethAccount = function () {
       return Dapp.ethAccount();
     };
 
-    this.buyAETTokens = function(value) {
-      return Dapp.buyAETTokens(value).then(function(result) {
+    this.buyAETTokens = function (value) {
+      return Dapp.buyAETTokens(value).then(function (result) {
         console.log(result);
-				return Dapp.getAETBalance().then(function(result) {
-					return $q.when(result);
-				});
+        return Dapp.getAETBalance().then(function (result) {
+          return $q.when(result);
+        });
       });
 
     };
@@ -59,24 +56,28 @@
       });
     };
 
-    this.createSavingAccounts = function() {
-      return Dapp.createDefaultAccounts().then(function(tx) {
-			  console.log("Savings accounts created in: " + tx.tx);
-				savingsAccountsCreated = true;
-				return $q.when(savingsAccountsCreated);
-			});
+    this.createSavingAccounts = function () {
+      return Dapp.createDefaultAccounts()
+        .then(function (tx) {
+          console.log("Savings accounts created in: " + tx.tx);
+          return Dapp.hasSavingAccount();
+        });
     };
 
-    this.invest = function() {
+    this.invest = function () {
       return Dapp.invest("TECH", 100, "VOLUNTARY").then(function (tx) {
-				console.log("Investment: " + tx);
-				//update saving account value
+        console.log("Investment: " + tx);
+        //update saving account value
         return $q.when(true);
-			});
-    },
+      });
+    };
 
     this.accounts = function () {
-      return $q.when(savingsAccountsCreated ? mockSavingsAccounts : {});
+      return Dapp.hasSavingAccount()
+        .then(function (hasAccount) {
+          console.log('hasAccount: ' + hasAccount);
+          return hasAccount ? mockSavingsAccounts : {}
+        });
     };
 
     //Acropolis External Token

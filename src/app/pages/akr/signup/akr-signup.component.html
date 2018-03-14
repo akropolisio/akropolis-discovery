@@ -1,6 +1,6 @@
 <div class="row">
   <div ba-panel ba-panel-title="Sign Up Form" class="akr-panel">
-    <ba-wizard>
+    <ba-wizard on-finish="$ctrl.createUser()">
       <ba-wizard-step title="Passport" valid="$ctrl.isUploaded" invalid-handler="$ctrl.showPassportValidationMessage()">
         <form class="form-horizontal" novalidate style="text-align: center">
 

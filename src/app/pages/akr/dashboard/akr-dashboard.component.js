@@ -23,7 +23,7 @@
     };
 
     ctrl.hasSavingAccounts = function() {
-      return Object.keys(ctrl.accounts).length > 0;
+      return ctrl.accounts && Object.keys(ctrl.accounts).length > 0;
     };
 
 

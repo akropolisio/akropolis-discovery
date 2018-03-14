@@ -9,7 +9,8 @@
 
 
   /** @ngInject */
-  function ComponentController($interval, $timeout, AkrUserService, AkrWeb3Service, toastr) {
+  function ComponentController($interval, $timeout, $location,
+                               AkrUserService, AkrWeb3Service, AkrMsgCenterService, toastr) {
     var ctrl = this;
 
     ctrl.isUploaded = false;
@@ -46,12 +47,44 @@
 
     };
 
-    ctrl.showPassportValidationMessage = function() {
+    ctrl.showPassportValidationMessage = function () {
       toastr.error('Please update passport photo',
         {
           "positionClass": "toast-top-center"
         });
-    }
+    };
+
+    ctrl.createUser = function () {
+      AkrWeb3Service.createUserAccount(ctrl.user.dateOfBirth)
+        .then(function (result) {
+          toastr.info('<p>Your account is being verified now. We\'ll notify you as soon as that\'s complete.</p>\n' +
+            '          <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>',
+            'Welcome!', {
+              "autoDismiss": false,
+              "positionClass": "toast-top-center",
+              "type": "info",
+              "timeOut": "10000",
+              "extendedTimeOut": "2000",
+              "allowHtml": true,
+              "closeButton": true,
+              "tapToDismiss": true,
+              "progressBar": false,
+              "newestOnTop": true,
+              "maxOpened": 0,
+              "preventDuplicates": false,
+              "preventOpenDuplicates": false
+            });
+
+          AkrMsgCenterService.message('message', 'Your account is being verified now. We\'ll notify you as soon as that\'s complete')
+
+          AkrWeb3Service.buyAETTokens(100)
+            .then(function () {
+              AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification')
+              $location.path('/dashboard');
+            });
+
+        });
+    };
 
   }
 })();
