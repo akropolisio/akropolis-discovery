@@ -12,21 +12,23 @@
   function ComponentController($location, AkrWeb3Service) {
     var ctrl = this;
 
+    ctrl.accounts = null;
+
     ctrl.$onInit = function () {
-      AkrWeb3Service.accounts().then(function (result) {
-        console.log(result);
-        ctrl.accounts = result;
-      });
+      AkrWeb3Service.accounts()
+        .then(function (result) {
+          console.log(result);
+          ctrl.accounts = result;
+        });
     };
 
     ctrl.createSavingAccounts = function () {
-			$location.path('/savings/introduction');
+      $location.path('/savings/introduction');
     };
 
-    ctrl.hasSavingAccounts = function() {
+    ctrl.hasSavingAccounts = function () {
       return ctrl.accounts && Object.keys(ctrl.accounts).length > 0;
     };
-
 
 
   }

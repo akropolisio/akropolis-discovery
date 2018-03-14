@@ -13,6 +13,9 @@
     return {
       restrict: 'E',
       controller: 'DashboardPieChartCtrl',
+      scope: {
+        accounts: '='
+      },
       templateUrl: 'app/pages/dashboard/dashboardPieChart/dashboardPieChart.html'
     };
   }

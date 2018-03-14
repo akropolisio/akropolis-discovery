@@ -5,7 +5,7 @@
     .service('AkrWeb3Service', AkrWeb3Service);
 
   /** @ngInject */
-  function AkrWeb3Service($q, $rootScope) {
+  function AkrWeb3Service($q) {
 
     var mockSavingsAccounts = {
       VOLUNTARY: {
@@ -108,13 +108,14 @@
 
     //Acropolis External Token
     this.aetBalance = function () {
-      return 100;
+      return Dapp.getAETBalance()
+        .then(function (result) {
+          return result;
+        });
     };
 
 
     this.configureFundsAllocation = function (funds) {
-      console.log(funds);
-
       var fundKeys = [];
       var fundAllocations = [];
 
