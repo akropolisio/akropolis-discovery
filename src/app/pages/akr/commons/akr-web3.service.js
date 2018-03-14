@@ -1,13 +1,13 @@
 (function () {
   'use strict';
 
-  //TODO: Connect when deployed on testnet
   angular.module('akr-commons')
     .service('AkrWeb3Service', AkrWeb3Service);
 
   /** @ngInject */
   function AkrWeb3Service($q) {
 
+    //TODO: Connect to dapp and query for accounts
     var savingsAccountsCreated = false;
 
     var mockSavingsAccounts = {
@@ -66,6 +66,14 @@
 				return $q.when(savingsAccountsCreated);
 			});
     };
+
+    this.invest = function() {
+      return Dapp.invest("TECH", 100, "VOLUNTARY").then(function (tx) {
+				console.log("Investment: " + tx);
+				//update saving account value
+        return $q.when(true);
+			});
+    },
 
     this.accounts = function () {
       return $q.when(savingsAccountsCreated ? mockSavingsAccounts : {});

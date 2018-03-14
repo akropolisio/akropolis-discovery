@@ -15,7 +15,7 @@ var mainAccount, userRegistry, networkId, faucet, token, user, wallet;
 
 console.log(DEPLOYMENT);
 
-DEPLOYMENT.UserRegistry = "0x29b96ea0b863184ba2ede09351fbecf98710d0fb";
+//DEPLOYMENT.UserRegistry = "0x29b96ea0b863184ba2ede09351fbecf98710d0fb";
 
 function show(element, text) {
 	var element = document.getElementById(element);
@@ -147,11 +147,15 @@ window.Dapp = {
 		});
 	},
 
-	invest: function(value) {
+	/**
+	 *
+	 * @param name of the fund
+	 * @param name of the savings account
+	 * @param value in cents, so 10USD = 1000 units
+	 */
+	invest: function(fund, value, account) {
 		return this.getUser().then(function(user) {
-			return user.investIntoFund("FUND", 100, "VOLUNTARY", {from: mainAccount, gas: 4000000}).then(function (tx) {
-				console.log(tx)
-			});
+			return user.investIntoFund(fund, value, account, {from: mainAccount, gas: 4000000});
 		});
 	}
 };

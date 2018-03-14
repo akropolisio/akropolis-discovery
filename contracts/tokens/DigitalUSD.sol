@@ -13,7 +13,7 @@ contract DigitalUSD is MintableToken, BurnableToken {
 
     string public name = "Digital USD";
 
-    uint8 public decimals = 18;
+    uint8 public decimals = 2;
 
     string public symbol = "dUSD";
 
