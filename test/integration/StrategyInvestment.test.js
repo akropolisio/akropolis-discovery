@@ -39,7 +39,7 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		await userRegistry.createUser(DOB.unix(), {from: userAccount});
 		user = User.at(await userRegistry.getUserContract(userAccount));
 		var walletAddress = await user.wallet();
-		await aet.mint(walletAddress, 100, {from: owner});
+		await aet.mint(walletAddress, web3.toWei(100, "ether"), {from: owner});
 		await user.createDefaultAccounts({from: userAccount});
 		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
@@ -79,11 +79,11 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 	it('should invest and get shares', async function () {
 		var wallet = Wallet.at(await user.wallet());
-		(await wallet.balance(aet.address)).should.be.bignumber.equal(100);
+		(await wallet.balance(aet.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 
 		await user.invest(100, "VOLUNTARY", {from: userAccount});
 
-		(await wallet.balance(aet.address)).should.be.bignumber.equal(98);
+		(await wallet.balance(aet.address)).should.be.bignumber.equal(web3.toWei(98, "ether"));
 		(await savingsAccount.totalValue(usd.address)).should.be.bignumber.equal(100);
 	});
 

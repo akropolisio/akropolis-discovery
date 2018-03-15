@@ -28,25 +28,25 @@ contract('Pension Fund', function ([owner, wallet, savingAccount]) {
 		shares = Shares.at(await fund.shares());
 
 		fund.setFeesCollector(feesCollector.address);
-		await token.mint(fund.address, 100, {from: owner});
-		(await token.balanceOf(fund.address)).should.be.bignumber.equal(100);
+		await token.mint(fund.address, web3.toWei(100, "ether"), {from: owner});
+		(await token.balanceOf(fund.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 
 	});
 
 
 	it('should stake to a poll', async function () {
-		await fund.stake(pool.address, 100, {from: owner});
+		await fund.stake(pool.address, web3.toWei(100, "ether"), {from: owner});
 
 		(await token.balanceOf(fund.address)).should.be.bignumber.equal(0);
-		(await token.balanceOf(pool.address)).should.be.bignumber.equal(100);
-		(await pool.getStake(fund.address)).should.be.bignumber.equal(100);
+		(await token.balanceOf(pool.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
+		(await pool.getStake(fund.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 	});
 
 
 	it('should withdraw a stake', async function () {
 		await fund.withdrawStake(pool.address, {from: owner});
 
-		(await token.balanceOf(fund.address)).should.be.bignumber.equal(100);
+		(await token.balanceOf(fund.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 		(await token.balanceOf(pool.address)).should.be.bignumber.equal(0);
 		(await pool.getStake(fund.address)).should.be.bignumber.equal(0);
 	});
@@ -55,10 +55,10 @@ contract('Pension Fund', function ([owner, wallet, savingAccount]) {
 		await usd.mint(wallet, 100, {from: owner});
 		(await usd.balanceOf(wallet)).should.be.bignumber.equal(100);
 
-		await token.mint(wallet, 100, {from: owner});
-		(await token.balanceOf(wallet)).should.be.bignumber.equal(100);
+		await token.mint(wallet, web3.toWei(100, "ether"), {from: owner});
+		(await token.balanceOf(wallet)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 
-		await token.approve(feesCollector.address, 1, {from: wallet});
+		await token.approve(feesCollector.address, web3.toWei(100, "ether"), {from: wallet});
 		await usd.approve(fund.address, 100, {from: wallet});
 
 		//No shares before the investment
@@ -69,8 +69,8 @@ contract('Pension Fund', function ([owner, wallet, savingAccount]) {
 		//Should issue shares after the investment
 
 
-		(await token.balanceOf(fund.address)).should.be.bignumber.equal(101);
-		(await token.balanceOf(wallet)).should.be.bignumber.equal(99);
+		(await token.balanceOf(fund.address)).should.be.bignumber.equal(web3.toWei(101, "ether"));
+		(await token.balanceOf(wallet)).should.be.bignumber.equal(web3.toWei(99, "ether"));
 		(await usd.balanceOf(fund.address)).should.be.bignumber.equal(100);
 		(await usd.balanceOf(wallet)).should.be.bignumber.equal(0);
 	});
