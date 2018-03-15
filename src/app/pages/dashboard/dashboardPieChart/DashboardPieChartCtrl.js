@@ -36,7 +36,7 @@
         }, {
           color: pieColor,
           description: 'AET balance',
-          stats: result + ' tokens',
+          stats: $filter('aet')(result) + ' tokens',
           icon: 'money',
         }
         ];

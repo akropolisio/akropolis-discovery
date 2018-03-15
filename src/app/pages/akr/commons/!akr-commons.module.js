@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  const ONE_TOKEN = (new web3.BigNumber(10)).pow(18);
+
   angular.module('akr-commons', [])
     .filter('metafilter', ['$filter', function ($filter) {
       return function (input, filterName) {
@@ -17,6 +19,11 @@
         return $filter('currency')(input, '£', 0);
       };
     }])
+		.filter('aet', ['$filter', function ($filter) {
+			return function (input) {
+				return (new web3.BigNumber(input)).div(ONE_TOKEN).valueOf();
+			};
+		}])
     .filter('gbp_2', ['$filter', function ($filter) {
       return function (input) {
         return $filter('currency')(input, '£', 2);
