@@ -9,13 +9,13 @@
 
 
   /** @ngInject */
-  function ComponentController($location, $q, AkrWeb3Service, AkrUserService, baConfig, layoutPaths) {
+  function ComponentController($location, $q, AkrWeb3Service, AkrUserService, baConfig, layoutPaths, AkrSavingAccountsService) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
       var layoutColors = baConfig.colors;
 
-      $q.all([AkrUserService.get(), AkrWeb3Service.savingsGoal(), AkrWeb3Service.accounts()])
+      $q.all([AkrUserService.get(), AkrWeb3Service.savingsGoal(), AkrSavingAccountsService.accounts()])
         .then(function (result) {
           var user = result[0];
           var savingGoals = result[1];

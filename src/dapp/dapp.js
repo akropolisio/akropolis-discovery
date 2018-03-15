@@ -207,7 +207,12 @@ window.Dapp = {
 
 };
 
+window.Dapp.initComplete = false;
+
+
 window.addEventListener("load", function () {
+  console.log("load");
+
   //TODO: Connect to inected web3 once deployed on testnet
 
   // if (typeof web3 !== "undefined") {
@@ -235,11 +240,22 @@ window.addEventListener("load", function () {
     }
 
     //Fetch contract instances
-    AETFaucet.at(DEPLOYMENT.AETFaucet).then(function (instance) {
+    var AETFaucetPromise = AETFaucet.at(DEPLOYMENT.AETFaucet);
+    var UserRegistryPromise = UserRegistry.at(DEPLOYMENT.UserRegistry);
+
+    AETFaucetPromise.then(function (instance) {
       faucet = instance;
 
       AkropolisToken.at(DEPLOYMENT.AkropolisToken).then(function (instance) {
         token = instance;
+
+        UserRegistryPromise.then(function (instance) {
+          console.log('UserRegistry');
+          console.log(instance);
+          userRegistry = instance;
+          window.Dapp.initComplete = true;
+        });
+
         console.log("Faucet address: " + faucet.address);
         token.balanceOf(faucet.address).then(function (balance) {
           console.log("Initial faucet balance: " + balance.valueOf());
@@ -248,14 +264,13 @@ window.addEventListener("load", function () {
 
     });
 
-    UserRegistry.at(DEPLOYMENT.UserRegistry).then(function (instance) {
-      userRegistry = instance;
-    });
 
     mainAccount = accounts[0];
     networkId = web3.version.network;
 
     console.log("Main account: " + mainAccount);
+
+
 
   });
 });

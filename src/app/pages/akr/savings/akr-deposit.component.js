@@ -14,7 +14,7 @@
     });
 
   /** @ngInject */
-  function ComponentController($scope, $location, AkrWeb3Service) {
+  function ComponentController($scope, $location, AkrSavingAccountsService) {
     var ctrl = this;
     ctrl.depositAmount = 100;
 
@@ -28,7 +28,7 @@
 
     ctrl.deposit = function () {
       if (ctrl.initial) {
-        AkrWeb3Service.createSavingAccounts()
+        AkrSavingAccountsService.createSavingAccounts()
           .then(doInvest);
       } else {
         doInvest();
@@ -37,13 +37,12 @@
 
     function doInvest() {
       console.log('doInvest');
-      return AkrWeb3Service.invest(ctrl.depositAmount, ctrl.account)
+      return AkrSavingAccountsService.invest(ctrl.depositAmount, ctrl.account)
         .then(function () {
           //note: dapp promises are not 'standard' angularjs promises and they do not trigger digest cycle.
           //that's why we need to use $apply function.
           $scope.$apply(function () {
             $location.path('/dashboard');
-            //TODO: add some sort of notitication?
           });
         });
     }

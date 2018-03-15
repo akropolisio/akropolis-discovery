@@ -9,16 +9,23 @@
 
 
   /** @ngInject */
-  function ComponentController($location, AkrWeb3Service) {
+  function ComponentController($location, $rootScope, AkrSavingAccountsService) {
     var ctrl = this;
 
     ctrl.accounts = null;
+    $rootScope.$showPreloder = true;
 
     ctrl.$onInit = function () {
-      AkrWeb3Service.accounts()
+      AkrSavingAccountsService.accounts()
         .then(function (result) {
+          console.log("Accounts loaded!");
           console.log(result);
+          $rootScope.$showPreloder = false;
           ctrl.accounts = result;
+          if (!$rootScope.$$phase) {
+            $rootScope.$digest();
+          }
+
         });
     };
 
