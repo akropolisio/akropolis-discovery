@@ -7,23 +7,25 @@
       templateUrl: 'app/pages/akr/savings/akr-saving.component.html',
       bindings: {
         saving: '<',
-        showDepositLink: '<'
+        showDepositLink: '<',
+        type: '<',
+        savingGoal: '<'
       }
     });
 
   /** @ngInject */
-  function ComponentController(AkrWeb3Service) {
+  function ComponentController(AkrWeb3Service, $location) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
     };
 
-    ctrl.invest = function (saving) {
-      console.log(saving);
-      //TODO: Navigate to deposit component and setup amount
-			AkrWeb3Service.invest();
-    }
+    ctrl.invest = function () {
+      $location.path('/savings/deposit/' + ctrl.type + '/false');
+    };
 
-
+    ctrl.additionalInfo = function () {
+      return ctrl.saving.additionalInfo.replace('{}', ctrl.savingGoal.age);
+    };
   }
 })();

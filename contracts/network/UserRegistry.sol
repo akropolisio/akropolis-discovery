@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import '../user/User.sol';
 import '../user/UserFactory.sol';
+import '../user/SavingGoal.sol';
 
 
 /**
@@ -21,8 +22,9 @@ contract UserRegistry is Ownable {
         userFactory = new UserFactory(_pensionFundsRegistry, _paymentGateway);
     }
 
-    function createUser(uint256 _dateOfBirth) public {
-        User user = userFactory.createUser(_dateOfBirth);
+    function createUser(uint256 _dateOfBirth, uint256 _retirementAge, uint256 _monthlyIncome) public {
+        SavingGoal savingGoal = new SavingGoal(_retirementAge, _monthlyIncome);
+        User user = userFactory.createUser(_dateOfBirth, savingGoal);
         user.transferOwnership(msg.sender);
         user.wallet().transferOwnership(user);
         registerUser(msg.sender, user);
@@ -32,6 +34,10 @@ contract UserRegistry is Ownable {
         require(msg.sender == owner || msg.sender == _userAddress);
         users[_userAddress] = _userContract;
         Registered(_userAddress, _userContract);
+    }
+
+    function removeSelf() public {
+        delete users[msg.sender];
     }
 
     function getUserContract(address _userAddress) view public returns(User) {

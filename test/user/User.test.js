@@ -3,6 +3,7 @@
 const User = artifacts.require('./User.sol');
 const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
+const SavingGoal = artifacts.require('./SavingGoal.sol');
 
 const Moment = require('moment');
 const BigNumber = web3.BigNumber;
@@ -15,16 +16,25 @@ const should = require('chai')
 contract('User', function ([owner, userAccount]) {
 
 	const DOB = Moment("1983-09-19");
-	let user, registry;
+	let user, registry, savingGoal;
 
 	before(async function () {
 		registry = await PensionFundsRegistry.deployed();
+    savingGoal = await SavingGoal.new(65, 2200);
 	});
 
 	it('should create a user', async function () {
-		user = await User.new(DOB.unix(), 0x0, {from:userAccount});
+		user = await User.new(DOB.unix(), 0x0, savingGoal.address, {from:userAccount});
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
+		(await user.savingGoal()).should.be.equal(savingGoal.address);
 	});
+
+  it('should save saving goal', async function () {
+    let savedGoal = SavingGoal.at(await user.savingGoal());
+
+    (await savedGoal.age()).should.be.bignumber.equal(65);
+    (await savedGoal.monthlyIncome()).should.be.bignumber.equal(2200);
+  });
 
 	it('should open a saving account', async function () {
 		await user.openSavingAccount("FIRST", {from: userAccount});

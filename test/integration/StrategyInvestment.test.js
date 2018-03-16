@@ -36,16 +36,13 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 
 	it('should create a user', async function () {
-		await userRegistry.createUser(DOB.unix(), {from: userAccount});
+		await userRegistry.createUser(DOB.unix(), 65, 2200, {from: userAccount});
 		user = User.at(await userRegistry.getUserContract(userAccount));
 		var walletAddress = await user.wallet();
-		await aet.mint(walletAddress, 100, {from: owner});
-		await user.createDefaultAccounts({from: userAccount});
-		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
+		await aet.mint(walletAddress, web3.toWei(100, "ether"), {from: owner});
 
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
 		(await user.owner()).should.be.equal(userAccount);
-		(await user.getSavingAccountsCount()).should.be.bignumber.equal(3);
 	});
 
 
@@ -69,21 +66,23 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 	});
 
 
-	it('should create investment strategy', async function () {
-		await user.createFixedAllocationInvestmentStrategy(["FUND_1", "FUND_2"], [80, 20], {from: userAccount});
+	it('should create saving accounts and investment strategy', async function () {
+		await user.createAccountsWithFixedStrategy(["FUND_1", "FUND_2"], [80, 20], {from: userAccount});
 		var strategy = InvestmentStrategy.at(await user.investmentStrategy());
+		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
 		(await strategy.getNumberOfRecommendations()).should.be.bignumber.equal(2);
+		(await user.getSavingAccountsCount()).should.be.bignumber.equal(3);
 	});
 
 
 	it('should invest and get shares', async function () {
 		var wallet = Wallet.at(await user.wallet());
-		(await wallet.balance(aet.address)).should.be.bignumber.equal(100);
+		(await wallet.balance(aet.address)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 
 		await user.invest(100, "VOLUNTARY", {from: userAccount});
 
-		(await wallet.balance(aet.address)).should.be.bignumber.equal(98);
+		(await wallet.balance(aet.address)).should.be.bignumber.equal(web3.toWei(98, "ether"));
 		(await savingsAccount.totalValue(usd.address)).should.be.bignumber.equal(100);
 	});
 

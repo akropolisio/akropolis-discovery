@@ -8,7 +8,8 @@
     });
 
   /** @ngInject */
-  function ComponentController(AkrWeb3Service, $location, toastr) {
+  function ComponentController(AkrWeb3Service, AkrSavingAccountsService, AkrPreloaderService,
+                               $scope, $location, toastr) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
@@ -38,7 +39,7 @@
         });
     };
 
-    ctrl.depositFunds = function () {
+    ctrl.configureAllocations = function () {
       if (ctrl.fundsSplitSum() != 100) {
         toastr.error('Fund split must sum to 100%',
           {
@@ -47,8 +48,16 @@
         return;
       }
 
+      AkrPreloaderService.show("Creating saving accounts...")
+      AkrSavingAccountsService.configureFundsAllocationAndCreateAccounts(ctrl.funds)
+        .then(function (result) {
+          console.log(result);
+          $scope.$apply(function () {
+            AkrPreloaderService.hide();
+            $location.path('/savings/deposit/VOLUNTARY/true');
+          });
+        });
 
-      $location.path('/savings/deposit');
     }
 
 

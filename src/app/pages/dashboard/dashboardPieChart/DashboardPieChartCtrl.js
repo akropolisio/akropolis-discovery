@@ -9,25 +9,41 @@
     .controller('DashboardPieChartCtrl', DashboardPieChartCtrl);
 
   /** @ngInject */
-  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil) {
+  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil, $filter, AkrWeb3Service, AkrUserService) {
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
-    $scope.charts = [{
-      color: pieColor,
-      description: 'Total savings',
-      stats: '57,820',
-      icon: 'person',
-    }, {
-      color: pieColor,
-      description: 'Estimated pension',
-      stats: '$ 2,200',
-      icon: 'money',
-    }, {
-			color: pieColor,
-			description: 'AET balance',
-			stats: '100 tokens',
-			icon: 'money',
-		}
-    ];
+
+    var accounts = $scope.accounts;
+    var totalSavings = Object.keys(accounts)
+      .map(function (key) {
+        return accounts[key].balance;
+      })
+      .reduce(function (previousValue, currentValue) {
+        return previousValue + currentValue;
+      });
+
+    var estimatedPension = AkrUserService.calculatePensionBenefit(
+      $scope.age, $scope.savingGoal.age, 71, totalSavings, 0.05);
+
+    AkrWeb3Service.aetBalance()
+      .then(function(result) {
+        $scope.charts = [{
+          color: pieColor,
+          description: 'Total savings',
+          stats: $filter('gbp')(totalSavings),
+          icon: 'person',
+        }, {
+          color: pieColor,
+          description: 'Estimated pension',
+          stats: $filter('gbp')(estimatedPension),
+          icon: 'money',
+        }, {
+          color: pieColor,
+          description: 'AET balance',
+          stats: $filter('aet')(result) + ' tokens',
+          icon: 'money',
+        }
+        ];
+      });
 
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;

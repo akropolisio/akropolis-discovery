@@ -11,7 +11,10 @@
       transclude: true,
       templateUrl: 'app/theme/components/baWizard/baWizard.html',
       controllerAs: '$baWizardController',
-      controller: 'baWizardCtrl'
+      controller: 'baWizardCtrl',
+      scope: {
+        onFinish: '&'
+      }
     }
   }
 })();

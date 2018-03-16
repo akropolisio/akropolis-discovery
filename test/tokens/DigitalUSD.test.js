@@ -20,7 +20,7 @@ contract('DigitalUSD Token', function ([owner, holder]) {
 
 	it('should have the correct setup', async function () {
 		(await token.name()).should.be.equal("Digital USD");
-		(await token.decimals()).should.be.bignumber.equal(18);
+		(await token.decimals()).should.be.bignumber.equal(2);
 		(await token.symbol()).should.be.equal("dUSD");
 		(await token.version()).should.be.equal("dUSD 1.0");
 	});

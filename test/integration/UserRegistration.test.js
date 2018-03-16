@@ -29,7 +29,7 @@ contract('User Registry', function ([owner, userAccount]) {
 	});
 
 	it('should crate a user contract', async function () {
-		await registry.createUser(DOB.unix(), {from: userAccount});
+		await registry.createUser(DOB.unix(), 65, 2200, {from: userAccount});
 		user = User.at(await registry.getUserContract(userAccount));
 
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());

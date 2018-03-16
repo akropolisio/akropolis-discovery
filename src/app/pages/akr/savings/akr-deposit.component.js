@@ -6,27 +6,38 @@
   angular.module('akr-pension')
     .component('akrDeposit', {
       controller: ComponentController,
-      templateUrl: 'app/pages/akr/savings/akr-deposit.component.html'
+      templateUrl: 'app/pages/akr/savings/akr-deposit.component.html',
+      bindings: {
+        account: '@',
+        initial: '<'
+      }
     });
 
   /** @ngInject */
-  function ComponentController($location, AkrWeb3Service) {
+  function ComponentController($scope, $location, AkrSavingAccountsService, AkrPreloaderService) {
     var ctrl = this;
     ctrl.depositAmount = 100;
 
-    ctrl.$onInit = function () {};
+    ctrl.$onInit = function () {
+      console.log('deposit on account: ' + ctrl.account);
+    };
 
     ctrl.brutto = function () {
       return ctrl.depositAmount + FEE * ctrl.depositAmount;
     };
 
     ctrl.deposit = function () {
-      //TODO - check if we come from saving accounts wizard and pass initial allocations
-			AkrWeb3Service.createSavingAccounts().then(function(result) {
-				$location.path('/dashboard');
-      });
-    }
-
-
+			console.log('doInvest');
+      AkrPreloaderService.show("Making deposit...");
+			return AkrSavingAccountsService.invest(ctrl.depositAmount, ctrl.account)
+				.then(function () {
+					//note: dapp promises are not 'standard' angularjs promises and they do not trigger digest cycle.
+					//that's why we need to use $apply function.
+					$scope.$apply(function () {
+            AkrPreloaderService.hide();
+						$location.path('/dashboard');
+					});
+				});
+    };
   }
 })();

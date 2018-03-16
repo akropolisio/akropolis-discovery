@@ -49,8 +49,11 @@
         title: 'Savings system'
       })
       .state('deposit', {
-        url: '/savings/deposit',
-        template: '<akr-deposit></akr-deposit>',
+        url: '/savings/deposit/:account/:initial',
+        template: function(params) {
+          var initial = angular.isDefined(params.initial) ? params.initial : false;
+          return '<akr-deposit account="' + params.account + '" initial="' + initial + '"></akr-deposit>';
+        },
         title: 'Deposit'
       })
     ;

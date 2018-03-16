@@ -23,12 +23,14 @@ contract UserFactory is Ownable {
     }
 
 
-    function createUser(uint256 _dateOfBirth) public returns(User) {
+    function createUser(uint256 _dateOfBirth, SavingGoal _savingGoal) public returns (User) {
+
         Wallet wallet = new Wallet(pensionFundsRegistry, paymentGateway);
-        User user = new User(_dateOfBirth, wallet);
+        User user = new User(_dateOfBirth, wallet, _savingGoal);
         user.setPensionFundsRegistry(pensionFundsRegistry);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);
+
         return user;
     }
 

@@ -7,81 +7,40 @@
   /** @ngInject */
   function AkrWeb3Service($q) {
 
-    //TODO: Connect to dapp and query for accounts
-    var savingsAccountsCreated = false;
-
-    var mockSavingsAccounts = {
-      VOLUNTARY: {
-        label: 'Pension',
-        balance: 20000,
-        additionalInfo: 'from age 62'
-      },
-      EMERGENCY: {
-        label: 'Emergency Fund',
-        balance: 10000,
-        additionalInfo: 'from age 62'
-      },
-      SHORT_TERM: {
-        label: 'Short Term Savings',
-        balance: 5000,
-        additionalInfo: 'in 1 year'
-      }
+    this.createUserAccount = function (dateOfBirth, age, monthlyIncome) {
+      return Dapp.createUserAccount(dateOfBirth, age, monthlyIncome);
     };
 
-		this.createUserAccount = function () {
-			return Dapp.createUserAccount();
-		};
-
     this.hasAccount = function () {
-      return Dapp.getUser().then(function(user) {
+      return Dapp.getUser().then(function (user) {
         return $q.when(user !== undefined);
       });
     };
 
-    this.ethAccount = function() {
+    this.ethAccount = function () {
       return Dapp.ethAccount();
     };
 
-    this.buyAETTokens = function(value) {
-      return Dapp.buyAETTokens(value).then(function(result) {
+    this.buyAETTokens = function (value) {
+      return Dapp.buyAETTokens(value).then(function (result) {
         console.log(result);
-				return Dapp.getAETBalance().then(function(result) {
-					return $q.when(result);
-				});
+        return Dapp.getAETBalance().then(function (result) {
+          return $q.when(result);
+        });
       });
 
     };
 
-    this.savingsGoal = function () {
-      return $q.when({
-        age: 65,
-        monthlyIncome: 3500
-      });
-    };
-
-    this.createSavingAccounts = function() {
-      return Dapp.createDefaultAccounts().then(function(tx) {
-			  console.log("Savings accounts created in: " + tx.tx);
-				savingsAccountsCreated = true;
-				return $q.when(savingsAccountsCreated);
-			});
-    };
-
-    this.invest = function() {
-      return Dapp.invest("TECH", 100, "VOLUNTARY").then(function (tx) {
-				console.log("Investment: " + tx);
-				//update saving account value
-        return $q.when(true);
-			});
-    },
-
-    this.accounts = function () {
-      return $q.when(savingsAccountsCreated ? mockSavingsAccounts : {});
+    this.savingGoal = function () {
+      return Dapp.getSavingGoal();
     };
 
     //Acropolis External Token
     this.aetBalance = function () {
-      return 100;
+      return Dapp.getAETBalance()
+        .then(function (result) {
+          return result;
+        });
     };
 
     this.pensionFunds = function () {

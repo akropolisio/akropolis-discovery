@@ -7,9 +7,16 @@
       templateUrl: 'app/pages/akr/signup/akr-signup.component.html'
     });
 
+  var DEFAULT_SAVING_GOAL = {
+    age: 65,
+    monthlyIncome: 3500
+  };
+
 
   /** @ngInject */
-  function ComponentController($interval, $timeout, AkrUserService, AkrWeb3Service, toastr) {
+  function ComponentController($interval, $scope, $timeout, $location,
+                               AkrUserService, AkrWeb3Service, AkrMsgCenterService, AkrPreloaderService,
+                               toastr) {
     var ctrl = this;
 
     ctrl.isUploaded = false;
@@ -21,9 +28,7 @@
         ctrl.user = result;
       });
 
-      AkrWeb3Service.savingsGoal().then(function (result) {
-        ctrl.savingsGoal = result;
-      });
+      ctrl.savingsGoal = angular.copy(DEFAULT_SAVING_GOAL);
     };
 
     ctrl.upload = function () {
@@ -46,12 +51,51 @@
 
     };
 
-    ctrl.showPassportValidationMessage = function() {
+    ctrl.showPassportValidationMessage = function () {
       toastr.error('Please update passport photo',
         {
           "positionClass": "toast-top-center"
         });
-    }
+    };
+
+    ctrl.createUser = function () {
+      AkrPreloaderService.show('Creating user account...');
+      AkrWeb3Service.createUserAccount(ctrl.user.dateOfBirth, ctrl.savingsGoal.age, ctrl.savingsGoal.monthlyIncome)
+        .then(function (result) {
+
+          toastr.info('<p>Your account is being verified now. We\'ll notify you as soon as that\'s complete.</p>\n' +
+            '          <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>',
+            'Welcome!', {
+              "autoDismiss": false,
+              "positionClass": "toast-top-center",
+              "type": "info",
+              "timeOut": "10000",
+              "extendedTimeOut": "2000",
+              "allowHtml": true,
+              "closeButton": true,
+              "tapToDismiss": true,
+              "progressBar": false,
+              "newestOnTop": true,
+              "maxOpened": 0,
+              "preventDuplicates": false,
+              "preventOpenDuplicates": false
+            });
+
+          AkrMsgCenterService.message('message', 'Your account is being verified now. We\'ll notify you as soon as that\'s complete')
+
+          AkrPreloaderService.show('Buying tokens...');
+          AkrWeb3Service.buyAETTokens(100)
+            .then(function () {
+              console.log('tokens bought');
+              AkrPreloaderService.hide();
+              AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification');
+              $scope.$apply(function () {
+								$location.path('/dashboard');
+							});
+            });
+
+        });
+    };
 
   }
 })();

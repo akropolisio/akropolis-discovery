@@ -8,19 +8,19 @@
           Akropolis
         </div>
         <div class="sub">
-          {{ $ctrl.saving.label }}
+          {{ ::$ctrl.saving.label }}
         </div>
       </div>
       <div class="header right">
         <div class="main">
-          {{ $ctrl.saving.balance | gbp }}
+          {{ ::$ctrl.saving.balance | gbp }}
 
         </div>
         <div class="sub">
-          {{ $ctrl.saving.additionalInfo }}
+          {{ ::$ctrl.additionalInfo() }}
         </div>
         <div style="position: absolute; top: 70px; right: 20px;">
-          <a ng-click="$ctrl.invest($ctrl.saving)"><i class="fa fa-credit-card" style="font-size: 36px;"></i></a>
+          <a ng-click="$ctrl.invest()"><i class="fa fa-credit-card" style="font-size: 36px; cursor: pointer;"></i></a>
         </div>
       </div>
     </div>

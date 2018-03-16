@@ -13,6 +13,11 @@
     return {
       restrict: 'E',
       controller: 'DashboardPieChartCtrl',
+      scope: {
+        accounts: '<',
+        savingGoal: '<',
+        age: '<'
+      },
       templateUrl: 'app/pages/dashboard/dashboardPieChart/dashboardPieChart.html'
     };
   }
