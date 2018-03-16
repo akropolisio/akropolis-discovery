@@ -14,7 +14,7 @@
 
 
   /** @ngInject */
-  function ComponentController($interval, $timeout, $location,
+  function ComponentController($interval, $timeout, $location, $scope,
                                AkrUserService, AkrWeb3Service, AkrMsgCenterService, toastr) {
     var ctrl = this;
 
@@ -85,7 +85,9 @@
             .then(function () {
               console.log('tokens bought');
               AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification');
-              $location.path('/dashboard');
+              $scope.$apply(function () {
+								$location.path('/dashboard');
+							});
             });
 
         });
