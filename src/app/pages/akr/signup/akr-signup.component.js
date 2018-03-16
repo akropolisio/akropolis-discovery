@@ -7,6 +7,11 @@
       templateUrl: 'app/pages/akr/signup/akr-signup.component.html'
     });
 
+  var DEFAULT_SAVING_GOAL = {
+    age: 65,
+    monthlyIncome: 3500
+  };
+
 
   /** @ngInject */
   function ComponentController($interval, $timeout, $location,
@@ -22,9 +27,7 @@
         ctrl.user = result;
       });
 
-      AkrWeb3Service.savingsGoal().then(function (result) {
-        ctrl.savingsGoal = result;
-      });
+      ctrl.savingsGoal = angular.copy(DEFAULT_SAVING_GOAL);
     };
 
     ctrl.upload = function () {
@@ -55,8 +58,9 @@
     };
 
     ctrl.createUser = function () {
-      AkrWeb3Service.createUserAccount(ctrl.user.dateOfBirth)
+      AkrWeb3Service.createUserAccount(ctrl.user.dateOfBirth, ctrl.savingsGoal.age, ctrl.savingsGoal.monthlyIncome)
         .then(function (result) {
+
           toastr.info('<p>Your account is being verified now. We\'ll notify you as soon as that\'s complete.</p>\n' +
             '          <p>Feel free to explore and get started by setting up the rest of your Akropolis account</p>',
             'Welcome!', {
@@ -79,6 +83,7 @@
 
           AkrWeb3Service.buyAETTokens(100)
             .then(function () {
+              console.log('tokens bought');
               AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification');
               $location.path('/dashboard');
             });

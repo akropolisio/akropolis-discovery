@@ -36,7 +36,7 @@ contract FlatFeesCollector is FeesCollector {
 
 
     function calculateInvestmentFee(ERC20 _token, uint256 _amount) public view returns(uint256) {
-        return 1;
+        return 1 ether;
     }
 
 }

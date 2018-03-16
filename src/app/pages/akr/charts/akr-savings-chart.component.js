@@ -9,13 +9,13 @@
 
 
   /** @ngInject */
-  function ComponentController($location, $q, AkrWeb3Service, AkrUserService, baConfig, layoutPaths) {
+  function ComponentController($location, $q, AkrWeb3Service, AkrUserService, baConfig, layoutPaths, AkrSavingAccountsService) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
       var layoutColors = baConfig.colors;
 
-      $q.all([AkrUserService.get(), AkrWeb3Service.savingsGoal(), AkrWeb3Service.accounts()])
+      $q.all([AkrUserService.get(), AkrWeb3Service.savingsGoal(), AkrSavingAccountsService.accounts()])
         .then(function (result) {
           var user = result[0];
           var savingGoals = result[1];
@@ -27,9 +27,9 @@
           var savingGoalAge = savingGoals.age;
           var yearsLeft = savingGoalAge - age;
 
-          var pessimisticPercent = 0.06;
-          var normalPercent = 0.08;
-          var optimisticPercent = 0.10;
+          var pessimisticPercent = 0.03;
+          var normalPercent = 0.05;
+          var optimisticPercent = 0.08;
 
           var accountsSum = Object.keys(accounts)
             .map(function (key) {

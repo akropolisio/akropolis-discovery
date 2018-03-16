@@ -23,23 +23,23 @@ contract('Fees collector', function ([owner, wallet, fund]) {
 		feesCollector = await FlatFeesCollector.new(token.address);
 		usd = await DigitalUSD.new();
 
-		await token.mint(wallet, 100, {from: owner});
-		(await token.balanceOf(wallet)).should.be.bignumber.equal(100);
+		await token.mint(wallet, web3.toWei(100, "ether"), {from: owner});
+		(await token.balanceOf(wallet)).should.be.bignumber.equal(web3.toWei(100, "ether"));
 	});
 
 
 	it('should calculate fees for investment', async function () {
-		var fees = await feesCollector.calculateInvestmentFee(usd.address, 100);
-		(fees.should.be.bignumber.equal(1));
+		var fees = await feesCollector.calculateInvestmentFee(usd.address, web3.toWei(100, "ether"));
+		(fees.should.be.bignumber.equal(web3.toWei(1, "ether")));
 	});
 
 
 	it('should collect fees for investment', async function () {
-		token.approve(feesCollector.address, 100, {from: wallet});
-		await feesCollector.collectInvestmentFee(wallet, usd.address, 100, {from: fund});
+		token.approve(feesCollector.address, web3.toWei(100, "ether"), {from: wallet});
+		await feesCollector.collectInvestmentFee(wallet, usd.address, web3.toWei(100, "ether"), {from: fund});
 
-		(await token.balanceOf(wallet)).should.be.bignumber.equal(99);
-		(await token.balanceOf(fund)).should.be.bignumber.equal(1);
+		(await token.balanceOf(wallet)).should.be.bignumber.equal(web3.toWei(99, "ether"));
+		(await token.balanceOf(fund)).should.be.bignumber.equal(web3.toWei(1, "ether"));
 	});
 
 

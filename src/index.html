@@ -25,7 +25,7 @@
 </head>
 <body>
 <div class="body-bg"></div>
-<main ng-if="$pageFinishedLoading" ng-class="{ 'menu-collapsed': $baSidebarService.isMenuCollapsed() }">
+<main ng-if="$pageFinishedLoading">
 
   <page-top></page-top>
 
@@ -38,7 +38,7 @@
   <back-top></back-top>
 </main>
 
-<div id="preloader" ng-show="!$pageFinishedLoading">
+<div id="preloader" ng-show="!$pageFinishedLoading || $showPreloder">
   <div></div>
 </div>
 

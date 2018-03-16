@@ -8,7 +8,7 @@
     });
 
   /** @ngInject */
-  function ComponentController(AkrWeb3Service, $location, toastr) {
+  function ComponentController(AkrWeb3Service, $scope, $location, toastr) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
@@ -46,12 +46,14 @@
           });
         return;
       }
+
       AkrWeb3Service.configureFundsAllocation(ctrl.funds)
         .then(function (result) {
           console.log(result);
-          $location.path('/savings/deposit/VOLUNTARY/true');
+          $scope.$apply(function () {
+            $location.path('/savings/deposit/VOLUNTARY/true');
+          });
         });
-
 
     }
 

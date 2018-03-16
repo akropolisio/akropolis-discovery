@@ -9,24 +9,33 @@
 
 
   /** @ngInject */
-  function ComponentController($location, AkrWeb3Service) {
+  function ComponentController($location, $rootScope, AkrSavingAccountsService) {
     var ctrl = this;
 
+    ctrl.accounts = null;
+    $rootScope.$showPreloder = true;
+
     ctrl.$onInit = function () {
-      AkrWeb3Service.accounts().then(function (result) {
-        console.log(result);
-        ctrl.accounts = result;
-      });
+      AkrSavingAccountsService.accounts()
+        .then(function (result) {
+          console.log("Accounts loaded!");
+          console.log(result);
+          $rootScope.$showPreloder = false;
+          ctrl.accounts = result;
+          if (!$rootScope.$$phase) {
+            $rootScope.$digest();
+          }
+
+        });
     };
 
     ctrl.createSavingAccounts = function () {
-			$location.path('/savings/introduction');
+      $location.path('/savings/introduction');
     };
 
-    ctrl.hasSavingAccounts = function() {
+    ctrl.hasSavingAccounts = function () {
       return ctrl.accounts && Object.keys(ctrl.accounts).length > 0;
     };
-
 
 
   }

@@ -1,13 +1,13 @@
 <div class="row">
 
   <div class="col-lg-9 col-md-12 col-sm-12">
-    <div ba-panel ba-panel-title="Savings" ba-panel-class="with-scroll" ng-show="$ctrl.hasSavingAccounts()">
+    <div ba-panel ba-panel-title="Savings" ba-panel-class="with-scroll" ng-if="$ctrl.hasSavingAccounts()">
       <akr-savings-chart></akr-savings-chart>
     </div>
 
     <div ba-panel ba-panel-title="Pension funds">
       <!-- Create savings button -->
-      <div class="akr-saving panel" ng-hide="$ctrl.hasSavingAccounts()">
+      <div class="akr-saving panel" ng-if="!$ctrl.hasSavingAccounts()">
         <div class="panel-body">
           <div class="description create-button" ng-click="$ctrl.createSavingAccounts()">
               <i class="fa fa-calendar-plus-o"></i> <span>Create a new Akropolis Account</span>
@@ -23,9 +23,8 @@
     </div>
   </div>
 
-  <div class="col-lg-3 col-md-12 col-sm-12" style="padding-top: 5px">
-    <dashboard-pie-chart></dashboard-pie-chart>
-
+  <div class="col-lg-3 col-md-12 col-sm-12" style="padding-top: 5px" ng-if="$ctrl.hasSavingAccounts()">
+    <dashboard-pie-chart accounts="$ctrl.accounts"></dashboard-pie-chart>
   </div>
 
 
