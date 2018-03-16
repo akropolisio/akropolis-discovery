@@ -27,26 +27,15 @@
     };
 
     ctrl.deposit = function () {
-      if (ctrl.initial) {
-        AkrSavingAccountsService.createSavingAccounts()
-          .then(doInvest);
-      } else {
-        doInvest();
-      }
+			console.log('doInvest');
+			return AkrSavingAccountsService.invest(ctrl.depositAmount, ctrl.account)
+				.then(function () {
+					//note: dapp promises are not 'standard' angularjs promises and they do not trigger digest cycle.
+					//that's why we need to use $apply function.
+					$scope.$apply(function () {
+						$location.path('/dashboard');
+					});
+				});
     };
-
-    function doInvest() {
-      console.log('doInvest');
-      return AkrSavingAccountsService.invest(ctrl.depositAmount, ctrl.account)
-        .then(function () {
-          //note: dapp promises are not 'standard' angularjs promises and they do not trigger digest cycle.
-          //that's why we need to use $apply function.
-          $scope.$apply(function () {
-            $location.path('/dashboard');
-          });
-        });
-    }
-
-
   }
 })();

@@ -48,7 +48,7 @@
       }
 
       //TODO: Configure allocations and create saving accounts in one call
-      AkrWeb3Service.configureFundsAllocation(ctrl.funds)
+      AkrWeb3Service.configureFundsAllocationAndCreateAccounts(ctrl.funds)
         .then(function (result) {
           console.log(result);
           $scope.$apply(function () {

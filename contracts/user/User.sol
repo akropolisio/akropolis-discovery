@@ -29,6 +29,11 @@ contract User is Ownable {
         savingGoal = _savingGoal;
     }
 
+    function createAccountsWithFixedStrategy(bytes32[] _fundNames, uint256[] _allocations) onlyOwner public {
+        createFixedAllocationInvestmentStrategy(_fundNames, _allocations);
+        createDefaultAccounts();
+    }
+
     function createDefaultAccounts() public onlyOwner {
         openSavingAccount("VOLUNTARY");
         openSavingAccount("EMERGENCY");

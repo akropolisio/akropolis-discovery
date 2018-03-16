@@ -227,10 +227,11 @@ window.Dapp = {
     });
   },
 
-  createFixedAllocationInvestmentStrategy: function (funds, allocations) {
+	createAccountsWithFixedStrategy: function (funds, allocations) {
     return this.getUser()
       .then(function (user) {
-        return user.createFixedAllocationInvestmentStrategy(funds, allocations, {from: mainAccount, gas: 4000000});
+        console.log("Creating account with fixed strategy");
+        return user.createAccountsWithFixedStrategy(funds, allocations, {from: mainAccount, gas: 6000000});
       });
   }
 

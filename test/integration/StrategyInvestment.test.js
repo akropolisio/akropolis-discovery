@@ -40,12 +40,9 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		user = User.at(await userRegistry.getUserContract(userAccount));
 		var walletAddress = await user.wallet();
 		await aet.mint(walletAddress, web3.toWei(100, "ether"), {from: owner});
-		await user.createDefaultAccounts({from: userAccount});
-		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
 		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
 		(await user.owner()).should.be.equal(userAccount);
-		(await user.getSavingAccountsCount()).should.be.bignumber.equal(3);
 	});
 
 
@@ -69,11 +66,13 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 	});
 
 
-	it('should create investment strategy', async function () {
-		await user.createFixedAllocationInvestmentStrategy(["FUND_1", "FUND_2"], [80, 20], {from: userAccount});
+	it('should create saving accounts and investment strategy', async function () {
+		await user.createAccountsWithFixedStrategy(["FUND_1", "FUND_2"], [80, 20], {from: userAccount});
 		var strategy = InvestmentStrategy.at(await user.investmentStrategy());
+		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
 		(await strategy.getNumberOfRecommendations()).should.be.bignumber.equal(2);
+		(await user.getSavingAccountsCount()).should.be.bignumber.equal(3);
 	});
 
 

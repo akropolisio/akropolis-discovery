@@ -46,7 +46,7 @@
         });
     };
 
-    this.configureFundsAllocation = function (funds) {
+    this.configureFundsAllocationAndCreateAccounts = function (funds) {
       var fundKeys = [];
       var fundAllocations = [];
 
@@ -55,7 +55,7 @@
         fundAllocations.push(funds[key].allocation);
       });
 
-      return Dapp.createFixedAllocationInvestmentStrategy(fundKeys, fundAllocations);
+      return Dapp.createAccountsWithFixedStrategy(fundKeys, fundAllocations);
     };
 
     this.pensionFunds = function () {
