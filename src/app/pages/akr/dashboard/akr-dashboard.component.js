@@ -27,6 +27,7 @@
           ctrl.savingGoal = results[1];
           ctrl.age = results[2];
 
+
           console.log(ctrl.savingGoal);
           AkrPreloaderService.hide();
 

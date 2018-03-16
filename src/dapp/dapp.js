@@ -191,12 +191,14 @@ window.Dapp = {
     var self = this;
     console.log("Buying AET Tokens: " + value);
     return self.getUser().then(function () {
-      return faucet.getTokens(walletAddr, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
+      return faucet.getTokens(walletAddr, {from: mainAccount, value: web3.toWei(value/1000, "ether"), gas: 1000000});
     });
   },
 
   getAETBalance: function () {
-    return token.balanceOf(walletAddr);
+		return this.getUser().then(function () {
+			return token.balanceOf(walletAddr);
+		});
   },
 
   ethAccount: function () {
@@ -253,15 +255,14 @@ window.Dapp.initComplete = false;
 window.addEventListener("load", function () {
   console.log("load");
 
-  //TODO: Connect to inected web3 once deployed on testnet
-
-  /*if (typeof web3 !== "undefined") {
+  if (typeof web3 !== "undefined") {
   	window.web3 = new Web3(web3.currentProvider);
   } else {
   	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-  }*/
+  }
 
-  window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  //For development to disable Metamask
+  //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
   AkropolisToken.setProvider(web3.currentProvider);
   UserRegistry.setProvider(web3.currentProvider);

@@ -9,45 +9,58 @@
     .controller('DashboardPieChartCtrl', DashboardPieChartCtrl);
 
   /** @ngInject */
-  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil, $filter, AkrWeb3Service, AkrUserService) {
+  function DashboardPieChartCtrl($scope, $timeout, $q, baConfig, baUtil, $filter, AkrWeb3Service, AkrUserService, AkrSavingAccountsService) {
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
 
-    var accounts = $scope.accounts;
-    var totalSavings = Object.keys(accounts)
-      .map(function (key) {
-        return accounts[key].balance;
-      })
-      .reduce(function (previousValue, currentValue) {
-        return previousValue + currentValue;
-      });
 
-    var estimatedPension = AkrUserService.calculatePensionBenefit(
-      $scope.age, $scope.savingGoal.age, 71, totalSavings, 0.05);
+		var totalSavings = 0;
+		var estimatedPension = 0;
+		var estimatedPensionPercentage = 0;
 
-    AkrWeb3Service.aetBalance()
-      .then(function(result) {
-        $scope.charts = [{
-          color: pieColor,
-          description: 'Total savings',
-          stats: $filter('gbp')(totalSavings),
-          icon: 'person',
-        }, {
-          color: pieColor,
-          description: 'Estimated pension',
-          stats: $filter('gbp')(estimatedPension),
-          icon: 'money',
-        }, {
-          color: pieColor,
-          description: 'AET balance',
-          stats: $filter('aet')(result) + ' tokens',
-          icon: 'money',
-        }
-        ];
-      });
+		$q.all([AkrSavingAccountsService.accounts(), AkrWeb3Service.savingGoal(), AkrUserService.age(), AkrWeb3Service.aetBalance()])
+			.then(function ([accounts, savingGoal, age, balance]) {
 
-    function getRandomArbitrary(min, max) {
-      return Math.random() * (max - min) + min;
-    }
+			if (accounts) {
+				totalSavings = Object.keys(accounts)
+					.map(function (key) {
+						return accounts[key].balance;
+					})
+					.reduce(function (previousValue, currentValue) {
+						return previousValue + currentValue;
+					});
+			}
+
+      estimatedPension = AkrUserService.calculatePensionBenefit(age, savingGoal.age, 71, totalSavings, 0.05)
+			estimatedPensionPercentage = estimatedPension / savingGoal.monthlyIncome * 100;
+
+				$scope.charts = [{
+					color: pieColor,
+					description: 'Total savings',
+					stats: $filter('gbp')(totalSavings),
+					icon: 'person',
+					percentage: 0,
+				}, {
+					color: pieColor,
+					description: 'Estimated pension',
+					stats: $filter('gbp')(estimatedPension),
+					icon: 'money',
+					percentage: estimatedPensionPercentage,
+				}, {
+					color: pieColor,
+					description: 'AET balance',
+					stats: $filter('aet')(balance) + ' tokens',
+					icon: 'money',
+					percentage: $filter('aet')(balance)
+				}
+				];
+
+				$timeout(function () {
+					loadPieCharts();
+					updatePieCharts();
+				}, 1000);
+
+		});
+
 
     function loadPieCharts() {
       $('.chart').each(function () {
@@ -66,21 +79,14 @@
           lineCap: 'round',
         });
       });
-
-      $('.refresh-data').on('click', function () {
-        updatePieCharts();
-      });
     }
 
     function updatePieCharts() {
       $('.pie-charts .chart').each(function (index, chart) {
-        $(chart).data('easyPieChart').update(getRandomArbitrary(55, 90));
+        $(chart).data('easyPieChart').update($scope.charts[index].percentage);
       });
     }
 
-    $timeout(function () {
-      loadPieCharts();
-      updatePieCharts();
-    }, 1000);
+
   }
 })();
