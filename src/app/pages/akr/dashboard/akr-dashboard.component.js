@@ -41,10 +41,6 @@
       $location.path('/savings/introduction');
     };
 
-    ctrl.hasSavingAccounts = function () {
-      return ctrl.accounts && Object.keys(ctrl.accounts).length > 0;
-    };
-
 
   }
 })();

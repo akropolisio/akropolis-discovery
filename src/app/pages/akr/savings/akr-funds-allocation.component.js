@@ -8,7 +8,8 @@
     });
 
   /** @ngInject */
-  function ComponentController(AkrWeb3Service, $scope, $location, toastr, AkrPreloaderService) {
+  function ComponentController(AkrWeb3Service, AkrSavingAccountsService, AkrPreloaderService,
+                               $scope, $location, toastr) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
@@ -48,7 +49,7 @@
       }
 
       AkrPreloaderService.show("Creating saving accounts...")
-      AkrWeb3Service.configureFundsAllocationAndCreateAccounts(ctrl.funds)
+      AkrSavingAccountsService.configureFundsAllocationAndCreateAccounts(ctrl.funds)
         .then(function (result) {
           console.log(result);
           $scope.$apply(function () {

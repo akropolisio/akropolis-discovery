@@ -30,13 +30,21 @@
 
     var _hasAccount = null;
 
-    this.createSavingAccounts = function () {
+    this.configureFundsAllocationAndCreateAccounts = function (funds) {
       console.log('createSavingAccounts');
       return this.hasSavingAccounts()
         .then(function (hasAccount) {
           console.log('hasSavingAccount: ' + hasAccount);
           if (!hasAccount) {
-            return Dapp.createDefaultAccounts()
+            var fundKeys = [];
+            var fundAllocations = [];
+
+            Object.keys(funds).forEach(function (key) {
+              fundKeys.push(key);
+              fundAllocations.push(funds[key].allocation);
+            });
+
+            return Dapp.createAccountsWithFixedStrategy(fundKeys, fundAllocations)
               .then(function (tx) {
                 _hasAccount = true;
               });
@@ -50,7 +58,7 @@
       return self.hasSavingAccounts()
         .then(function (hasAccount) {
           console.log('hasAccount: ' + hasAccount);
-          return hasAccount ? accountsWithBalance() : $q.when({});
+          return hasAccount ? accountsWithBalance() : $q.when(null);
         });
 
       function accountsWithBalance() {

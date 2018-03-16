@@ -219,6 +219,7 @@ window.Dapp = {
    * @param account of the savings account
    */
   invest: function (value, account) {
+    console.log("invest: " + value);
     return this.getUser().then(function (user) {
       return user.invest(value, account, {from: mainAccount, gas: 4000000});
     });
@@ -254,13 +255,13 @@ window.addEventListener("load", function () {
 
   //TODO: Connect to inected web3 once deployed on testnet
 
-  if (typeof web3 !== "undefined") {
+  /*if (typeof web3 !== "undefined") {
   	window.web3 = new Web3(web3.currentProvider);
   } else {
   	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-  }
+  }*/
 
-  //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
   AkropolisToken.setProvider(web3.currentProvider);
   UserRegistry.setProvider(web3.currentProvider);

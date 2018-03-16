@@ -43,18 +43,6 @@
         });
     };
 
-    this.configureFundsAllocationAndCreateAccounts = function (funds) {
-      var fundKeys = [];
-      var fundAllocations = [];
-
-      Object.keys(funds).forEach(function (key) {
-        fundKeys.push(key);
-        fundAllocations.push(funds[key].allocation);
-      });
-
-      return Dapp.createAccountsWithFixedStrategy(fundKeys, fundAllocations);
-    };
-
     this.pensionFunds = function () {
       return $q.when({
         TECH: {
