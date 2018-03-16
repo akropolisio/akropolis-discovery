@@ -38,7 +38,7 @@
         });
     };
 
-    ctrl.depositFunds = function () {
+    ctrl.configureAllocations = function () {
       if (ctrl.fundsSplitSum() != 100) {
         toastr.error('Fund split must sum to 100%',
           {
@@ -47,6 +47,7 @@
         return;
       }
 
+      //TODO: Configure allocations and create saving accounts in one call
       AkrWeb3Service.configureFundsAllocation(ctrl.funds)
         .then(function (result) {
           console.log(result);
