@@ -16,10 +16,10 @@ module.exports = function(deployer, network, [main]) {
 	}).then(function() {
 		return registry.createAndRegisterPensionFund("TECH", {from: main});
 	}).then(function() {
-		registry.createAndRegisterPensionFund("SUSTAINABLE", {from: main});
+		return registry.createAndRegisterPensionFund("SUSTAINABLE", {from: main});
 	}).then(function() {
-		registry.createAndRegisterPensionFund("BIOMED", {from: main});
+		return registry.createAndRegisterPensionFund("BIOMED", {from: main});
 	}).then(function() {
-		registry.createAndRegisterPensionFund("ENERGY", {from: main});
+		return registry.createAndRegisterPensionFund("ENERGY", {from: main});
 	})
 };

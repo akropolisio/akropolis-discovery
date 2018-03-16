@@ -3,6 +3,8 @@ const AkropolisToken = artifacts.require('./AkropolisToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
 
 module.exports = function(deployer) {
+	console.log("Connecting Pension Registry to AET: " + AkropolisToken.address);
+	console.log("Connecting Pension Registry to Staking Pool: " + StakingPool.address);
 	deployer.deploy(PensionFundsRegistry, AkropolisToken.address, StakingPool.address);
 	deployer.then(function() {
 		return PensionFundsRegistry.deployed();

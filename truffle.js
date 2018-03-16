@@ -19,7 +19,7 @@ module.exports = {
 			gas: 0xfffffffffff, // <-- Use this high gas value
 			gasPrice: 0x01      // <-- Use this low gas price
 		},
-		local_kovan: {
+		kovan: {
 			provider: function() {
 				return new HDWalletProvider(config.mnemonic, "http://localhost:8545")
 			},
