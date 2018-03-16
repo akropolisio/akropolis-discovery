@@ -5,6 +5,7 @@ import './Wallet.sol';
 import './SavingsAccount.sol';
 import '../network/PensionFundsRegistry.sol';
 import './InvestmentStrategy.sol';
+import "./SavingGoal.sol";
 
 
 /**
@@ -17,13 +18,15 @@ contract User is Ownable {
     Wallet public wallet;
     InvestmentStrategy public investmentStrategy;
     PensionFundsRegistry public pensionFundsRegistry;
+    SavingGoal public savingGoal;
 
     mapping(bytes32 => SavingsAccount) savingAccounts;
     bytes32[] savingAccountsList;
 
-    function User(uint256 _dateOfBirth, Wallet _wallet) public {
+    function User(uint256 _dateOfBirth, Wallet _wallet, SavingGoal _savingGoal) public {
         dateOfBirth = _dateOfBirth;
         wallet = _wallet;
+        savingGoal = _savingGoal;
     }
 
     function createDefaultAccounts() public onlyOwner {
@@ -69,16 +72,13 @@ contract User is Ownable {
         return savingAccounts[savingAccountsList[_index]];
     }
 
-
     function getSavingAccountsCount() public view returns(uint256) {
         return savingAccountsList.length;
     }
 
-
     function getSavingAccountValue(bytes32 _name) public view returns(uint256) {
         return savingAccounts[_name].totalValue(wallet.usdToken());
     }
-
 
     function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
         pensionFundsRegistry = _pensionFundsRegistry;

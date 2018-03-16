@@ -8,10 +8,11 @@ var PaymentGateway = contract(require("../../build/contracts/PaymentGateway.json
 
 var Wallet = contract(require("../../build/contracts/Wallet.json"));
 var User = contract(require("../../build/contracts/User.json"));
+var SavingGoal = contract(require("../../build/contracts/SavingGoal.json"));
 var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
 var DEPLOYMENT = require("../../build/deployment.json");
 
-var mainAccount, userRegistry, networkId, faucet, token, user, wallet;
+var mainAccount, userRegistry, networkId, faucet, token, user, walletAddr, savingGoal;
 
 console.log(DEPLOYMENT);
 
@@ -100,11 +101,18 @@ window.Dapp = {
       if (address !== "0x0000000000000000000000000000000000000000") {
         return User.at(address).then(function (instance) {
           user = instance;
-          return user.wallet();
-        }).then(function (walletAddress) {
-          console.log("Wallet contract: " + walletAddress);
-          wallet = walletAddress;
-          return Promise.resolve(user);
+          return Promise.all([user.wallet(), user.savingGoal()]);
+        }).then(function (addresses) {
+          console.log("Wallet and saving goals addresses: ");
+          console.log(addresses);
+          walletAddr = addresses[0];
+          var savingGoalAddr = addresses[1];
+          return SavingGoal.at(savingGoalAddr)
+            .then(function (instance) {
+              console.log('Saving goal instance: ' + instance);
+              savingGoal = instance;
+              return Promise.resolve(user);
+            });
         });
       } else {
         return Promise.resolve(undefined);
@@ -114,17 +122,32 @@ window.Dapp = {
 
   getUser: function () {
     if (user) {
+      console.log(user);
       return Promise.resolve(user);
     } else {
       return this.fetchUser();
     }
   },
 
-  createUserAccount: function (dateOfBirth) {
+  getSavingGoal: function () {
+    if (savingGoal) {
+      return savingGoal;
+    } else {
+      return this.fetchUser()
+        .then(function () {
+          return savingGoal;
+        });
+    }
+  },
+
+  createUserAccount: function (dateOfBirth, retirementAge, monthlyIncome) {
     var self = this;
     var dateAsUnixTimestampInSeconds = Math.floor(new Date(dateOfBirth) / 1000);
     console.log("dateOfBirth: " + dateAsUnixTimestampInSeconds);
-    return userRegistry.createUser(dateAsUnixTimestampInSeconds, {from: mainAccount, gas: 3000000})
+    return userRegistry.createUser(dateAsUnixTimestampInSeconds, retirementAge, monthlyIncome, {
+      from: mainAccount,
+      gas: 6000000
+    })
       .then(function (tx) {
         console.log("Creating user: " + tx.tx);
         return self.fetchUser();
@@ -153,12 +176,12 @@ window.Dapp = {
     var self = this;
     console.log("Buying AET Tokens: " + value);
     return self.getUser().then(function () {
-      return faucet.getTokens(wallet, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
+      return faucet.getTokens(walletAddr, {from: mainAccount, value: web3.toWei(0.1, "ether"), gas: 1000000});
     });
   },
 
   getAETBalance: function () {
-    return token.balanceOf(wallet);
+    return token.balanceOf(walletAddr);
   },
 
   ethAccount: function () {
@@ -230,6 +253,7 @@ window.addEventListener("load", function () {
   AETFaucet.setProvider(web3.currentProvider);
   Wallet.setProvider(web3.currentProvider);
   PaymentGateway.setProvider(web3.currentProvider);
+  SavingGoal.setProvider(web3.currentProvider);
 
   web3.eth.getAccounts(function (err, accounts) {
     if (err) {
@@ -269,8 +293,6 @@ window.addEventListener("load", function () {
     networkId = web3.version.network;
 
     console.log("Main account: " + mainAccount);
-
-
 
   });
 });

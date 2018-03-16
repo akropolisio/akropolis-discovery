@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const ONE_TOKEN = (new web3.BigNumber(10)).pow(18);
+  var ONE_TOKEN = (new web3.BigNumber(10)).pow(18);
 
   angular.module('akr-commons', [])
     .filter('metafilter', ['$filter', function ($filter) {
@@ -33,7 +33,6 @@
       return function (input) {
         return input + ' years';
       };
-    }])
-  ;
+    }]);
 
 })();

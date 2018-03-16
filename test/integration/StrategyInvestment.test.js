@@ -36,7 +36,7 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 
 	it('should create a user', async function () {
-		await userRegistry.createUser(DOB.unix(), {from: userAccount});
+		await userRegistry.createUser(DOB.unix(), 65, 2200, {from: userAccount});
 		user = User.at(await userRegistry.getUserContract(userAccount));
 		var walletAddress = await user.wallet();
 		await aet.mint(walletAddress, web3.toWei(100, "ether"), {from: owner});

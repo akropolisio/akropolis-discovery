@@ -7,8 +7,8 @@
   /** @ngInject */
   function AkrWeb3Service($q) {
 
-    this.createUserAccount = function (dateOfBirth) {
-      return Dapp.createUserAccount(dateOfBirth);
+    this.createUserAccount = function (dateOfBirth, age, monthlyIncome) {
+      return Dapp.createUserAccount(dateOfBirth, age, monthlyIncome);
     };
 
     this.hasAccount = function () {
