@@ -15,7 +15,8 @@
 
   /** @ngInject */
   function ComponentController($interval, $timeout, $location,
-                               AkrUserService, AkrWeb3Service, AkrMsgCenterService, toastr) {
+                               AkrUserService, AkrWeb3Service, AkrMsgCenterService, AkrPreloaderService,
+                               toastr) {
     var ctrl = this;
 
     ctrl.isUploaded = false;
@@ -58,6 +59,7 @@
     };
 
     ctrl.createUser = function () {
+      AkrPreloaderService.show('Creating user account...');
       AkrWeb3Service.createUserAccount(ctrl.user.dateOfBirth, ctrl.savingsGoal.age, ctrl.savingsGoal.monthlyIncome)
         .then(function (result) {
 
@@ -81,9 +83,11 @@
 
           AkrMsgCenterService.message('message', 'Your account is being verified now. We\'ll notify you as soon as that\'s complete')
 
+          AkrPreloaderService.show('Buying tokens...');
           AkrWeb3Service.buyAETTokens(100)
             .then(function () {
               console.log('tokens bought');
+              AkrPreloaderService.hide();
               AkrMsgCenterService.message('notification', 'Opened account and initial AET deposit notification');
               $location.path('/dashboard');
             });

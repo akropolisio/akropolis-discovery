@@ -11,6 +11,7 @@
   /** @ngInject */
   function themeRun($timeout, $rootScope, layoutPaths, preloader, $q, themeLayoutSettings, $interval) {
     $rootScope.$showPreloder = false;
+    $rootScope.$preloaderText = "Loading Application. Please Wait.";
     console.log('themeRun');
 
     var whatToWait = [
@@ -33,6 +34,7 @@
           console.log('window.Dapp.initComplete: ' + window.Dapp.initComplete);
           if (window.Dapp.initComplete) {
             $rootScope.$pageFinishedLoading = true;
+            $rootScope.$preloaderText = null;
             $interval.cancel(stop);
           }
         }, 100);

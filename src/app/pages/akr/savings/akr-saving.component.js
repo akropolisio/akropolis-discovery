@@ -8,7 +8,8 @@
       bindings: {
         saving: '<',
         showDepositLink: '<',
-        type: '<'
+        type: '<',
+        savingGoal: '<'
       }
     });
 
@@ -23,6 +24,8 @@
       $location.path('/savings/deposit/' + ctrl.type + '/false');
     };
 
-
+    ctrl.additionalInfo = function () {
+      return ctrl.saving.additionalInfo.replace('{}', ctrl.savingGoal.age);
+    };
   }
 })();

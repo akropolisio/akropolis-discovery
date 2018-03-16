@@ -31,11 +31,8 @@
 
     };
 
-    this.savingsGoal = function () {
-      return $q.when({
-        age: 65,
-        monthlyIncome: 3500
-      });
+    this.savingGoal = function () {
+      return Dapp.getSavingGoal();
     };
 
     //Acropolis External Token

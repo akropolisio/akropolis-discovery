@@ -38,8 +38,13 @@
   <back-top></back-top>
 </main>
 
-<div id="preloader" ng-show="!$pageFinishedLoading || $showPreloder">
-  <div></div>
+<div ng-show="!$pageFinishedLoading || $showPreloder">
+  <div id="preloader">
+    <div></div>
+  </div>
+  <div style="position: absolute; z-index: 1000; top: 67%; width: 100%; text-align: center">
+    {{ $preloaderText }}
+  </div>
 </div>
 
 <!-- build:js(src) scripts/vendor.js -->

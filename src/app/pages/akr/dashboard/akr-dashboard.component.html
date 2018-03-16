@@ -2,7 +2,7 @@
 
   <div class="col-lg-9 col-md-12 col-sm-12">
     <div ba-panel ba-panel-title="Savings" ba-panel-class="with-scroll" ng-if="$ctrl.hasSavingAccounts()">
-      <akr-savings-chart></akr-savings-chart>
+      <akr-savings-chart age="$ctrl.age" saving-goal="$ctrl.savingGoal"></akr-savings-chart>
     </div>
 
     <div ba-panel ba-panel-title="Pension funds">
@@ -18,13 +18,14 @@
       <akr-saving
               ng-repeat="(key, value) in $ctrl.accounts"
               saving="value"
+              saving-goal="$ctrl.savingGoal"
               type="key">
       </akr-saving>
     </div>
   </div>
 
   <div class="col-lg-3 col-md-12 col-sm-12" style="padding-top: 5px" ng-if="$ctrl.hasSavingAccounts()">
-    <dashboard-pie-chart accounts="$ctrl.accounts"></dashboard-pie-chart>
+    <dashboard-pie-chart accounts="$ctrl.accounts" age="$ctrl.age" saving-goal="$ctrl.savingGoal"></dashboard-pie-chart>
   </div>
 
 

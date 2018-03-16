@@ -10,13 +10,13 @@
     var _state = {
       VOLUNTARY: {
         label: 'Pension',
-        additionalInfo: 'from age 62',
+        additionalInfo: 'from age {}',
         balance: null,
         $dirty: true
       },
       EMERGENCY: {
         label: 'Emergency Fund',
-        additionalInfo: 'from age 62',
+        additionalInfo: 'from age {}',
         balance: null,
         $dirty: true
       },

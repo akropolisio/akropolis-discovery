@@ -4,7 +4,12 @@
   angular.module('akr-charts')
     .component('akrSavingsChart', {
       controller: ComponentController,
-      templateUrl: 'app/pages/akr/charts/akr-savings-chart.component.html'
+      templateUrl: 'app/pages/akr/charts/akr-savings-chart.component.html',
+      bindings: {
+        age: '<',
+        savingGoal: '<'
+      }
+
     });
 
 
@@ -15,16 +20,14 @@
     ctrl.$onInit = function () {
       var layoutColors = baConfig.colors;
 
-      $q.all([AkrUserService.get(), AkrWeb3Service.savingsGoal(), AkrSavingAccountsService.accounts()])
+      $q.all([AkrSavingAccountsService.accounts()])
         .then(function (result) {
-          var user = result[0];
-          var savingGoals = result[1];
-          var accounts = result[2];
+          var accounts = result[0];
 
           var now = moment();
           var currentYear = now.year();
-          var age = now.diff(user.dateOfBirth, 'years');
-          var savingGoalAge = savingGoals.age;
+          var age = ctrl.age;
+          var savingGoalAge = ctrl.savingGoal.age;
           var yearsLeft = savingGoalAge - age;
 
           var pessimisticPercent = 0.03;

@@ -100,6 +100,7 @@ window.Dapp = {
       console.log("Found user contract: " + address);
       if (address !== "0x0000000000000000000000000000000000000000") {
         return User.at(address).then(function (instance) {
+
           user = instance;
           return Promise.all([user.wallet(), user.savingGoal()]);
         }).then(function (addresses) {
@@ -110,8 +111,17 @@ window.Dapp = {
           return SavingGoal.at(savingGoalAddr)
             .then(function (instance) {
               console.log('Saving goal instance: ' + instance);
-              savingGoal = instance;
-              return Promise.resolve(user);
+              return Promise.all([instance.age(), instance.monthlyIncome()])
+                .then(function (result) {
+                  console.log('Saving goal data:');
+                  console.log(result);
+                  savingGoal = {
+                    age: parseInt(result[0].valueOf()),
+                    monthlyIncome: parseInt(result[1].valueOf())
+                  };
+
+                  return Promise.resolve(user);
+                });
             });
         });
       } else {
@@ -122,7 +132,6 @@ window.Dapp = {
 
   getUser: function () {
     if (user) {
-      console.log(user);
       return Promise.resolve(user);
     } else {
       return this.fetchUser();
@@ -131,7 +140,7 @@ window.Dapp = {
 
   getSavingGoal: function () {
     if (savingGoal) {
-      return savingGoal;
+      return Promise.resolve(savingGoal);
     } else {
       return this.fetchUser()
         .then(function () {

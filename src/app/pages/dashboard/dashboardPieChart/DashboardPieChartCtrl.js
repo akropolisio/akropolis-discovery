@@ -9,7 +9,7 @@
     .controller('DashboardPieChartCtrl', DashboardPieChartCtrl);
 
   /** @ngInject */
-  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil, $filter, AkrWeb3Service) {
+  function DashboardPieChartCtrl($scope, $timeout, baConfig, baUtil, $filter, AkrWeb3Service, AkrUserService) {
     var pieColor = baUtil.hexToRGB(baConfig.colors.defaultText, 0.2);
 
     var accounts = $scope.accounts;
@@ -17,11 +17,14 @@
       .map(function (key) {
         return accounts[key].balance;
       })
-      .reduce(function (previousValue, currentValue, currentIndex, array) {
+      .reduce(function (previousValue, currentValue) {
         return previousValue + currentValue;
       });
 
-    var aetBalance = AkrWeb3Service.aetBalance()
+    var estimatedPension = AkrUserService.calculatePensionBenefit(
+      $scope.age, $scope.savingGoal.age, 71, totalSavings, 0.05);
+
+    AkrWeb3Service.aetBalance()
       .then(function(result) {
         $scope.charts = [{
           color: pieColor,
@@ -31,7 +34,7 @@
         }, {
           color: pieColor,
           description: 'Estimated pension',
-          stats: '$ 2,200',
+          stats: $filter('gbp')(estimatedPension),
           icon: 'money',
         }, {
           color: pieColor,
@@ -41,8 +44,6 @@
         }
         ];
       });
-
-
 
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;

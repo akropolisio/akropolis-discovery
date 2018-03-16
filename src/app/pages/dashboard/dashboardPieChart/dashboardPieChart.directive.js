@@ -14,7 +14,9 @@
       restrict: 'E',
       controller: 'DashboardPieChartCtrl',
       scope: {
-        accounts: '='
+        accounts: '<',
+        savingGoal: '<',
+        age: '<'
       },
       templateUrl: 'app/pages/dashboard/dashboardPieChart/dashboardPieChart.html'
     };
