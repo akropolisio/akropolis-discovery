@@ -34,5 +34,12 @@ contract('User Registry', function ([owner, userAccount]) {
 		(await savingGoal.monthlyIncome()).should.be.bignumber.equal(2200);
 	});
 
+	it('should remove a user', async function () {
+		await registry.removeSelf({from: userAccount});
+		var userAddress = await registry.getUserContract(userAccount);
+
+		(userAddress).should.be.equal("0x0000000000000000000000000000000000000000");
+	});
+
 
 });

@@ -154,6 +154,12 @@ window.Dapp = {
       });
   },
 
+  removeUserAccount: function() {
+    return userRegistry.removeSelf({from: mainAccount, gas: 1000000}).then(function(tx) {
+      console.log("User removed in tx: " + tx.tx);
+    });
+  },
+
   hasSavingAccount: function () {
     var self = this;
     return self.getUser().then(function (user) {

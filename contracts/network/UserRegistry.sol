@@ -36,6 +36,10 @@ contract UserRegistry is Ownable {
         Registered(_userAddress, _userContract);
     }
 
+    function removeSelf() public {
+        delete users[msg.sender];
+    }
+
     function getUserContract(address _userAddress) view public returns(User) {
         return users[_userAddress];
     }
