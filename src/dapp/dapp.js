@@ -163,6 +163,12 @@ window.Dapp = {
       });
   },
 
+  removeUserAccount: function() {
+    return userRegistry.removeSelf({from: mainAccount, gas: 1000000}).then(function(tx) {
+      console.log("User removed in tx: " + tx.tx);
+    });
+  },
+
   hasSavingAccount: function () {
     var self = this;
     return self.getUser().then(function (user) {
@@ -230,10 +236,11 @@ window.Dapp = {
     });
   },
 
-  createFixedAllocationInvestmentStrategy: function (funds, allocations) {
+	createAccountsWithFixedStrategy: function (funds, allocations) {
     return this.getUser()
       .then(function (user) {
-        return user.createFixedAllocationInvestmentStrategy(funds, allocations, {from: mainAccount, gas: 4000000});
+        console.log("Creating account with fixed strategy");
+        return user.createAccountsWithFixedStrategy(funds, allocations, {from: mainAccount, gas: 6000000});
       });
   }
 
@@ -247,13 +254,13 @@ window.addEventListener("load", function () {
 
   //TODO: Connect to inected web3 once deployed on testnet
 
-  // if (typeof web3 !== "undefined") {
-  // 	window.web3 = new Web3(web3.currentProvider);
-  // } else {
-  // 	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-  // }
+  if (typeof web3 !== "undefined") {
+  	window.web3 = new Web3(web3.currentProvider);
+  } else {
+  	window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  }
 
-  window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
   AkropolisToken.setProvider(web3.currentProvider);
   UserRegistry.setProvider(web3.currentProvider);

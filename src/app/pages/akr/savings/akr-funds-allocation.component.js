@@ -38,7 +38,7 @@
         });
     };
 
-    ctrl.depositFunds = function () {
+    ctrl.configureAllocations = function () {
       if (ctrl.fundsSplitSum() != 100) {
         toastr.error('Fund split must sum to 100%',
           {
@@ -46,8 +46,9 @@
           });
         return;
       }
-      AkrPreloaderService.show("Saving funds allocation...");
-      AkrWeb3Service.configureFundsAllocation(ctrl.funds)
+
+      AkrPreloaderService.show("Creating saving accounts...")
+      AkrWeb3Service.configureFundsAllocationAndCreateAccounts(ctrl.funds)
         .then(function (result) {
           console.log(result);
           $scope.$apply(function () {
