@@ -9,7 +9,7 @@
 
   /** @ngInject */
   function ComponentController(AkrWeb3Service, AkrSavingAccountsService, AkrPreloaderService,
-                               $scope, $location, toastr) {
+                               $location, $timeout, toastr) {
     var ctrl = this;
 
     ctrl.$onInit = function () {
@@ -51,12 +51,12 @@
       AkrPreloaderService.show("Creating saving accounts...")
       AkrSavingAccountsService.configureFundsAllocationAndCreateAccounts(ctrl.funds)
         .then(function (result) {
-          console.log(result);
-          $scope.$apply(function () {
-            AkrPreloaderService.hide();
-            $location.path('/savings/deposit/VOLUNTARY/true');
-          });
-        });
+					console.log(result);
+					$timeout(function () {
+						AkrPreloaderService.hide();
+						$location.path('/savings/deposit/VOLUNTARY/true');
+					});
+				});
 
     }
 
