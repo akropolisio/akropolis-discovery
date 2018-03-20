@@ -8,7 +8,7 @@
     });
 
   /** @ngInject */
-  function ComponentController($location, AkrWeb3Service) {
+  function ComponentController($location, $scope, AkrWeb3Service) {
     var ctrl = this;
 
     ctrl.hasAccount = null;
@@ -16,7 +16,11 @@
     ctrl.$onInit = function () {
       AkrWeb3Service.hasAccount()
         .then(function (result) {
-          ctrl.hasAccount = result;
+          console.log("Has account: " + result);
+          $scope.$apply(function() {
+						ctrl.hasAccount = result;
+          });
+
         });
     };
 
