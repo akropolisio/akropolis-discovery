@@ -18,7 +18,12 @@
 		var estimatedPensionPercentage = 0;
 
 		$q.all([AkrSavingAccountsService.accounts(), AkrWeb3Service.savingGoal(), AkrUserService.age(), AkrWeb3Service.aetBalance()])
-			.then(function ([accounts, savingGoal, age, balance]) {
+			.then(function (result) {
+
+			var accounts = result[0];
+			var savingGoal = result[1];
+			var age = result[2];
+			var balance = result[3];
 
 			if (accounts) {
 				totalSavings = Object.keys(accounts)
