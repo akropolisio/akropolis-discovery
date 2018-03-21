@@ -8,12 +8,16 @@
 
 var gutil = require('gulp-util');
 
+const secret = 'YSQGMEDTBBVJVMCJBKJCILFJSKJTUCIC';
+
 /**
  *  The main paths of your project handle these with care
  */
 exports.paths = {
   src: 'src',
-  dist: 'www',
+	secret: secret,
+  dist: 'dist/' + secret,
+  serve: 'dist',
   devDist: 'dev-release',
   tmp: '.tmp',
   e2e: 'e2e'

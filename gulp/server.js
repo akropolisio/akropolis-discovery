@@ -57,8 +57,18 @@ gulp.task('serve:static', ['inject', 'inject-dapp'], function () {
   browserSyncInit([path.join(conf.paths.tmp, '/serve'), path.join(conf.paths.tmp, '/dapp'), conf.paths.src]);
 });
 
-gulp.task('serve:dist', ['build'], function () {
-  browserSyncInit(conf.paths.dist);
+gulp.task('serve:dist', ['dist'], function () {
+	browserSync.instance = browserSync.init({
+		startPath: conf.paths.secret + '/index.html',
+		server: {
+		  baseDir: conf.paths.serve,
+			routes: {
+				'/bower_components': conf.paths.dist + '/bower_components'
+			}
+    },
+		browser: 'default',
+		port:8080
+	});
 });
 
 gulp.task('serve:e2e', ['inject'], function () {
@@ -66,5 +76,5 @@ gulp.task('serve:e2e', ['inject'], function () {
 });
 
 gulp.task('serve:e2e-dist', ['build'], function () {
-  browserSyncInit(conf.paths.dist, []);
+  browserSyncDist(conf.paths.dist, []);
 });

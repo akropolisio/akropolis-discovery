@@ -100,7 +100,25 @@ gulp.task('other', ['copyVendorImages'], function () {
 });
 
 gulp.task('clean', function () {
-  return $.del([path.join(conf.paths.dist, '/'), path.join(conf.paths.tmp, '/')]);
+  return $.del.sync([path.join(conf.paths.serve, '/')]);
 });
 
-gulp.task('build', ['clean','html', 'fonts', 'other']);
+gulp.task('package', function () {
+	return gulp.src([
+		path.join(conf.paths.src, '/**/*'),
+		path.join(conf.paths.tmp, '/serve/**/*'),
+		path.join(conf.paths.tmp, '/dapp/**/*'),
+		path.join(conf.paths.tmp, '/partials/**/*'),
+	])
+		.pipe(gulp.dest(path.join(conf.paths.dist, '/')));
+});
+
+gulp.task('copy-bower', function () {
+	return gulp.src([
+		path.join('bower_components', '/**/*'),
+	])
+		.pipe(gulp.dest(path.join(conf.paths.dist, '/bower_components/')));
+});
+
+
+gulp.task('dist', ['clean', 'inject', 'inject-dapp', 'package', 'copy-bower']);
