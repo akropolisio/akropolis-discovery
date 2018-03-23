@@ -51,7 +51,8 @@
     "textAngular": "~1.4.6",
     "angular-ui-select": "^0.19.6",
     "owl.carousel": "^2.2.1",
-    "es6-promise-polyfill": "^1.2.0"
+    "es6-promise-polyfill": "^1.2.0",
+    "bignumber.js": "^6.0.0"
   },
   "resolutions": {
     "angular": "~1.6.9",
