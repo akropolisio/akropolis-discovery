@@ -1,0 +1,30 @@
+<div class="row akr-error">
+    <div ba-panel ba-panel-title="Oops! Network connection problem." class="akr-panel">
+
+
+        <div ng-show="$ctrl.network == 'None'">
+            Please install the Metamask plugin.
+            <div>
+                <img src="assets/pictures/metamask.png"
+                     alt="Metamask">
+            </div>
+        </div>
+
+        <div ng-show="$ctrl.network != 'None'" style="margin-top: 30px;">
+            You are currently connected to the {{$ctrl.network}} network.
+            <br/><br/>
+            Please connect to the Kovan Test Network.
+        </div>
+
+        <div style="margin-top: 30px; margin-bottom: 20px">
+            <div ng-show="$ctrl.network == 'None'">
+                <a type="button" class="btn btn-primary btn-lg" href="https://metamask.io/" target="_blank"
+                   style="width: 260px">Download Metamask
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+

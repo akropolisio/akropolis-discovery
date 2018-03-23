@@ -18,7 +18,11 @@
 
   /** @ngInject */
   function routeConfig($urlRouterProvider) {
-    $urlRouterProvider.otherwise('/login');
+    if (Dapp.hasWeb3) {
+			$urlRouterProvider.otherwise('/login');
+		} else {
+			$urlRouterProvider.otherwise('/error');
+    }
 
   }
 

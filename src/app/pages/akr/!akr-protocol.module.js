@@ -6,6 +6,7 @@
       'akr-commons',
 
       'akr-login',
+      'akr-error',
       'akr-signup',
       'akr-dashboard',
       'akr-pension',
@@ -23,6 +24,11 @@
         template: '<akr-login></akr-login>',
         title: 'Login'
       })
+			.state('error', {
+				url: '/error',
+				template: '<akr-error></akr-error>',
+				title: 'Error'
+			})
       .state('signup', {
         url: '/signup',
         template: '<akr-signup></akr-signup>',

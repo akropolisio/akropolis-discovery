@@ -78,15 +78,9 @@ window.Dapp = {
     this.setAllocationsSummary();
   },
 
-  setAlert: function (message, type) {
-    type = type || "info";
-    var element = document.getElementById("alerts");
-    element.innerHTML = "<div class='alert alert-" + type + "'>" + message + "</div>";
-  },
-
   throwError: function (message, err) {
     err = err || message;
-    this.setAlert("<strong>Error!</strong> " + message, "danger");
+    console.log(message);
     throw err;
   },
 
@@ -250,6 +244,7 @@ window.Dapp = {
 };
 
 window.Dapp.initComplete = false;
+window.Dapp.hasWeb3 = false;
 
 
 window.addEventListener("load", function () {
@@ -275,13 +270,24 @@ window.addEventListener("load", function () {
 
   web3.eth.getAccounts(function (err, accounts) {
     if (err) {
-      Dapp.throwError("Your browser can't see the decentralized web!", err);
+			Dapp.network = 'None';
+			window.Dapp.initComplete = true;
+      return;
     }
     if (accounts.length == 0) {
-      Dapp.throwError("Connect an account!");
+		  //TODO: Report error
     }
 
-    //Fetch contract instances
+    Dapp.network = idToNetworkName(web3.version.network);
+    console.log("Connected to: " + Dapp.network);
+    if (Dapp.network !== 'Kovan') {
+			window.Dapp.initComplete = true;
+			return;
+    }
+
+		Dapp.hasWeb3 = true;
+
+		//Fetch contract instances
     var AETFaucetPromise = AETFaucet.at(DEPLOYMENT.AETFaucet);
     var UserRegistryPromise = UserRegistry.at(DEPLOYMENT.UserRegistry);
 
@@ -308,8 +314,6 @@ window.addEventListener("load", function () {
 
 
     mainAccount = accounts[0];
-    networkId = web3.version.network;
-
     console.log("Main account: " + mainAccount);
 
   });
