@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
-import '../tokens/AkropolisToken.sol';
+import '../tokens/AkropolisExternalToken.sol';
 import '../network/PensionFundsRegistry.sol';
 import '../network/StakingPool.sol';
 import './FlatFeesCollector.sol';
@@ -18,14 +18,14 @@ import '../user/SavingsAccount.sol';
 contract PensionFund is Ownable, PricingOracle {
     using SafeMath for uint256;
 
-    AkropolisToken public aet;
+    AkropolisExternalToken public aet;
     FeesCollector public feesCollector;
     Shares public shares;
 
     uint256 public totalShares;
     bytes32 public symbol;
 
-    function PensionFund(AkropolisToken _aet, bytes32 _symbol) public {
+    function PensionFund(AkropolisExternalToken _aet, bytes32 _symbol) public {
         aet = _aet;
         symbol = _symbol;
         shares = new Shares(symbol, this);

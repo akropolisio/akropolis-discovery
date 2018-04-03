@@ -1,6 +1,6 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
-var AkropolisToken = contract(require("../../build/contracts/AkropolisToken.json"));
+var AkropolisExternalToken = contract(require("../../build/contracts/AkropolisExternalToken.json"));
 
 var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
 var PensionFundsRegistry = contract(require("../../build/contracts/PensionFundsRegistry.json"));
@@ -259,7 +259,7 @@ window.addEventListener("load", function () {
   //For development to disable Metamask
   //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-  AkropolisToken.setProvider(web3.currentProvider);
+  AkropolisExternalToken.setProvider(web3.currentProvider);
   UserRegistry.setProvider(web3.currentProvider);
   PensionFundsRegistry.setProvider(web3.currentProvider);
   User.setProvider(web3.currentProvider);
@@ -294,7 +294,7 @@ window.addEventListener("load", function () {
     AETFaucetPromise.then(function (instance) {
       faucet = instance;
 
-      AkropolisToken.at(DEPLOYMENT.AkropolisToken).then(function (instance) {
+      AkropolisExternalToken.at(DEPLOYMENT.AkropolisExternalToken).then(function (instance) {
         token = instance;
 
         UserRegistryPromise.then(function (instance) {

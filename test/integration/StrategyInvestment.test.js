@@ -7,7 +7,7 @@ const UserRegistry = artifacts.require('./UserRegistry.sol');
 const FundRegistry = artifacts.require('./PensionFundsRegistry.sol');
 const PensionFund = artifacts.require('./PensionFund.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const Wallet = artifacts.require('./Wallet.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
 const DigitalUSD = artifacts.require('./DigitalUSD.sol');
@@ -29,7 +29,7 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 	before(async function () {
 		userRegistry = await UserRegistry.deployed();
 		fundRegistry = await FundRegistry.deployed();
-		aet = await AkropolisToken.deployed();
+		aet = await AkropolisExternalToken.deployed();
 		var paymentGateway = await PaymentGateway.deployed();
 		usd = DigitalUSD.at(await paymentGateway.usdToken());
 	});

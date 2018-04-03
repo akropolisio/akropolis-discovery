@@ -1,6 +1,6 @@
 'use strict'
 
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const StakingPool    = artifacts.require('./StakingPool.sol');
 const PensionFund    = artifacts.require('./PensionFund.sol');
 const FlatFeesCollector  = artifacts.require('./FlatFeesCollector.sol');
@@ -19,7 +19,7 @@ contract('Fees collector', function ([owner, wallet, fund]) {
 	let token, feesCollector, usd;
 
 	before(async function () {
-		token = await AkropolisToken.new();
+		token = await AkropolisExternalToken.new();
 		feesCollector = await FlatFeesCollector.new(token.address);
 		usd = await DigitalUSD.new();
 

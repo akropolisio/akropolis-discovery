@@ -18,12 +18,12 @@ contract PensionFundsRegistry is Ownable, PensionFundFactory {
     event MinStakeUpdated(uint256 stakeAmount);
 
     StakingPool public stakingPool;
-    AkropolisToken public aet;
+    AkropolisExternalToken public aet;
 
     uint256 public minStake;
     mapping(bytes32 => PensionFund) registry;
 
-    function PensionFundsRegistry(AkropolisToken _aet, StakingPool _stakingPool) public
+    function PensionFundsRegistry(AkropolisExternalToken _aet, StakingPool _stakingPool) public
         PensionFundFactory(_aet) {
         aet = _aet;
         stakingPool = _stakingPool;

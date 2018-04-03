@@ -4,7 +4,7 @@ const Moment = require('moment');
 
 const UserRegistry = artifacts.require('./UserRegistry.sol');
 const User = artifacts.require('./User.sol');
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const AETFaucet = artifacts.require('./AETFaucet.sol');
 
 
@@ -23,7 +23,7 @@ contract('User Registry', function ([owner, userAccount]) {
 
 	before(async function () {
 		registry = await UserRegistry.deployed();
-		token = await AkropolisToken.deployed();
+		token = await AkropolisExternalToken.deployed();
 		faucet = await AETFaucet.new(token.address);
 		token.mint(faucet.address, web3.toWei(1000000, "ether"));
 	});

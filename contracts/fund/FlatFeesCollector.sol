@@ -10,9 +10,9 @@ import '../fund/PensionFund.sol';
  */
 contract FeesCollector {
 
-    AkropolisToken aet;
+    AkropolisExternalToken aet;
 
-    function FeesCollector(AkropolisToken _aet) public {
+    function FeesCollector(AkropolisExternalToken _aet) public {
         aet = _aet;
     }
 
@@ -25,7 +25,7 @@ contract FeesCollector {
 
 contract FlatFeesCollector is FeesCollector {
 
-    function FlatFeesCollector(AkropolisToken _aet) public
+    function FlatFeesCollector(AkropolisExternalToken _aet) public
         FeesCollector(_aet) {
     }
 

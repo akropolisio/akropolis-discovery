@@ -1,11 +1,11 @@
 const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
 
 module.exports = function(deployer) {
-	console.log("Connecting Pension Registry to AET: " + AkropolisToken.address);
+	console.log("Connecting Pension Registry to AET: " + AkropolisExternalToken.address);
 	console.log("Connecting Pension Registry to Staking Pool: " + StakingPool.address);
-	deployer.deploy(PensionFundsRegistry, AkropolisToken.address, StakingPool.address);
+	deployer.deploy(PensionFundsRegistry, AkropolisExternalToken.address, StakingPool.address);
 	deployer.then(function() {
 		return PensionFundsRegistry.deployed();
 	}).then(function(instance) {

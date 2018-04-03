@@ -1,6 +1,6 @@
 'use strict'
 
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -9,20 +9,20 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should();
 
-contract('Akropolis Token', function ([owner, holder]) {
+contract('Akropolis External Token', function ([owner, holder]) {
 
 	let token;
 
 	beforeEach(async function () {
-		token = await AkropolisToken.new()
+		token = await AkropolisExternalToken.new()
 	});
 
 
 	it('should have the correct setup', async function () {
-		(await token.name()).should.be.equal("Akropolis Token");
+		(await token.name()).should.be.equal("Akropolis External Token");
 		(await token.decimals()).should.be.bignumber.equal(18);
-		(await token.symbol()).should.be.equal("AKR");
-		(await token.version()).should.be.equal("AKR 1.0");
+		(await token.symbol()).should.be.equal("AET");
+		(await token.version()).should.be.equal("AET 1.0");
 	});
 
 

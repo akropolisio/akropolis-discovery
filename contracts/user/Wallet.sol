@@ -7,7 +7,7 @@ import '../network/PensionFundsRegistry.sol';
 import '../oracle/PaymentGateway.sol';
 import '../fund/PensionFund.sol';
 import '../user/SavingsAccount.sol';
-import '../tokens/AkropolisToken.sol';
+import '../tokens/AkropolisExternalToken.sol';
 
 contract Wallet is Ownable {
     using SafeMath for uint256;
@@ -28,7 +28,7 @@ contract Wallet is Ownable {
 
         usdToken.approve(address(fund), _amount);
         FeesCollector feesCollector = fund.feesCollector();
-        AkropolisToken aet = fund.aet();
+        AkropolisExternalToken aet = fund.aet();
         uint256 fee = feesCollector.calculateInvestmentFee(usdToken, _amount);
         aet.approve(feesCollector, fee);
 

@@ -1,13 +1,13 @@
 const fs = require('fs');
 
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const AETFaucet = artifacts.require('./AETFaucet.sol');
 
 module.exports = function(deployer) {
-	console.log("Connecting AETFaucet to AET: " + AkropolisToken.address);
-	deployer.deploy(AETFaucet, AkropolisToken.address);
+	console.log("Connecting AETFaucet to AET: " + AkropolisExternalToken.address);
+	deployer.deploy(AETFaucet, AkropolisExternalToken.address);
 	deployer.then(function() {
-		return AkropolisToken.at(AkropolisToken.address);
+		return AkropolisExternalToken.at(AkropolisExternalToken.address);
 	}).then(function(instance) {
 		return instance.mint(AETFaucet.address, web3.toWei(1000000, "ether"));
 	}).then(function(tx) {

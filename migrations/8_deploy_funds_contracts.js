@@ -1,5 +1,5 @@
 const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 
 module.exports = function(deployer, network, [main]) {
 	var registry,aet;
@@ -7,7 +7,7 @@ module.exports = function(deployer, network, [main]) {
 		return PensionFundsRegistry.deployed();
 	}).then(function(instance) {
 		registry = instance;
-		return AkropolisToken.deployed();
+		return AkropolisExternalToken.deployed();
 	}).then(function(instance) {
 		aet = instance;
 		return aet.mint(main, web3.toWei(400, "ether"));

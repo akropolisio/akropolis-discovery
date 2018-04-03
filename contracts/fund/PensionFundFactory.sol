@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import '../tokens/AkropolisToken.sol';
+import '../tokens/AkropolisExternalToken.sol';
 import '../network/StakingPool.sol';
 import './FlatFeesCollector.sol';
 import './PensionFund.sol';
@@ -12,11 +12,11 @@ import './PensionFund.sol';
  */
 contract PensionFundFactory {
 
-    AkropolisToken public aet;
+    AkropolisExternalToken public aet;
     FeesCollector public feesCollector;
 
 
-    function PensionFundFactory(AkropolisToken _aet) public {
+    function PensionFundFactory(AkropolisExternalToken _aet) public {
         aet = _aet;
         feesCollector = new FlatFeesCollector(aet);
     }
