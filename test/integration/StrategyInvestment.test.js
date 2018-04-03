@@ -10,7 +10,7 @@ const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const Wallet = artifacts.require('./Wallet.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
-const DigitalUSD = artifacts.require('./DigitalUSD.sol');
+const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
 const InvestmentStrategy = artifacts.require('./InvestmentStrategy.sol');
 
 const BigNumber = web3.BigNumber;
@@ -24,14 +24,14 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 	const DOB = Moment("1983-09-19");
 
-	let userRegistry, user, fundRegistry, fund1, fund2, aet, usd, savingsAccount;
+	let userRegistry, user, fundRegistry, fund1, fund2, aet, ait, savingsAccount;
 
 	before(async function () {
 		userRegistry = await UserRegistry.deployed();
 		fundRegistry = await FundRegistry.deployed();
 		aet = await AkropolisExternalToken.deployed();
 		var paymentGateway = await PaymentGateway.deployed();
-		usd = DigitalUSD.at(await paymentGateway.usdToken());
+		ait = AkropolisInternalToken.at(await paymentGateway.ait());
 	});
 
 
@@ -83,7 +83,7 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		await user.invest(100, "VOLUNTARY", {from: userAccount});
 
 		(await wallet.balance(aet.address)).should.be.bignumber.equal(web3.toWei(98, "ether"));
-		(await savingsAccount.totalValue(usd.address)).should.be.bignumber.equal(100);
+		(await savingsAccount.totalValue(ait.address)).should.be.bignumber.equal(100);
 	});
 
 

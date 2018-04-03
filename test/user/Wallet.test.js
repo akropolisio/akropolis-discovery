@@ -1,7 +1,7 @@
 'use strict'
 
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
-const DigitalUSD = artifacts.require('./DigitalUSD.sol');
+const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
 const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
 const PensionFund = artifacts.require('./PensionFund.sol');
@@ -17,7 +17,7 @@ const should = require('chai')
 
 contract('Wallet', function ([owner]) {
 
-	let registry, pool, token, fund, usd, wallet, paymentGateway;
+	let registry, pool, token, fund, ait, wallet, paymentGateway;
 
 	before(async function () {
 		token = await AkropolisExternalToken.new();
@@ -25,7 +25,7 @@ contract('Wallet', function ([owner]) {
 		registry = await PensionFundsRegistry.new(token.address, pool.address);
 		fund = await PensionFund.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
-		usd = DigitalUSD.at(await paymentGateway.usdToken());
+		ait = AkropolisInternalToken.at(await paymentGateway.ait());
 	});
 
 
@@ -43,7 +43,7 @@ contract('Wallet', function ([owner]) {
 		wallet = await Wallet.new(registry.address, paymentGateway.address);
 		await wallet.makeDeposit(100);
 
-		(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
+		(await ait.balanceOf(wallet.address)).should.be.bignumber.equal(100);
 	});
 
 
