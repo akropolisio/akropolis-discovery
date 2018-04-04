@@ -1,4 +1,5 @@
 const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
+const PersonalDataOracle = artifacts.require('./PersonalDataOracle.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 const UserRegistry = artifacts.require('./UserRegistry.sol');
 
@@ -6,6 +7,7 @@ const UserRegistry = artifacts.require('./UserRegistry.sol');
 module.exports = async function(deployer, network) {
 	console.log("Connecting UserRegistry to FundManagerRegistry: " + FundManagerRegistry.address);
 	console.log("Connecting UserRegistry to PaymentGateway: " + PaymentGateway.address);
-	await deployer.deploy(UserRegistry, FundManagerRegistry.address, PaymentGateway.address);
+	console.log("Connecting UserRegistry to PersonalDataOracle: " + PersonalDataOracle.address);
+	await deployer.deploy(UserRegistry, FundManagerRegistry.address, PaymentGateway.address, PersonalDataOracle.address);
 	process.deployment.UserRegistry = UserRegistry.address;
 };

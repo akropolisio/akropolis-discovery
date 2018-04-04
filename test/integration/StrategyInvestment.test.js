@@ -41,7 +41,7 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		var walletAddress = await user.wallet();
 		await aet.mint(walletAddress, web3.toWei(100, "ether"), {from: owner});
 
-		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
+		(await user.getDateOfBirth()).should.be.bignumber.equal(DOB.unix());
 		(await user.owner()).should.be.equal(userAccount);
 	});
 

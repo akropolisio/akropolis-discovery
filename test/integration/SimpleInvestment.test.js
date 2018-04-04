@@ -42,7 +42,7 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 		await user.createDefaultAccounts({from: userAccount});
 		savingsAccount = SavingsAccount.at(await user.getSavingAccountByName("VOLUNTARY"));
 
-		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
+		(await user.getDateOfBirth()).should.be.bignumber.equal(DOB.unix());
 		(await user.owner()).should.be.equal(userAccount);
 		(await user.getSavingAccountsCount()).should.be.bignumber.equal(3);
 	});

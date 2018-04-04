@@ -32,7 +32,7 @@ contract('User Registry', function ([owner, userAccount]) {
 		await registry.createUser(DOB.unix(), 65, 2200, {from: userAccount});
 		user = User.at(await registry.getUserContract(userAccount));
 
-		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
+		(await user.getDateOfBirth()).should.be.bignumber.equal(DOB.unix());
 	});
 
 	it('should fund it with AET Tokens', async function () {

@@ -15,18 +15,20 @@ contract UserFactory is Ownable {
 
     FundManagerRegistry public pensionFundsRegistry;
     PaymentGateway public paymentGateway;
+    PersonalDataOracle public personalDataOracle;
 
 
-    function UserFactory(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
+    function UserFactory(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway, PersonalDataOracle _personalDataOracle) public {
         pensionFundsRegistry = _pensionFundsRegistry;
         paymentGateway = _paymentGateway;
+        personalDataOracle = _personalDataOracle;
     }
 
 
     function createUser(uint256 _dateOfBirth, SavingGoal _savingGoal) public returns (User) {
 
         Wallet wallet = new Wallet(pensionFundsRegistry, paymentGateway);
-        User user = new User(_dateOfBirth, wallet, _savingGoal);
+        User user = new User(_dateOfBirth, wallet, _savingGoal, personalDataOracle);
         user.setFundManagerRegistry(pensionFundsRegistry);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);

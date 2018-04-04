@@ -18,8 +18,8 @@ contract UserRegistry is Ownable {
 
     mapping(address => User) users;
 
-    function UserRegistry(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
-        userFactory = new UserFactory(_pensionFundsRegistry, _paymentGateway);
+    function UserRegistry(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway, PersonalDataOracle _personalDataOracle) public {
+        userFactory = new UserFactory(_pensionFundsRegistry, _paymentGateway, _personalDataOracle);
     }
 
     function createUser(uint256 _dateOfBirth, uint256 _retirementAge, uint256 _monthlyIncome) public {
