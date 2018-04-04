@@ -2,7 +2,7 @@
 
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const StakingPool    = artifacts.require('./StakingPool.sol');
-const PensionFund    = artifacts.require('./PensionFund.sol');
+const FundManager    = artifacts.require('./FundManager.sol');
 const FlatFeesCollector  = artifacts.require('./FlatFeesCollector.sol');
 const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
 

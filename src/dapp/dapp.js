@@ -3,7 +3,7 @@ var contract = require("truffle-contract");
 var AkropolisExternalToken = contract(require("../../build/contracts/AkropolisExternalToken.json"));
 
 var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
-var PensionFundsRegistry = contract(require("../../build/contracts/PensionFundsRegistry.json"));
+var FundManagerRegistry = contract(require("../../build/contracts/FundManagerRegistry.json"));
 var PaymentGateway = contract(require("../../build/contracts/PaymentGateway.json"));
 
 var Wallet = contract(require("../../build/contracts/Wallet.json"));
@@ -261,7 +261,7 @@ window.addEventListener("load", function () {
 
   AkropolisExternalToken.setProvider(web3.currentProvider);
   UserRegistry.setProvider(web3.currentProvider);
-  PensionFundsRegistry.setProvider(web3.currentProvider);
+  FundManagerRegistry.setProvider(web3.currentProvider);
   User.setProvider(web3.currentProvider);
   AETFaucet.setProvider(web3.currentProvider);
   Wallet.setProvider(web3.currentProvider);

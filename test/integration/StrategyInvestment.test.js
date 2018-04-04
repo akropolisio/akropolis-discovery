@@ -4,8 +4,8 @@ const Moment = require('moment');
 
 const User = artifacts.require('./User.sol');
 const UserRegistry = artifacts.require('./UserRegistry.sol');
-const FundRegistry = artifacts.require('./PensionFundsRegistry.sol');
-const PensionFund = artifacts.require('./PensionFund.sol');
+const FundRegistry = artifacts.require('./FundManagerRegistry.sol');
+const FundManager = artifacts.require('./FundManager.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const Wallet = artifacts.require('./Wallet.sol');
@@ -49,8 +49,8 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 	it('should create first pension fund', async function () {
 		await aet.mint(fund1Account, web3.toWei(100, "ether"), {from: owner});
 		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fund1Account});
-		await fundRegistry.createAndRegisterPensionFund("FUND_1", {from: fund1Account});
-		fund1 = PensionFund.at(await fundRegistry.getFund("FUND_1"));
+		await fundRegistry.createAndRegisterFundManager("FUND_1", {from: fund1Account});
+		fund1 = FundManager.at(await fundRegistry.getFund("FUND_1"));
 
 		(await fund1.owner()).should.be.equal(fund1Account);
 	});
@@ -59,8 +59,8 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 	it('should create second pension fund', async function () {
 		await aet.mint(fund2Account, web3.toWei(100, "ether"), {from: owner});
 		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fund2Account});
-		await fundRegistry.createAndRegisterPensionFund("FUND_2", {from: fund2Account});
-		fund2 = PensionFund.at(await fundRegistry.getFund("FUND_2"));
+		await fundRegistry.createAndRegisterFundManager("FUND_2", {from: fund2Account});
+		fund2 = FundManager.at(await fundRegistry.getFund("FUND_2"));
 
 		(await fund2.owner()).should.be.equal(fund2Account);
 	});

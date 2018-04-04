@@ -2,7 +2,7 @@
 
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
-const PensionFund = artifacts.require('./PensionFund.sol');
+const FundManager = artifacts.require('./FundManager.sol');
 const FlatFeesCollector  = artifacts.require('./FlatFeesCollector.sol');
 const AkropolisInternalToken  = artifacts.require('./AkropolisInternalToken.sol');
 const Shares = artifacts.require('./Shares.sol');
@@ -15,14 +15,14 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should();
 
-contract('Pension Fund', function ([owner, wallet, savingAccount]) {
+contract('Fund Manager', function ([owner, wallet, savingAccount]) {
 
 	let token, pool, fund, feesCollector, ait, shares;
 
 	before(async function () {
 		token = await AkropolisExternalToken.new();
 		pool = await StakingPool.new(token.address);
-		fund = await PensionFund.new(token.address, "FUND");
+		fund = await FundManager.new(token.address, "FUND");
 		feesCollector = await FlatFeesCollector.new(token.address);
 		ait = await AkropolisInternalToken.new();
 		shares = Shares.at(await fund.shares());
@@ -67,7 +67,6 @@ contract('Pension Fund', function ([owner, wallet, savingAccount]) {
 		await fund.investFromUser(ait.address, 100, savingAccount, {from: wallet});
 
 		//Should issue shares after the investment
-
 
 		(await token.balanceOf(fund.address)).should.be.bignumber.equal(web3.toWei(101, "ether"));
 		(await token.balanceOf(wallet)).should.be.bignumber.equal(web3.toWei(99, "ether"));

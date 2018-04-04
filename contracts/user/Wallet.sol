@@ -3,9 +3,9 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/token/ERC20.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import '../network/PensionFundsRegistry.sol';
+import '../network/FundManagerRegistry.sol';
 import '../oracle/PaymentGateway.sol';
-import '../fund/PensionFund.sol';
+import '../fund/FundManager.sol';
 import '../user/SavingsAccount.sol';
 import '../tokens/AkropolisExternalToken.sol';
 import '../tokens/AkropolisInternalToken.sol';
@@ -13,18 +13,18 @@ import '../tokens/AkropolisInternalToken.sol';
 contract Wallet is Ownable {
     using SafeMath for uint256;
 
-    PensionFundsRegistry public registry;
+    FundManagerRegistry public registry;
     PaymentGateway public paymentGateway;
     AkropolisInternalToken public ait;
 
-    function Wallet(PensionFundsRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
+    function Wallet(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
         registry = _pensionFundsRegistry;
         paymentGateway = _paymentGateway;
         ait = paymentGateway.ait();
     }
 
     function invest(bytes32 _fundName, uint _amount, SavingsAccount _account) public onlyOwner {
-        PensionFund fund = registry.getFund(_fundName);
+        FundManager fund = registry.getFund(_fundName);
         require(address(fund) != 0x0);
 
         ait.approve(address(fund), _amount);

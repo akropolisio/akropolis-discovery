@@ -1,10 +1,10 @@
-const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
+const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 
 module.exports = function(deployer, network, [main]) {
 	var registry,aet;
 	deployer.then(function() {
-		return PensionFundsRegistry.deployed();
+		return FundManagerRegistry.deployed();
 	}).then(function(instance) {
 		registry = instance;
 		return AkropolisExternalToken.deployed();
@@ -14,12 +14,12 @@ module.exports = function(deployer, network, [main]) {
 	}).then(function() {
 		return aet.approve(registry.address, web3.toWei(400, "ether"), {from: main});
 	}).then(function() {
-		return registry.createAndRegisterPensionFund("TECH", {from: main});
+		return registry.createAndRegisterFundManager("TECH", {from: main});
 	}).then(function() {
-		return registry.createAndRegisterPensionFund("SUSTAINABLE", {from: main});
+		return registry.createAndRegisterFundManager("SUSTAINABLE", {from: main});
 	}).then(function() {
-		return registry.createAndRegisterPensionFund("BIOMED", {from: main});
+		return registry.createAndRegisterFundManager("BIOMED", {from: main});
 	}).then(function() {
-		return registry.createAndRegisterPensionFund("ENERGY", {from: main});
+		return registry.createAndRegisterFundManager("ENERGY", {from: main});
 	})
 };

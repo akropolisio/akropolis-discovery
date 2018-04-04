@@ -18,7 +18,7 @@ contract UserRegistry is Ownable {
 
     mapping(address => User) users;
 
-    function UserRegistry(PensionFundsRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
+    function UserRegistry(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
         userFactory = new UserFactory(_pensionFundsRegistry, _paymentGateway);
     }
 

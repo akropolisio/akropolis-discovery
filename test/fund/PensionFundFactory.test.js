@@ -1,7 +1,7 @@
 'use strict'
 
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
-const PensionFundFactory = artifacts.require('./PensionFundFactory.sol');
+const FundManagerFactory = artifacts.require('./FundManagerFactory.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -16,11 +16,11 @@ contract('Pension Fund Factory', function ([owner, wallet]) {
 
 	before(async function () {
 		token = await AkropolisExternalToken.deployed();
-		factory = await PensionFundFactory.new(token.address);
+		factory = await FundManagerFactory.new(token.address);
 	});
 
 	it('should create a Pension Fund', async function () {
-		await factory.createPensionFund("FUND");
+		await factory.createFundManager("FUND");
 	});
 
 

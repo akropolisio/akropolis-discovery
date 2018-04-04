@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 import './User.sol';
-import '../network/PensionFundsRegistry.sol';
+import '../network/FundManagerRegistry.sol';
 import '../network/UserRegistry.sol';
 import '../oracle/PaymentGateway.sol';
 
@@ -13,11 +13,11 @@ contract UserFactory is Ownable {
 
     event Created(address indexed accountAddress, address indexed userContract);
 
-    PensionFundsRegistry public pensionFundsRegistry;
+    FundManagerRegistry public pensionFundsRegistry;
     PaymentGateway public paymentGateway;
 
 
-    function UserFactory(PensionFundsRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
+    function UserFactory(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
         pensionFundsRegistry = _pensionFundsRegistry;
         paymentGateway = _paymentGateway;
     }
@@ -27,7 +27,7 @@ contract UserFactory is Ownable {
 
         Wallet wallet = new Wallet(pensionFundsRegistry, paymentGateway);
         User user = new User(_dateOfBirth, wallet, _savingGoal);
-        user.setPensionFundsRegistry(pensionFundsRegistry);
+        user.setFundManagerRegistry(pensionFundsRegistry);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);
 

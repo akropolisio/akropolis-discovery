@@ -4,8 +4,8 @@ const Moment = require('moment');
 
 const User = artifacts.require('./User.sol');
 const UserRegistry = artifacts.require('./UserRegistry.sol');
-const FundRegistry = artifacts.require('./PensionFundsRegistry.sol');
-const PensionFund = artifacts.require('./PensionFund.sol');
+const FundRegistry = artifacts.require('./FundManagerRegistry.sol');
+const FundManager = artifacts.require('./FundManager.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const Wallet = artifacts.require('./Wallet.sol');
@@ -51,8 +51,8 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 	it('should create a pension fund', async function () {
 		await aet.mint(fundAccount, web3.toWei(100, "ether"), {from: owner});
 		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fundAccount});
-		await fundRegistry.createAndRegisterPensionFund("FUND", {from: fundAccount});
-		fund = PensionFund.at(await fundRegistry.getFund("FUND"));
+		await fundRegistry.createAndRegisterFundManager("FUND", {from: fundAccount});
+		fund = FundManager.at(await fundRegistry.getFund("FUND"));
 
 		(await fund.owner()).should.be.equal(fundAccount);
 	});

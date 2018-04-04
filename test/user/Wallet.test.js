@@ -3,8 +3,8 @@
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
-const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
-const PensionFund = artifacts.require('./PensionFund.sol');
+const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
+const FundManager = artifacts.require('./FundManager.sol');
 const Wallet = artifacts.require('./Wallet.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
 
@@ -22,8 +22,8 @@ contract('Wallet', function ([owner]) {
 	before(async function () {
 		token = await AkropolisExternalToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await PensionFundsRegistry.new(token.address, pool.address);
-		fund = await PensionFund.new(token.address, "FUND");
+		registry = await FundManagerRegistry.new(token.address, pool.address);
+		fund = await FundManager.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
 		ait = AkropolisInternalToken.at(await paymentGateway.ait());
 	});

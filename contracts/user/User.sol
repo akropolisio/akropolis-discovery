@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './Wallet.sol';
 import './SavingsAccount.sol';
-import '../network/PensionFundsRegistry.sol';
+import '../network/FundManagerRegistry.sol';
 import './InvestmentStrategy.sol';
 import "./SavingGoal.sol";
 
@@ -17,7 +17,7 @@ contract User is Ownable {
     uint256 public dateOfBirth;
     Wallet public wallet;
     InvestmentStrategy public investmentStrategy;
-    PensionFundsRegistry public pensionFundsRegistry;
+    FundManagerRegistry public pensionFundsRegistry;
     SavingGoal public savingGoal;
 
     mapping(bytes32 => SavingsAccount) savingAccounts;
@@ -85,7 +85,7 @@ contract User is Ownable {
         return savingAccounts[_name].totalValue(wallet.ait());
     }
 
-    function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
+    function setFundManagerRegistry(FundManagerRegistry _pensionFundsRegistry) public onlyOwner {
         pensionFundsRegistry = _pensionFundsRegistry;
     }
 

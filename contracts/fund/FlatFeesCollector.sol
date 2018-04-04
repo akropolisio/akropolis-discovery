@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 import '../user/Wallet.sol';
-import '../fund/PensionFund.sol';
+import '../fund/FundManager.sol';
 
 
 /**

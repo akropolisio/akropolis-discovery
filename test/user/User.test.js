@@ -1,7 +1,7 @@
 'use strict'
 
 const User = artifacts.require('./User.sol');
-const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
+const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
 const SavingGoal = artifacts.require('./SavingGoal.sol');
 
@@ -19,7 +19,7 @@ contract('User', function ([owner, userAccount]) {
 	let user, registry, savingGoal;
 
 	before(async function () {
-		registry = await PensionFundsRegistry.deployed();
+		registry = await FundManagerRegistry.deployed();
     savingGoal = await SavingGoal.new(65, 2200);
 	});
 

@@ -4,7 +4,7 @@ import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
 import '../tokens/AkropolisExternalToken.sol';
-import '../network/PensionFundsRegistry.sol';
+import '../network/FundManagerRegistry.sol';
 import '../network/StakingPool.sol';
 import './FlatFeesCollector.sol';
 import '../assets/Shares.sol';
@@ -12,10 +12,10 @@ import '../user/SavingsAccount.sol';
 
 
 /**
- * @title PensionFund
+ * @title FundManager
  * @dev Pension funds that manages users deposits
  */
-contract PensionFund is Ownable, PricingOracle {
+contract FundManager is Ownable, PricingOracle {
     using SafeMath for uint256;
 
     AkropolisExternalToken public aet;
@@ -25,7 +25,7 @@ contract PensionFund is Ownable, PricingOracle {
     uint256 public totalShares;
     bytes32 public symbol;
 
-    function PensionFund(AkropolisExternalToken _aet, bytes32 _symbol) public {
+    function FundManager(AkropolisExternalToken _aet, bytes32 _symbol) public {
         aet = _aet;
         symbol = _symbol;
         shares = new Shares(symbol, this);
@@ -51,12 +51,12 @@ contract PensionFund is Ownable, PricingOracle {
     }
 
 
-    function register(PensionFundsRegistry _registry) onlyOwner public {
+    function register(FundManagerRegistry _registry) onlyOwner public {
         _registry.register(symbol);
     }
 
 
-    function unregister(PensionFundsRegistry _registry) onlyOwner public {
+    function unregister(FundManagerRegistry _registry) onlyOwner public {
         _registry.unregister(symbol);
     }
 
