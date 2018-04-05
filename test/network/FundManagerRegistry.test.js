@@ -3,6 +3,7 @@
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
 const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
+const ComplianceOracle = artifacts.require('./ComplianceOracle.sol');
 const FundManager = artifacts.require('./FundManager.sol');
 
 const BigNumber = web3.BigNumber;
@@ -12,14 +13,15 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should();
 
-contract('Pension Funds Registry', function ([owner]) {
+contract('Fund Managers Registry', function ([owner]) {
 
-	let registry, pool, token, fund;
+	let registry, pool, token, fund, compliance;
 
 	before(async function () {
 		token = await AkropolisExternalToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await FundManagerRegistry.new(token.address, pool.address);
+		compliance = await ComplianceOracle.new();
+		registry = await FundManagerRegistry.new(token.address, pool.address, compliance.address);
 		fund = await FundManager.new(token.address, "FUND");
 
 		await token.mint(fund.address, 100, {from: owner});

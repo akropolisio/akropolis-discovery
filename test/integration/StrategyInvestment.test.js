@@ -12,6 +12,7 @@ const Wallet = artifacts.require('./Wallet.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
 const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
 const InvestmentStrategy = artifacts.require('./InvestmentStrategy.sol');
+const ComplianceOracle = artifacts.require('./ComplianceOracle.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -24,11 +25,12 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 
 	const DOB = Moment("1983-09-19");
 
-	let userRegistry, user, fundRegistry, fund1, fund2, aet, ait, savingsAccount;
+	let userRegistry, user, fundRegistry, fund1, fund2, aet, ait, savingsAccount, compliance;
 
 	before(async function () {
 		userRegistry = await UserRegistry.deployed();
 		fundRegistry = await FundRegistry.deployed();
+		compliance = await ComplianceOracle.deployed();
 		aet = await AkropolisExternalToken.deployed();
 		var paymentGateway = await PaymentGateway.deployed();
 		ait = AkropolisInternalToken.at(await paymentGateway.ait());
@@ -50,6 +52,8 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		await aet.mint(fund1Account, web3.toWei(100, "ether"), {from: owner});
 		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fund1Account});
 		await fundRegistry.createAndRegisterFundManager("FUND_1", {from: fund1Account});
+		await compliance.approveLicense("FUND_1");
+
 		fund1 = FundManager.at(await fundRegistry.getFund("FUND_1"));
 
 		(await fund1.owner()).should.be.equal(fund1Account);
@@ -60,6 +64,8 @@ contract('Investment with strategy scenario', function ([owner, userAccount, fun
 		await aet.mint(fund2Account, web3.toWei(100, "ether"), {from: owner});
 		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fund2Account});
 		await fundRegistry.createAndRegisterFundManager("FUND_2", {from: fund2Account});
+		await compliance.approveLicense("FUND_2");
+
 		fund2 = FundManager.at(await fundRegistry.getFund("FUND_2"));
 
 		(await fund2.owner()).should.be.equal(fund2Account);

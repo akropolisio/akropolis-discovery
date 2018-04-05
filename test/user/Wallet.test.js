@@ -7,6 +7,7 @@ const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
 const FundManager = artifacts.require('./FundManager.sol');
 const Wallet = artifacts.require('./Wallet.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
+const ComplianceOracle = artifacts.require('./ComplianceOracle.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -17,12 +18,13 @@ const should = require('chai')
 
 contract('Wallet', function ([owner]) {
 
-	let registry, pool, token, fund, ait, wallet, paymentGateway;
+	let registry, pool, token, fund, ait, wallet, paymentGateway, compliance;
 
 	before(async function () {
 		token = await AkropolisExternalToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await FundManagerRegistry.new(token.address, pool.address);
+		compliance = await ComplianceOracle.new();
+		registry = await FundManagerRegistry.new(token.address, pool.address, compliance.address);
 		fund = await FundManager.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
 		ait = AkropolisInternalToken.at(await paymentGateway.ait());

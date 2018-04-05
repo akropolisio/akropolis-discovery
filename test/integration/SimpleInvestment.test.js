@@ -11,6 +11,7 @@ const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol')
 const Wallet = artifacts.require('./Wallet.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
 const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
+const ComplianceOracle = artifacts.require('./ComplianceOracle.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -23,11 +24,12 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 
 	const DOB = Moment("1983-09-19");
 
-	let userRegistry, user, fundRegistry, fund, aet, ait, savingsAccount;
+	let userRegistry, user, fundRegistry, fund, aet, ait, compliance, savingsAccount;
 
 	before(async function () {
 		userRegistry = await UserRegistry.deployed();
 		fundRegistry = await FundRegistry.deployed();
+		compliance = await ComplianceOracle.deployed();
 		aet = await AkropolisExternalToken.deployed();
 		var paymentGateway = await PaymentGateway.deployed();
 		ait = AkropolisInternalToken.at(await paymentGateway.ait());
@@ -52,6 +54,7 @@ contract('Simple Investment Scenario', function ([owner, userAccount, fundAccoun
 		await aet.mint(fundAccount, web3.toWei(100, "ether"), {from: owner});
 		await aet.approve(fundRegistry.address, web3.toWei(100, "ether"), {from: fundAccount});
 		await fundRegistry.createAndRegisterFundManager("FUND", {from: fundAccount});
+		await compliance.approveLicense("FUND");
 		fund = FundManager.at(await fundRegistry.getFund("FUND"));
 
 		(await fund.owner()).should.be.equal(fundAccount);

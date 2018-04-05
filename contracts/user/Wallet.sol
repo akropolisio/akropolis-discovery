@@ -26,6 +26,7 @@ contract Wallet is Ownable {
     function invest(bytes32 _fundName, uint _amount, SavingsAccount _account) public onlyOwner {
         FundManager fund = registry.getFund(_fundName);
         require(address(fund) != 0x0);
+        require(registry.complianceOracle().hasLicense(_fundName));
 
         ait.approve(address(fund), _amount);
         FeesCollector feesCollector = fund.feesCollector();

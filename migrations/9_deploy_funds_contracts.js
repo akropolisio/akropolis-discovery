@@ -1,8 +1,9 @@
 const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
+const ComplianceOracle = artifacts.require('./ComplianceOracle');
 
 module.exports = function(deployer, network, [main]) {
-	var registry,aet;
+	var registry, aet, compliance;
 	deployer.then(function() {
 		return FundManagerRegistry.deployed();
 	}).then(function(instance) {
@@ -21,5 +22,16 @@ module.exports = function(deployer, network, [main]) {
 		return registry.createAndRegisterFundManager("BIOMED", {from: main});
 	}).then(function() {
 		return registry.createAndRegisterFundManager("ENERGY", {from: main});
+	}).then(function() {
+		return ComplianceOracle.deployed();
+	}).then(function(instance) {
+		compliance = instance;
+		return compliance.approveLicense("TECH", {from: main});
+	}).then(function() {
+		return compliance.approveLicense("SUSTAINABLE", {from: main});
+	}).then(function() {
+		return compliance.approveLicense("BIOMED", {from: main});
+	}).then(function() {
+		return compliance.approveLicense("ENERGY", {from: main});
 	})
 };

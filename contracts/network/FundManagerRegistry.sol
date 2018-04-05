@@ -4,6 +4,7 @@ import './StakingPool.sol';
 import '../fund/FundManager.sol';
 import '../fund/FlatFeesCollector.sol';
 import '../fund/FundManagerFactory.sol';
+import '../oracle/ComplianceOracle.sol';
 
 /**
  * @title Pension Funds Registry
@@ -18,15 +19,17 @@ contract FundManagerRegistry is Ownable, FundManagerFactory {
     event MinStakeUpdated(uint256 stakeAmount);
 
     StakingPool public stakingPool;
+    ComplianceOracle public complianceOracle;
     AkropolisExternalToken public aet;
 
     uint256 public minStake;
     mapping(bytes32 => FundManager) registry;
 
-    function FundManagerRegistry(AkropolisExternalToken _aet, StakingPool _stakingPool) public
+    function FundManagerRegistry(AkropolisExternalToken _aet, StakingPool _stakingPool, ComplianceOracle _complianceOracle) public
         FundManagerFactory(_aet) {
         aet = _aet;
         stakingPool = _stakingPool;
+        complianceOracle = _complianceOracle;
     }
 
 
@@ -43,10 +46,11 @@ contract FundManagerRegistry is Ownable, FundManagerFactory {
     }
 
 
-    function register(bytes32 _name, FundManager fund) public {
+    function register(bytes32 _name, FundManager _fund) public {
         require(address(registry[_name]) == 0x0);
-        require(stakingPool.getStake(fund) >= minStake);
-        registry[_name] = fund;
+        require(stakingPool.getStake(_fund) >= minStake);
+        complianceOracle.applyForLicense(_name, _fund);
+        registry[_name] = _fund;
     }
 
 
