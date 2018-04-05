@@ -1,6 +1,6 @@
 'use strict'
 
-const User = artifacts.require('./User.sol');
+const User = artifacts.require('./IndividualUser.sol');
 const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
 const PersonalDataOracle = artifacts.require('./PersonalDataOracle.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');

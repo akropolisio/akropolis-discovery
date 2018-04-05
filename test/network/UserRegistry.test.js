@@ -2,7 +2,7 @@
 
 const Moment = require('moment');
 
-const User = artifacts.require('./User.sol');
+const User = artifacts.require('./IndividualUser.sol');
 const UserRegistry = artifacts.require('./UserRegistry.sol');
 const SavingGoal = artifacts.require('./SavingGoal.sol');
 

@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import './User.sol';
+import './IndividualUser.sol';
 import '../network/FundManagerRegistry.sol';
 import '../network/UserRegistry.sol';
 import '../oracle/PaymentGateway.sol';
@@ -25,10 +25,10 @@ contract UserFactory is Ownable {
     }
 
 
-    function createUser(uint256 _dateOfBirth, SavingGoal _savingGoal) public returns (User) {
+    function createUser(uint256 _dateOfBirth, SavingGoal _savingGoal) public returns (IndividualUser) {
 
         Wallet wallet = new Wallet(pensionFundsRegistry, paymentGateway);
-        User user = new User(_dateOfBirth, wallet, _savingGoal, personalDataOracle);
+        IndividualUser user = new IndividualUser(_dateOfBirth, wallet, _savingGoal, personalDataOracle);
         user.setFundManagerRegistry(pensionFundsRegistry);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);

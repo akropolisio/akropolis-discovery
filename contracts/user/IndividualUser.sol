@@ -13,7 +13,7 @@ import "./SavingGoal.sol";
  * @title User
  * @dev User that holds pension savings
  */
-contract User is Ownable {
+contract IndividualUser is Ownable {
 
     Wallet public wallet;
     InvestmentStrategy public investmentStrategy;
@@ -24,7 +24,7 @@ contract User is Ownable {
     mapping(bytes32 => SavingsAccount) savingAccounts;
     bytes32[] savingAccountsList;
 
-    function User(uint256 _dateOfBirth, Wallet _wallet, SavingGoal _savingGoal, PersonalDataOracle _personalDataOracle) public {
+    function IndividualUser(uint256 _dateOfBirth, Wallet _wallet, SavingGoal _savingGoal, PersonalDataOracle _personalDataOracle) public {
         wallet = _wallet;
         savingGoal = _savingGoal;
         personalDataOracle = _personalDataOracle;

@@ -3,7 +3,7 @@
 const Moment = require('moment');
 
 const UserRegistry = artifacts.require('./UserRegistry.sol');
-const User = artifacts.require('./User.sol');
+const User = artifacts.require('./IndividualUser.sol');
 const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const AETFaucet = artifacts.require('./AETFaucet.sol');
 
