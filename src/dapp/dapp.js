@@ -7,7 +7,7 @@ var FundManagerRegistry = contract(require("../../build/contracts/FundManagerReg
 var PaymentGateway = contract(require("../../build/contracts/PaymentGateway.json"));
 
 var Wallet = contract(require("../../build/contracts/Wallet.json"));
-var User = contract(require("../../build/contracts/User.json"));
+var User = contract(require("../../build/contracts/IndividualUser.json"));
 var SavingGoal = contract(require("../../build/contracts/SavingGoal.json"));
 var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
 var DEPLOYMENT = require("../../build/deployment.json");
@@ -15,8 +15,6 @@ var DEPLOYMENT = require("../../build/deployment.json");
 var mainAccount, userRegistry, networkId, faucet, token, user, walletAddr, savingGoal;
 
 console.log(DEPLOYMENT);
-
-//DEPLOYMENT.UserRegistry = "0x29b96ea0b863184ba2ede09351fbecf98710d0fb";
 
 function show(element, text) {
   var element = document.getElementById(element);
