@@ -3,19 +3,19 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/token/ERC20.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
-import '../network/PensionFundsRegistry.sol';
+import '../network/FundManagerRegistry.sol';
 import '../oracle/PaymentGateway.sol';
-import '../fund/PensionFund.sol';
+import '../fund/FundManager.sol';
 
 contract SavingsAccount is Ownable {
     using SafeMath for uint256;
 
-    PensionFundsRegistry registry;
+    FundManagerRegistry registry;
 
     mapping(bytes32 => bool) funds;
     bytes32[] fundsList;
 
-    function SavingsAccount(PensionFundsRegistry _pensionFundsRegistry) public {
+    function SavingsAccount(FundManagerRegistry _pensionFundsRegistry) public {
         registry = _pensionFundsRegistry;
     }
 

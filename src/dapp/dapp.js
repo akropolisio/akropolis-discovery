@@ -1,13 +1,13 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
-var AkropolisToken = contract(require("../../build/contracts/AkropolisToken.json"));
+var AkropolisExternalToken = contract(require("../../build/contracts/AkropolisExternalToken.json"));
 
 var UserRegistry = contract(require("../../build/contracts/UserRegistry.json"));
-var PensionFundsRegistry = contract(require("../../build/contracts/PensionFundsRegistry.json"));
+var FundManagerRegistry = contract(require("../../build/contracts/FundManagerRegistry.json"));
 var PaymentGateway = contract(require("../../build/contracts/PaymentGateway.json"));
 
 var Wallet = contract(require("../../build/contracts/Wallet.json"));
-var User = contract(require("../../build/contracts/User.json"));
+var User = contract(require("../../build/contracts/IndividualUser.json"));
 var SavingGoal = contract(require("../../build/contracts/SavingGoal.json"));
 var AETFaucet = contract(require("../../build/contracts/AETFaucet.json"));
 var DEPLOYMENT = require("../../build/deployment.json");
@@ -15,8 +15,6 @@ var DEPLOYMENT = require("../../build/deployment.json");
 var mainAccount, userRegistry, networkId, faucet, token, user, walletAddr, savingGoal;
 
 console.log(DEPLOYMENT);
-
-//DEPLOYMENT.UserRegistry = "0x29b96ea0b863184ba2ede09351fbecf98710d0fb";
 
 function show(element, text) {
   var element = document.getElementById(element);
@@ -259,9 +257,9 @@ window.addEventListener("load", function () {
   //For development to disable Metamask
   //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-  AkropolisToken.setProvider(web3.currentProvider);
+  AkropolisExternalToken.setProvider(web3.currentProvider);
   UserRegistry.setProvider(web3.currentProvider);
-  PensionFundsRegistry.setProvider(web3.currentProvider);
+  FundManagerRegistry.setProvider(web3.currentProvider);
   User.setProvider(web3.currentProvider);
   AETFaucet.setProvider(web3.currentProvider);
   Wallet.setProvider(web3.currentProvider);
@@ -294,7 +292,7 @@ window.addEventListener("load", function () {
     AETFaucetPromise.then(function (instance) {
       faucet = instance;
 
-      AkropolisToken.at(DEPLOYMENT.AkropolisToken).then(function (instance) {
+      AkropolisExternalToken.at(DEPLOYMENT.AkropolisExternalToken).then(function (instance) {
         token = instance;
 
         UserRegistryPromise.then(function (instance) {

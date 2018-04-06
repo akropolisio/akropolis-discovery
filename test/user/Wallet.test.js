@@ -1,12 +1,13 @@
 'use strict'
 
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
-const DigitalUSD = artifacts.require('./DigitalUSD.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
+const AkropolisInternalToken = artifacts.require('./AkropolisInternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
-const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
-const PensionFund = artifacts.require('./PensionFund.sol');
+const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
+const FundManager = artifacts.require('./FundManager.sol');
 const Wallet = artifacts.require('./Wallet.sol');
 const PaymentGateway = artifacts.require('./PaymentGateway.sol');
+const ComplianceOracle = artifacts.require('./ComplianceOracle.sol');
 
 const BigNumber = web3.BigNumber;
 
@@ -17,15 +18,16 @@ const should = require('chai')
 
 contract('Wallet', function ([owner]) {
 
-	let registry, pool, token, fund, usd, wallet, paymentGateway;
+	let registry, pool, token, fund, ait, wallet, paymentGateway, compliance;
 
 	before(async function () {
-		token = await AkropolisToken.new();
+		token = await AkropolisExternalToken.new();
 		pool = await StakingPool.new(token.address);
-		registry = await PensionFundsRegistry.new(token.address, pool.address);
-		fund = await PensionFund.new(token.address, "FUND");
+		compliance = await ComplianceOracle.new();
+		registry = await FundManagerRegistry.new(token.address, pool.address, compliance.address);
+		fund = await FundManager.new(token.address, "FUND");
 		paymentGateway = await PaymentGateway.new();
-		usd = DigitalUSD.at(await paymentGateway.usdToken());
+		ait = AkropolisInternalToken.at(await paymentGateway.ait());
 	});
 
 
@@ -43,7 +45,7 @@ contract('Wallet', function ([owner]) {
 		wallet = await Wallet.new(registry.address, paymentGateway.address);
 		await wallet.makeDeposit(100);
 
-		(await usd.balanceOf(wallet.address)).should.be.bignumber.equal(100);
+		(await ait.balanceOf(wallet.address)).should.be.bignumber.equal(100);
 	});
 
 

@@ -1,7 +1,7 @@
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 
 
 module.exports = async function(deployer) {
-	await deployer.deploy(AkropolisToken);
-	process.deployment = {"AkropolisToken" : AkropolisToken.address};
+	await deployer.deploy(AkropolisExternalToken);
+	process.deployment = {"AkropolisExternalToken" : AkropolisExternalToken.address};
 };

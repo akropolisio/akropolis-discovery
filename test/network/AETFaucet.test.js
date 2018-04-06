@@ -1,6 +1,6 @@
 'use strict'
 
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const AETFaucet = artifacts.require('./AETFaucet.sol');
 
 const BigNumber = web3.BigNumber;
@@ -15,7 +15,7 @@ contract('AET Faucet', function ([owner, user]) {
 	let token, faucet;
 
 	before(async function () {
-		token = await AkropolisToken.new();
+		token = await AkropolisExternalToken.new();
 		faucet = await AETFaucet.new(token.address);
 		token.mint(faucet.address, web3.toWei(1000000, "ether"));
 	});

@@ -1,30 +1,30 @@
 pragma solidity ^0.4.18;
 
-import '../tokens/AkropolisToken.sol';
+import '../tokens/AkropolisExternalToken.sol';
 import '../network/StakingPool.sol';
 import './FlatFeesCollector.sol';
-import './PensionFund.sol';
+import './FundManager.sol';
 
 
 /**
- * @title PensionFundFactory
+ * @title FundManagerFactory
  * @dev Pension fund factory that orchestrates creation of pension funds
  */
-contract PensionFundFactory {
+contract FundManagerFactory {
 
-    AkropolisToken public aet;
+    AkropolisExternalToken public aet;
     FeesCollector public feesCollector;
 
 
-    function PensionFundFactory(AkropolisToken _aet) public {
+    function FundManagerFactory(AkropolisExternalToken _aet) public {
         aet = _aet;
         feesCollector = new FlatFeesCollector(aet);
     }
 
 
     //Consider passing feesCollector type as a parameter
-    function createPensionFund(bytes32 _symbol) public returns(PensionFund) {
-        PensionFund fund = new PensionFund(aet, _symbol);
+    function createFundManager(bytes32 _symbol) public returns(FundManager) {
+        FundManager fund = new FundManager(aet, _symbol);
         fund.setFeesCollector(feesCollector);
         return fund;
     }

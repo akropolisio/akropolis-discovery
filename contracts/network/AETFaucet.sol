@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/lifecycle/Pausable.sol';
-import '../tokens/AkropolisToken.sol';
+import '../tokens/AkropolisExternalToken.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 
 /**
@@ -12,9 +12,9 @@ import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 contract AETFaucet is Pausable {
     using SafeMath for uint256;
 
-    AkropolisToken public aet;
+    AkropolisExternalToken public aet;
 
-    function AETFaucet(AkropolisToken _aet) public {
+    function AETFaucet(AkropolisExternalToken _aet) public {
         aet = _aet;
     }
 

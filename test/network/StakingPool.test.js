@@ -1,6 +1,6 @@
 'use strict'
 
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const StakingPool = artifacts.require('./StakingPool.sol');
 
 const BigNumber = web3.BigNumber;
@@ -15,7 +15,7 @@ contract('Akropolis Token', function ([owner, staker]) {
 	let token, pool;
 
 	before(async function () {
-		token = await AkropolisToken.new();
+		token = await AkropolisExternalToken.new();
 		pool = await StakingPool.new(token.address);
 		await token.mint(staker, 100, {from: owner});
 		(await token.balanceOf(staker)).should.be.bignumber.equal(100);

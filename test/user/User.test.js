@@ -1,7 +1,8 @@
 'use strict'
 
-const User = artifacts.require('./User.sol');
-const PensionFundsRegistry = artifacts.require('./PensionFundsRegistry.sol');
+const User = artifacts.require('./IndividualUser.sol');
+const FundManagerRegistry = artifacts.require('./FundManagerRegistry.sol');
+const PersonalDataOracle = artifacts.require('./PersonalDataOracle.sol');
 const SavingsAccount = artifacts.require('./SavingsAccount.sol');
 const SavingGoal = artifacts.require('./SavingGoal.sol');
 
@@ -16,16 +17,17 @@ const should = require('chai')
 contract('User', function ([owner, userAccount]) {
 
 	const DOB = Moment("1983-09-19");
-	let user, registry, savingGoal;
+	let user, registry, savingGoal, personalData;
 
 	before(async function () {
-		registry = await PensionFundsRegistry.deployed();
+		registry = await FundManagerRegistry.deployed();
+		personalData = await PersonalDataOracle.deployed();
     savingGoal = await SavingGoal.new(65, 2200);
 	});
 
 	it('should create a user', async function () {
-		user = await User.new(DOB.unix(), 0x0, savingGoal.address, {from:userAccount});
-		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
+		user = await User.new(DOB.unix(), 0x0, savingGoal.address, personalData.address, {from:userAccount});
+		(await user.getDateOfBirth()).should.be.bignumber.equal(DOB.unix());
 		(await user.savingGoal()).should.be.equal(savingGoal.address);
 	});
 

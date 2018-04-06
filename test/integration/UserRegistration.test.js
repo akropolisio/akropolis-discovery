@@ -3,8 +3,8 @@
 const Moment = require('moment');
 
 const UserRegistry = artifacts.require('./UserRegistry.sol');
-const User = artifacts.require('./User.sol');
-const AkropolisToken = artifacts.require('./AkropolisToken.sol');
+const User = artifacts.require('./IndividualUser.sol');
+const AkropolisExternalToken = artifacts.require('./AkropolisExternalToken.sol');
 const AETFaucet = artifacts.require('./AETFaucet.sol');
 
 
@@ -23,7 +23,7 @@ contract('User Registry', function ([owner, userAccount]) {
 
 	before(async function () {
 		registry = await UserRegistry.deployed();
-		token = await AkropolisToken.deployed();
+		token = await AkropolisExternalToken.deployed();
 		faucet = await AETFaucet.new(token.address);
 		token.mint(faucet.address, web3.toWei(1000000, "ether"));
 	});
@@ -32,7 +32,7 @@ contract('User Registry', function ([owner, userAccount]) {
 		await registry.createUser(DOB.unix(), 65, 2200, {from: userAccount});
 		user = User.at(await registry.getUserContract(userAccount));
 
-		(await user.dateOfBirth()).should.be.bignumber.equal(DOB.unix());
+		(await user.getDateOfBirth()).should.be.bignumber.equal(DOB.unix());
 	});
 
 	it('should fund it with AET Tokens', async function () {

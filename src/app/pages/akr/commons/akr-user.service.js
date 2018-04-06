@@ -20,7 +20,7 @@
     this.age = function () {
       return Dapp.getUser()
         .then(function (user) {
-          return user.dateOfBirth().then(function (dateOfBirth) {
+          return user.getDateOfBirth().then(function (dateOfBirth) {
             return moment().diff(parseInt(dateOfBirth)*1000, 'years');
           });
         })

@@ -3,7 +3,8 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './Wallet.sol';
 import './SavingsAccount.sol';
-import '../network/PensionFundsRegistry.sol';
+import '../network/FundManagerRegistry.sol';
+import '../oracle/PersonalDataOracle.sol';
 import './InvestmentStrategy.sol';
 import "./SavingGoal.sol";
 
@@ -12,21 +13,22 @@ import "./SavingGoal.sol";
  * @title User
  * @dev User that holds pension savings
  */
-contract User is Ownable {
+contract IndividualUser is Ownable {
 
-    uint256 public dateOfBirth;
     Wallet public wallet;
     InvestmentStrategy public investmentStrategy;
-    PensionFundsRegistry public pensionFundsRegistry;
+    FundManagerRegistry public pensionFundsRegistry;
     SavingGoal public savingGoal;
+    PersonalDataOracle personalDataOracle;
 
     mapping(bytes32 => SavingsAccount) savingAccounts;
     bytes32[] savingAccountsList;
 
-    function User(uint256 _dateOfBirth, Wallet _wallet, SavingGoal _savingGoal) public {
-        dateOfBirth = _dateOfBirth;
+    function IndividualUser(uint256 _dateOfBirth, Wallet _wallet, SavingGoal _savingGoal, PersonalDataOracle _personalDataOracle) public {
         wallet = _wallet;
         savingGoal = _savingGoal;
+        personalDataOracle = _personalDataOracle;
+        personalDataOracle.putUserDateOfBirth(_dateOfBirth);
     }
 
     function createAccountsWithFixedStrategy(bytes32[] _fundNames, uint256[] _allocations) onlyOwner public {
@@ -82,11 +84,15 @@ contract User is Ownable {
     }
 
     function getSavingAccountValue(bytes32 _name) public view returns(uint256) {
-        return savingAccounts[_name].totalValue(wallet.usdToken());
+        return savingAccounts[_name].totalValue(wallet.ait());
     }
 
-    function setPensionFundsRegistry(PensionFundsRegistry _pensionFundsRegistry) public onlyOwner {
+    function setFundManagerRegistry(FundManagerRegistry _pensionFundsRegistry) public onlyOwner {
         pensionFundsRegistry = _pensionFundsRegistry;
+    }
+
+    function getDateOfBirth() public view returns(uint256) {
+        return personalDataOracle.getUserDateOfBirth();
     }
 
 }

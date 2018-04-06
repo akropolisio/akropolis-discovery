@@ -6,13 +6,13 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/token/MintableToken.sol';
 
-contract AkropolisToken is MintableToken {
+contract AkropolisExternalToken is MintableToken {
 
-    string public name = "Akropolis Token";
+    string public name = "Akropolis External Token";
 
     uint8 public decimals = 18;
 
-    string public symbol = "AKR";
+    string public symbol = "AET";
 
-    string public version = 'AKR 1.0';
+    string public version = 'AET 1.0';
 }

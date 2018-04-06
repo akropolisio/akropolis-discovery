@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
-import './User.sol';
-import '../network/PensionFundsRegistry.sol';
+import './IndividualUser.sol';
+import '../network/FundManagerRegistry.sol';
 import '../network/UserRegistry.sol';
 import '../oracle/PaymentGateway.sol';
 
@@ -13,21 +13,23 @@ contract UserFactory is Ownable {
 
     event Created(address indexed accountAddress, address indexed userContract);
 
-    PensionFundsRegistry public pensionFundsRegistry;
+    FundManagerRegistry public pensionFundsRegistry;
     PaymentGateway public paymentGateway;
+    PersonalDataOracle public personalDataOracle;
 
 
-    function UserFactory(PensionFundsRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway) public {
+    function UserFactory(FundManagerRegistry _pensionFundsRegistry, PaymentGateway _paymentGateway, PersonalDataOracle _personalDataOracle) public {
         pensionFundsRegistry = _pensionFundsRegistry;
         paymentGateway = _paymentGateway;
+        personalDataOracle = _personalDataOracle;
     }
 
 
-    function createUser(uint256 _dateOfBirth, SavingGoal _savingGoal) public returns (User) {
+    function createUser(uint256 _dateOfBirth, SavingGoal _savingGoal) public returns (IndividualUser) {
 
         Wallet wallet = new Wallet(pensionFundsRegistry, paymentGateway);
-        User user = new User(_dateOfBirth, wallet, _savingGoal);
-        user.setPensionFundsRegistry(pensionFundsRegistry);
+        IndividualUser user = new IndividualUser(_dateOfBirth, wallet, _savingGoal, personalDataOracle);
+        user.setFundManagerRegistry(pensionFundsRegistry);
         wallet.transferOwnership(msg.sender);
         user.transferOwnership(msg.sender);
 
