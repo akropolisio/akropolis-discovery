@@ -50,6 +50,30 @@ To run all of the smart contract tests, execute the testing script:
 Alternatively, you may also call the truffle command directly:
 
     truffle test
+    
+### Running service
+
+This project uses gulp to serve files. Before calling gulp you can ensure truffle files are compiled if they haven't been already
+
+    truffle compile
+
+Install gulp via command
+
+    sudo npm install --global gulp
+
+Npm Modules of course are installed via
+
+    npm install
+    
+You can run the service using 
+
+    gulp serve
+
+Note that the output will be by default on port :8080 and index.html page-> e.g. localhost:8080/index.html
+
+You can use the following to inject a secret string in the URL so that it is distinct
+
+    gulp serve:dist
 
 ## License
 
