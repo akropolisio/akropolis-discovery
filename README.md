@@ -3,7 +3,9 @@
 [![CircleCI](https://circleci.com/gh/akropolisio/akropolis-protocol.svg?style=shield&circle-token=b20b2236f7589a33e07666aa6d73e8467ba41741)](https://circleci.com/gh/akropolisio/akropolis-protocol)
 [![Coverage Status](https://coveralls.io/repos/github/akropolisio/akropolis-protocol/badge.svg?t=h5qmcd)](https://coveralls.io/github/akropolisio/akropolis-protocol)
 
-This project is a collection of smart contracts that implements business logic for running a pension fund on blockchain.
+This demo project is a collection of smart contracts that implements business logic for running a pension fund on blockchain.
+
+It is currently a work in progress, it acts only to demonstrate the experience that a pensioner will receive as they self manage their savings and pensions accounts.
 
 ### Overview
 
