@@ -5,7 +5,7 @@
 
 This demo project is a collection of smart contracts that implements business logic for running a pension fund on blockchain.
 
-It is currently a work in progress, it acts only to demonstrate the experience that a pensioner will receive as they self manage their savings and pensions accounts.
+It is a legacy project that represents the 1.0 Iteration of the MVP
 
 ### Overview
 
